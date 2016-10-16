@@ -5,7 +5,6 @@ namespace Home.Bills.Infrastructure
 {
     public class GenericMartenRepository<TEntity, TEntityId> : IRepository<TEntity, TEntityId> where TEntity : AggregateRoot<TEntityId>
     {
-
         public void Add(TEntity entity)
         {
             throw new NotImplementedException();
