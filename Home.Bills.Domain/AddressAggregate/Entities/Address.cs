@@ -8,13 +8,15 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 {
     public class Address : AggregateRoot<Guid>
     {
-        private readonly List<Meter> _meters;
+        private  List<Meter> _meters;
 
-        private readonly List<Usage> _usages;
+        private  List<Usage> _usages;
 
-        private readonly AddressInformation _addressInformation;
+        private  AddressInformation _addressInformation;
 
-        public AddressInformation Information => _addressInformation.Clone();
+        public AddressInformation Information => _addressInformation?.Clone();
+
+        internal Address() { }
 
         private Address(string street, string city, string stretNumber, string homeNumber, List<Meter> meters, List<Usage> usages, Guid id)
         {
@@ -66,7 +68,7 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
         public IEnumerable<Meter> GetMeters()
         {
-            return _meters.Select(i => (Meter)i.Clone()).ToList();
+            return _meters.Select(i => i.Clone()).ToList();
         }
 
         public IEnumerable<Usage> GetUsages()
