@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0-*",
+  "testRunner": "xunit",
+  "frameworks": {
+    "net461": {
+      "dependencies": {
+        "Frameworks.Light.Ddd": {
+          "target": "project"
+        },
+        "Home.Bills": "1.0.0-*",
+        "Home.Bills.Domain": {
+          "target": "project"
+        },
+        "Home.Bills.Infrastructure": {
+          "target": "project"
+        },
+        "NSubstitute": "1.10.0"
+      }
+    }
+  },
+  "dependencies": {
+    "Microsoft.NETCore.Platforms": "1.0.1",
+    "xunit": "2.1.0"
+  }
+}

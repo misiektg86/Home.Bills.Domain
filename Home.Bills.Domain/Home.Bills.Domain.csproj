@@ -56,7 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressAggregate\DataProviders\IAddressDataProvider.cs" />
     <Compile Include="AddressAggregate\Entities\Address.cs" />
+    <Compile Include="AddressAggregate\Exceptions\CannotCheckOutMorePersonsThanCheckedInException.cs" />
+    <Compile Include="AddressAggregate\Exceptions\MeterNotFoundException.cs" />
     <Compile Include="AddressAggregate\ValueObjects\AddressInformation.cs" />
     <Compile Include="AddressAggregate\Entities\Meter.cs" />
     <Compile Include="AddressAggregate\ValueObjects\MeterId.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Home.Bills.Domain.AddressAggregate.Entities;
+using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Xunit;
 
 namespace Home.Bills.Domain.Tests
@@ -10,7 +11,7 @@ namespace Home.Bills.Domain.Tests
         [Fact]
         public void ShouldAddNewMeter()
         {
-            var address = Address.Create("strzelców bytomskich", "bytom", "141", "2");
+            var address = CreateAddress();
 
             address.AddMeter("1234", 10.000);
 
@@ -20,7 +21,7 @@ namespace Home.Bills.Domain.Tests
         [Fact]
         public void ShouldThrowExceptionIfMeterExists()
         {
-            var address = Address.Create("strzelców bytomskich", "bytom", "141", "2");
+            var address = CreateAddress();
 
             address.AddMeter("1234", 10.000);
 
@@ -30,7 +31,7 @@ namespace Home.Bills.Domain.Tests
         [Fact]
         public void ShouldExchangeMeter()
         {
-            var address = Address.Create("strzelców bytomskich", "bytom", "141", "2");
+            var address = CreateAddress();
 
             address.AddMeter("1234", 10.000);
 
@@ -44,7 +45,7 @@ namespace Home.Bills.Domain.Tests
         [Fact]
         public void ShouldTrhowExceptionIfMeterDoesntExist()
         {
-            var address = Address.Create("strzelców bytomskich", "bytom", "141", "2");
+            var address = CreateAddress();
 
             Assert.Throws<InvalidOperationException>(() => address.ExchangeMeter("1234", "4321", 10.000));
         }
@@ -52,17 +53,22 @@ namespace Home.Bills.Domain.Tests
         [Fact]
         public void SohuldThrowExceptionIfNewReadLowerThanPrevious()
         {
-            var address = Address.Create("strzelców bytomskich", "bytom", "141", "2");
+            var address = CreateAddress();
 
             address.AddMeter("1234", 14.000);
 
             Assert.Throws<InvalidOperationException>(() => address.ProvideRead(12.00, "1234", DateTime.Now));
         }
 
+        private static Address CreateAddress()
+        {
+            return Address.Create("test", "test", "141", "2");
+        }
+
         [Fact]
         public void ShouldNewReadUpdateMeterState()
         {
-            var address = Address.Create("strzelców bytomskich", "bytom", "141", "2");
+            var address = CreateAddress();
 
             address.AddMeter("1234", 10.000);
 
@@ -74,7 +80,7 @@ namespace Home.Bills.Domain.Tests
         [Fact]
         public void ShouldProvideReadCreateNewUsage()
         {
-            var address = Address.Create("strzelców bytomskich", "bytom", "141", "2");
+            var address = CreateAddress();
 
             address.AddMeter("1234", 10.000);
 
@@ -86,7 +92,7 @@ namespace Home.Bills.Domain.Tests
         [Fact]
         public void ShouldNotBeAbleToModifyMeterBesideAgregate()
         {
-            var address = Address.Create("strzelców bytomskich", "bytom", "141", "2");
+            var address = CreateAddress();
 
             address.AddMeter("1234", 10.000);
 
@@ -97,6 +103,48 @@ namespace Home.Bills.Domain.Tests
             meter.State = 400.00;
 
             Assert.NotEqual(address.GetMeters().First().State, meter.State);
+        }
+
+        [Fact]
+        public void ShouldThrowExceptionIfNoMeterFoundForProvidedRead()
+        {
+            var address = CreateAddress();
+
+            Assert.Throws<MeterNotFoundException>(() => address.ProvideRead(12.00, "1234", DateTime.Now));
+        }
+
+        [Fact]
+        public void ShouldCheckInPersons()
+        {
+            var address = CreateAddress();
+
+            Assert.Equal(0, address.CheckedInPersons);
+
+            address.CheckInPersons(4);
+
+            Assert.Equal(4, address.CheckedInPersons);
+        }
+
+        [Fact]
+        public void ShouldCheckOutPersons()
+        {
+            var address = CreateAddress();
+
+            address.CheckInPersons(4);
+
+            address.CheckOutPersons(2);
+
+            Assert.Equal(2, address.CheckedInPersons);
+        }
+
+        [Fact]
+        public void ShouldThrowExceptionIfCheckingOutMorePersonsThatCheckedIn()
+        {
+            var address = CreateAddress();
+
+            address.CheckInPersons(4);
+
+            Assert.Throws<CannotCheckOutMorePersonsThanCheckedInException>(() => address.CheckOutPersons(5));
         }
     }
 }

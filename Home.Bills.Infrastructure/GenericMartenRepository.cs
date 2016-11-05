@@ -5,14 +5,13 @@ using Marten;
 
 namespace Home.Bills.Infrastructure
 {
-    public class GenericMartenRepository<TEntity> : IRepository<TEntity, Guid>, IUnitOfWorkAsync, IDisposable where TEntity : AggregateRoot<Guid>
+    public class GenericMartenRepository<TEntity> : IRepository<TEntity, Guid> where TEntity : AggregateRoot<Guid>
     {
-        private readonly DocumentStore _documentStore;
-        private IDocumentSession _session;
+        private readonly IDocumentSession _session;
 
-        public GenericMartenRepository(DocumentStore documentStore)
+        public GenericMartenRepository(IDocumentSession session)
         {
-            _documentStore = documentStore;
+            _session = session;
         }
 
         public Task<TEntity> Get(Guid id)
@@ -34,28 +33,5 @@ namespace Home.Bills.Infrastructure
         {
             _session.Delete<TEntity>(id);
         }
-
-        public void Dispose()
-        {
-            _session.Dispose();
-        }
-
-        public Task StartAsync()
-        {
-            _session = _documentStore.OpenSession();
-
-            return Task.FromResult(0);
-        }
-
-        public Task CommitAsync()
-        {
-            return _session.SaveChangesAsync();
-        }
-    }
-
-    public interface IUnitOfWorkAsync
-    {
-        Task StartAsync();
-        Task CommitAsync();
     }
 }

@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using Frameworks.Light.Ddd;
+using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Domain.AddressAggregate.ValueObjects;
 
 namespace Home.Bills.Domain.AddressAggregate.Entities
 {
     public class Address : AggregateRoot<Guid>
     {
-        private  List<Meter> _meters;
+        private readonly List<Meter> _meters;
 
-        private  List<Usage> _usages;
+        private readonly List<Usage> _usages;
 
-        private  AddressInformation _addressInformation;
+        private readonly AddressInformation _addressInformation;
+
+        public int CheckedInPersons { get; private set; }
 
         public AddressInformation Information => _addressInformation?.Clone();
 
@@ -33,7 +36,12 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
         public void ProvideRead(double read, string meterSerialNumber, DateTime readDateTime)
         {
-            var meter = _meters.First(i => i.Id == meterSerialNumber);
+            var meter = _meters.FirstOrDefault(i => i.Id == meterSerialNumber);
+
+            if (meter == null)
+            {
+                throw new MeterNotFoundException($"Meter with serial number: {meterSerialNumber} doesn't exist.");
+            }
 
             var oldState = meter.State;
 
@@ -52,6 +60,21 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             }
 
             _meters.Add(new Meter(new MeterId(meterSerialNumber)) { State = state });
+        }
+
+        public void CheckInPersons(int persons)
+        {
+            CheckedInPersons += persons;
+        }
+
+        public void CheckOutPersons(int persons)
+        {
+            if (CheckedInPersons < persons)
+            {
+                throw new CannotCheckOutMorePersonsThanCheckedInException();
+            }
+
+            CheckedInPersons -= persons;
         }
 
         public void ExchangeMeter(string meterSerialNumber, string newMeterSerialNumber, double state)

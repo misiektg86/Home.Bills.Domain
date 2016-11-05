@@ -1,0 +1,66 @@
+{
+  "version": 2,
+  "exports": {
+    "Frameworks.Light.Ddd/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Frameworks.Light.Ddd.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/Frameworks.Light.Ddd.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Frameworks.Light.Ddd.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Home.Bills.Domain/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Domain.dll": {}
+      },
+      "runtime": {
+        "../packages/xunit.abstractions.2.0.0/lib/net35/xunit.abstractions.dll": {},
+        "../packages/xunit.assert.2.1.0/lib/dotnet/xunit.assert.dll": {},
+        "../packages/xunit.extensibility.core.2.1.0/lib/dotnet/xunit.core.dll": {},
+        "../packages/xunit.extensibility.execution.2.1.0/lib/net45/xunit.execution.desktop.dll": {},
+        "bin/Debug/Home.Bills.Domain.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Domain.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Home.Bills.Infrastructure/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Infrastructure.dll": {}
+      },
+      "runtime": {
+        "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
+        "../packages/Marten.1.1.0/lib/net46/Marten.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},
+        "../packages/Remotion.Linq.2.1.1/lib/net45/Remotion.Linq.dll": {},
+        "../packages/System.Threading.Tasks.Dataflow.4.6.0/lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {},
+        "bin/Debug/Home.Bills.Infrastructure.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Infrastructure.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}

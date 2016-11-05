@@ -3,17 +3,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Infrastructure;
+using Marten;
 using Xunit;
 
 namespace Home.Bills.Domain.Tests.Integration
 {
     public class MartenGenericRepositoryTests : IClassFixture<MartenDatabaseFixture>
     {
-        private readonly MartenDatabaseFixture _fixture;
+        private readonly IDocumentSession _session;
 
         public MartenGenericRepositoryTests(MartenDatabaseFixture fixture)
         {
-            _fixture = fixture;
+            _session = fixture.DocumentStore.OpenSession();
         }
 
         [Fact]
@@ -23,39 +24,29 @@ namespace Home.Bills.Domain.Tests.Integration
 
             var repository = CreateGenericMartenRepository();
 
-            await repository.StartAsync();
-
             var loadedAddress = await repository.Get(id);
 
             Assert.Equal(id, loadedAddress.Id);
-
-            repository.Dispose();
         }
 
         private async Task<Guid> InsertAddress()
         {
             var repository = CreateGenericMartenRepository();
 
-            var repo = repository.StartAsync();
-
             var address = Address.Create("test street", "test city", "2b", "2");
 
             var id = address.Id;
 
-            await repo;
-
             repository.Add(address);
 
-            await repository.CommitAsync();
-
-            repository.Dispose();
+            await _session.SaveChangesAsync();
 
             return id;
         }
 
         private GenericMartenRepository<Address> CreateGenericMartenRepository()
         {
-            var repository = new GenericMartenRepository<Address>(_fixture.DocumentStore);
+            var repository = new GenericMartenRepository<Address>(_session);
             return repository;
         }
 
@@ -65,20 +56,14 @@ namespace Home.Bills.Domain.Tests.Integration
             var address = await InsertAddress();
 
             var repo = CreateGenericMartenRepository();
-
-            await repo.StartAsync();
-
+            
             repo.Delete(address);
 
-            await repo.CommitAsync();
-
-            await repo.StartAsync();
+            await _session.SaveChangesAsync();
 
             var removedAddress = await repo.Get(address);
 
             Assert.Null(removedAddress);
-
-            repo.Dispose();
         }
 
         [Fact]
@@ -88,27 +73,17 @@ namespace Home.Bills.Domain.Tests.Integration
 
             var repo = CreateGenericMartenRepository();
 
-            await repo.StartAsync();
-
             var loadedAddress = await repo.Get(address);
 
             loadedAddress.AddMeter("1234", 25.00);
 
             repo.Update(loadedAddress);
 
-            await repo.CommitAsync();
-
-            await repo.StartAsync();
-
+            await _session.SaveChangesAsync();
+            
             loadedAddress = await repo.Get(address);
 
             Assert.True(loadedAddress.GetMeters().Any(i => i.Id == "1234"));
-        }
-
-        [Fact]
-        public async Task ShouldCommitUnitOfWork()
-        {
-            
         }
     }
 }
