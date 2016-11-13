@@ -32,6 +32,9 @@
         },
         "Home.Bills.Infrastructure": {
           "target": "project"
+        },
+        "Home.Bills.Payments.Domain": {
+          "target": "project"
         }
       }
     }

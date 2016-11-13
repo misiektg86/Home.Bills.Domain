@@ -15,7 +15,7 @@ namespace Home.Bills.Domain.Tests.Integration
             DocumentStore = DocumentStore
                 .For(_ =>
                 {
-                    _.Connection("host=localhost;database=marten_ut_database;password=admin;username=postgres");
+                    _.Connection("host=dev-machine;database=marten_ut_database;password=admin;username=postgres");
 
                     var serializer = new JsonNetSerializer();
 

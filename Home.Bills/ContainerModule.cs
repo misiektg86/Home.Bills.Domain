@@ -5,6 +5,7 @@ using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Infrastructure;
+using Home.Bills.Payments.Domain;
 using Marten;
 using Marten.Services;
 using Newtonsoft.Json.Serialization;
@@ -19,6 +20,8 @@ namespace Home.Bills
             builder.RegisterType<GenericMartenRepository<Address>>()
                 .As<IRepository<Address, Guid>>().InstancePerLifetimeScope();
             builder.RegisterType<AddressDataProvider>().As<IAddressDataProvider>().InstancePerLifetimeScope();
+
+            builder.RegisterType<PaymentsDataProvider>().As<IPaymentsDataProvider>().InstancePerLifetimeScope();
 
             builder.Register(context =>
                 {
@@ -38,7 +41,7 @@ namespace Home.Bills
             return DocumentStore
                 .For(_ =>
                 {
-                    _.Connection("host=localhost;database=marten_test;password=admin;username=postgres");
+                    _.Connection("host=dev-machine;database=home_bills;password=admin;username=postgres");
 
                     var serializer = new JsonNetSerializer();
 

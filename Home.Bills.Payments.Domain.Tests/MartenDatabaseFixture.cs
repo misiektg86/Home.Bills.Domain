@@ -4,7 +4,7 @@ using Marten;
 using Marten.Services;
 using Newtonsoft.Json.Serialization;
 
-namespace Home.Bills.Tests
+namespace Home.Bills.Payments.Domain.Tests
 {
     public class MartenDatabaseFixture : IDisposable
     {
