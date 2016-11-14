@@ -21,5 +21,11 @@ namespace Home.Bills.Payments.Domain
 
             return payments.Select(i => i.PaymentInformations).ToList();
         }
+
+        public Task<bool> ActivePaymentExists(Guid addressId)
+        {
+            return
+                _documentSession.Query<Payment>().AnyAsync(i => i.AddressId == addressId && !i.PaymentInformations.Paid);
+        }
     }
 }
