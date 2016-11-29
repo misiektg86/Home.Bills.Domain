@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Domain.AddressAggregate.Entities;
+using Home.Bills.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Home.Bills.Controllers
@@ -67,6 +68,59 @@ namespace Home.Bills.Controllers
             }
 
             address.ProvideRead(meterRead.Read, meterRead.MeterSerialNumber, meterRead.ReadDate);
+
+            _addressRepository.Update(address);
+
+            return StatusCode(204);
+        }
+
+        [HttpPut("AddMeter")]
+        public async Task<IActionResult> AddMeter([FromBody] Models.Meter meter)
+        {
+            var address = await _addressRepository.Get(meter.AddressId);
+
+            if (address == null)
+            {
+                return NotFound(meter.AddressId);
+            }
+
+            address.AddMeter(meter.SerialNumber, meter.State);
+
+            _addressRepository.Update(address);
+
+            return StatusCode(204);
+        }
+
+        [HttpPut("CheckIn")]
+        public async Task<IActionResult> CheckInPerson([FromBody] Models.CheckIn checkIn)
+        {
+            var address = await _addressRepository.Get(checkIn.AddressId);
+
+            if (address == null)
+            {
+                return NotFound(checkIn.AddressId);
+            }
+
+            address.CheckInPersons(checkIn.Persons);
+
+            _addressRepository.Update(address);
+
+            return StatusCode(204);
+        }
+
+        [HttpPut("CheckOut")]
+        public async Task<IActionResult> CheckOutPerson([FromBody] CheckOut checkOut)
+        {
+            var address = await _addressRepository.Get(checkOut.AddressId);
+
+            if (address == null)
+            {
+                return NotFound(checkOut.AddressId);
+            }
+
+            address.CheckOutPersons(checkOut.Persons);
+
+            _addressRepository.Update(address);
 
             return StatusCode(204);
         }

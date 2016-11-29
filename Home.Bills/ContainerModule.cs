@@ -23,10 +23,7 @@ namespace Home.Bills
 
             builder.RegisterType<PaymentsDataProvider>().As<IPaymentsDataProvider>().InstancePerLifetimeScope();
 
-            builder.Register(context =>
-                {
-                    return context.Resolve<IDocumentStore>().OpenSession();
-                })
+            builder.Register(context => context.Resolve<IDocumentStore>().OpenSession())
                 .As<IDocumentSession>()
                 .InstancePerLifetimeScope();
 
@@ -47,7 +44,7 @@ namespace Home.Bills
 
                     var dcr = new DefaultContractResolver();
 
-                    dcr.DefaultMembersSearchFlags |= BindingFlags.NonPublic;
+                    dcr.DefaultMembersSearchFlags |= BindingFlags.NonPublic | BindingFlags.Instance;
 
                     serializer.Customize(i =>
                     {

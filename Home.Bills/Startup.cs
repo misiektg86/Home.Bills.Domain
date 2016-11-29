@@ -29,6 +29,8 @@ namespace Home.Bills
             // Add framework services.
             services.AddMvc();
 
+            services.AddSwaggerGen();
+
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<ContainerModule>();
@@ -61,6 +63,10 @@ namespace Home.Bills
             app.UseMartenUnitOfWork();
 
             app.UseMvc();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUi();
 
             appLifetime.ApplicationStopped.Register(() => ApplicationContainer.Dispose());
         }

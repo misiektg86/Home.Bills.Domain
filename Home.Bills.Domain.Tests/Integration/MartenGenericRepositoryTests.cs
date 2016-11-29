@@ -10,10 +10,12 @@ namespace Home.Bills.Domain.Tests.Integration
 {
     public class MartenGenericRepositoryTests : IClassFixture<MartenDatabaseFixture>
     {
-        private readonly IDocumentSession _session;
+        private readonly MartenDatabaseFixture _fixture;
+        private IDocumentSession _session;
 
         public MartenGenericRepositoryTests(MartenDatabaseFixture fixture)
         {
+            _fixture = fixture;
             _session = fixture.DocumentStore.OpenSession();
         }
 
@@ -56,7 +58,7 @@ namespace Home.Bills.Domain.Tests.Integration
             var address = await InsertAddress();
 
             var repo = CreateGenericMartenRepository();
-            
+
             repo.Delete(address);
 
             await _session.SaveChangesAsync();
@@ -80,10 +82,48 @@ namespace Home.Bills.Domain.Tests.Integration
             repo.Update(loadedAddress);
 
             await _session.SaveChangesAsync();
-            
+
+            _session.Dispose();
+
+            _session = _fixture.DocumentStore.OpenSession();
+
+            repo = CreateGenericMartenRepository();
+
             loadedAddress = await repo.Get(address);
 
             Assert.True(loadedAddress.GetMeters().Any(i => i.Id == "1234"));
+        }
+
+        [Fact]
+        public async Task ShouldCreateNewUsage()
+        {
+            var address = await InsertAddress();
+
+            var repo = CreateGenericMartenRepository();
+
+            var loadedAddress = await repo.Get(address);
+
+            loadedAddress.AddMeter("1234", 25.00);
+
+            loadedAddress.ProvideRead(30.00, "1234", DateTime.Now);
+
+            repo.Update(loadedAddress);
+
+            await _session.SaveChangesAsync();
+
+            _session.Dispose();
+
+            _session = _fixture.DocumentStore.OpenSession();
+
+            repo = CreateGenericMartenRepository();
+
+            loadedAddress = await repo.Get(address);
+
+            Assert.True(loadedAddress.GetMeters().Any(i => i.Id == "1234"));
+
+            Assert.NotEmpty(loadedAddress.GetUsages());
+
+            Assert.Equal(5, loadedAddress.GetUsages().FirstOrDefault()?.Value);
         }
     }
 }

@@ -25,6 +25,8 @@
         "bin/Debug/Home.Bills.Domain.dll": {}
       },
       "runtime": {
+        "../packages/MediatR.2.1.0/lib/net45/MediatR.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
         "../packages/xunit.abstractions.2.0.0/lib/net35/xunit.abstractions.dll": {},
         "../packages/xunit.assert.2.1.0/lib/dotnet/xunit.assert.dll": {},
         "../packages/xunit.extensibility.core.2.1.0/lib/dotnet/xunit.core.dll": {},

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Infrastructure;
@@ -10,10 +11,12 @@ namespace Home.Bills.Tests
     public class MartenDataProviderTests : IClassFixture<MartenDatabaseFixture>
     {
         private IDocumentSession _session;
+        private MartenDatabaseFixture _databaseFixture;
 
         public MartenDataProviderTests(MartenDatabaseFixture databaseFixture)
         {
-            _session = databaseFixture.DocumentStore.OpenSession();
+            _databaseFixture = databaseFixture;
+            _session = _session = databaseFixture.DocumentStore.OpenSession();
         }
 
         [Fact]
@@ -23,11 +26,22 @@ namespace Home.Bills.Tests
             await InsertAddress();
             await InsertAddress();
 
+            _session.Dispose();
+
+            _session = _databaseFixture.DocumentStore.OpenSession();
+
             var dataProvider = new AddressDataProvider(_session);
 
-            var data = await dataProvider.GetAddresses();
+            var data = (await dataProvider.GetAddresses()).ToList();
 
             Assert.NotEmpty(data);
+
+            var address = data.First();
+
+            Assert.NotNull(address.City);
+            Assert.NotNull(address.HomeNumber);
+            Assert.NotNull(address.Street);
+            Assert.NotNull(address.StreetNumber);
         }
 
         private async Task<Guid> InsertAddress()

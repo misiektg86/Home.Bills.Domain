@@ -1,37 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using Frameworks.Light.Ddd;
+using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Domain.AddressAggregate.ValueObjects;
+using MediatR;
+using Newtonsoft.Json;
 
 namespace Home.Bills.Domain.AddressAggregate.Entities
 {
     public class Address : AggregateRoot<Guid>
     {
-        private readonly List<Meter> _meters;
+        [JsonIgnore]
+        internal IMediator Mediator { get; set; }
 
-        private readonly List<Usage> _usages;
+        private List<Meter> _meters;
 
-        private readonly AddressInformation _addressInformation;
+        private List<Usage> _usages;
+
+        private AddressInformation _addressInformation;
 
         public int CheckedInPersons { get; private set; }
 
+        [JsonIgnore]
         public AddressInformation Information => _addressInformation?.Clone();
 
         internal Address() { }
 
-        private Address(string street, string city, string stretNumber, string homeNumber, List<Meter> meters, List<Usage> usages, Guid id)
+        internal Address(IMediator mediator)
+        {
+            Mediator = mediator;
+        }
+
+        internal Address(string street, string city, string stretNumber, string homeNumber, List<Meter> meters, List<Usage> usages, Guid id, IMediator mediator) : this(mediator)
         {
             Id = id;
-            _addressInformation = new AddressInformation(street, city, stretNumber, homeNumber);
+            _addressInformation = new AddressInformation(street, city, stretNumber, homeNumber, id);
             _meters = meters;
             _usages = usages;
+
+            Mediator.Publish(new AddressCreated(Id));
         }
 
         public static Address Create(string street, string city, string stretNumber, string homeNumber)
         {
-            return new Address(street, city, stretNumber, homeNumber, new List<Meter>(), new List<Usage>(), Guid.NewGuid());
+            return new Address(street, city, stretNumber, homeNumber, new List<Meter>(), new List<Usage>(), Guid.NewGuid(), new Mediator(type => type, type => Enumerable.Empty<object>()));
         }
 
         public void ProvideRead(double read, string meterSerialNumber, DateTime readDateTime)
@@ -50,6 +65,8 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             _usages.Add(usage);
 
             meter.State = read;
+
+            Mediator.Publish(new UsageCreated(usage.Value, usage.MeterSerialNumber, usage.ReadDateTime, Id));
         }
 
         public void AddMeter(string meterSerialNumber, double state)
@@ -60,6 +77,8 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             }
 
             _meters.Add(new Meter(new MeterId(meterSerialNumber)) { State = state });
+
+            Mediator.Publish(new MeterAdded(meterSerialNumber, Id, state));
         }
 
         public void CheckInPersons(int persons)

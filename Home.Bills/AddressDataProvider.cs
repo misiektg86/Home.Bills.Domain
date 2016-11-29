@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Domain.AddressAggregate.Entities;
@@ -31,7 +32,10 @@ namespace Home.Bills
 
         public async Task<IEnumerable<AddressInformation>> GetAddresses()
         {
-            var list = await _documentSession.Query<Address>().ToListAsync();
+            var list =
+                await
+                    ((IMartenQueryable) _documentSession.Query<Address>()).ToListAsync<Address>(
+                        CancellationToken.None);
 
             return list.Select(i => i.Information).ToList();
         }

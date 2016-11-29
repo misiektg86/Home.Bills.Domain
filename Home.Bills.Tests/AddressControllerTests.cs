@@ -123,5 +123,57 @@ namespace Home.Bills.Tests
 
             Assert.Equal(20, addressEntity.GetUsages().First().Value);
         }
+
+        [Fact]
+        public async Task ShouldCheckInPersons()
+        {
+            var addressRepository = Substitute.For<IRepository<Address, Guid>>();
+            var addressDataProvider = Substitute.For<IAddressDataProvider>();
+
+            var addressEntity = Address.Create("test", "test", "test", "test");
+
+            addressRepository.Get(addressEntity.Id).Returns(addressEntity);
+
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider);
+
+            await
+                addressController.CheckInPerson(new CheckIn()
+                {
+                    AddressId = addressEntity.Id,
+                    Persons = 5
+                });
+
+
+            await addressRepository.Received(1).Get(addressEntity.Id);
+
+            Assert.Equal(5, addressEntity.CheckedInPersons);
+        }
+
+        [Fact]
+        public async Task ShouldCheckOutPersons()
+        {
+            var addressRepository = Substitute.For<IRepository<Address, Guid>>();
+            var addressDataProvider = Substitute.For<IAddressDataProvider>();
+
+            var addressEntity = Address.Create("test", "test", "test", "test");
+
+            addressEntity.CheckInPersons(6);
+
+            addressRepository.Get(addressEntity.Id).Returns(addressEntity);
+
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider);
+
+            await
+                addressController.CheckOutPerson(new CheckOut()
+                {
+                    AddressId = addressEntity.Id,
+                    Persons = 5
+                });
+
+
+            await addressRepository.Received(1).Get(addressEntity.Id);
+
+            Assert.Equal(1, addressEntity.CheckedInPersons);
+        }
     }
 }

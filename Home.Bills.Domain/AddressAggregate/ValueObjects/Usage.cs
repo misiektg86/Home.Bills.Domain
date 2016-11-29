@@ -4,11 +4,13 @@ namespace Home.Bills.Domain.AddressAggregate.ValueObjects
 {
     public class Usage
     {
-        public string MeterSerialNumber { get; }
+        public string MeterSerialNumber { get; set; }
 
-        public double Value { get; }
+        public double Value { get; set; }
 
-        public DateTime ReadDateTime { get; }
+        public DateTime ReadDateTime { get; set; }
+
+        internal Usage() { }
 
         private Usage(string meterSerialNumber, double usage, DateTime readDateTime)
         {

@@ -2,9 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Baseline;
 using Frameworks.Light.Ddd;
-using Home.Bills.Infrastructure;
 using Home.Bills.Payments.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Payment = Home.Bills.Dtos.Payment;
