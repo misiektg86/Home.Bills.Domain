@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
@@ -44,11 +43,6 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             Mediator.Publish(new AddressCreated(Id));
         }
 
-        public static Address Create(string street, string city, string stretNumber, string homeNumber)
-        {
-            return new Address(street, city, stretNumber, homeNumber, new List<Meter>(), new List<Usage>(), Guid.NewGuid(), new Mediator(type => type, type => Enumerable.Empty<object>()));
-        }
-
         public void ProvideRead(double read, string meterSerialNumber, DateTime readDateTime)
         {
             var meter = _meters.FirstOrDefault(i => i.Id == meterSerialNumber);
@@ -84,6 +78,9 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
         public void CheckInPersons(int persons)
         {
             CheckedInPersons += persons;
+
+            Mediator.Publish(new PersonsCheckedIn(Id, persons));
+            Mediator.Publish(new PersonsStatusChanged(Id, CheckedInPersons));
         }
 
         public void CheckOutPersons(int persons)
@@ -94,6 +91,9 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             }
 
             CheckedInPersons -= persons;
+
+            Mediator.Publish(new PersonsCheckedOut(Id, persons));
+            Mediator.Publish(new PersonsStatusChanged(Id, CheckedInPersons));
         }
 
         public void ExchangeMeter(string meterSerialNumber, string newMeterSerialNumber, double state)

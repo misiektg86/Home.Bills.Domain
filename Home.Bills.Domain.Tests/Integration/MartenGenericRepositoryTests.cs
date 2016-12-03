@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Infrastructure;
 using Marten;
+using MediatR;
 using Xunit;
 
 namespace Home.Bills.Domain.Tests.Integration
@@ -12,11 +14,14 @@ namespace Home.Bills.Domain.Tests.Integration
     {
         private readonly MartenDatabaseFixture _fixture;
         private IDocumentSession _session;
+        private AddressFactory _addressFactory;
 
         public MartenGenericRepositoryTests(MartenDatabaseFixture fixture)
         {
             _fixture = fixture;
             _session = fixture.DocumentStore.OpenSession();
+
+            _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IMediator>());
         }
 
         [Fact]
@@ -35,7 +40,15 @@ namespace Home.Bills.Domain.Tests.Integration
         {
             var repository = CreateGenericMartenRepository();
 
-            var address = Address.Create("test street", "test city", "2b", "2");
+            var address =
+                _addressFactory.Create(new AddressFactoryInput()
+                {
+                    Street = "test street",
+                    City = "test city",
+                    StreetNumber = "2b",
+                    HomeNumber = "2",
+                    Id = Guid.NewGuid()
+                });
 
             var id = address.Id;
 

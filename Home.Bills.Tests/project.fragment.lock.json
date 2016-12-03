@@ -73,6 +73,7 @@
       "runtime": {
         "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
         "../packages/Marten.1.2.0/lib/net46/Marten.dll": {},
+        "../packages/MediatR.2.1.0/lib/net45/MediatR.dll": {},
         "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
         "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},
         "../packages/Remotion.Linq.2.1.1/lib/net45/Remotion.Linq.dll": {},

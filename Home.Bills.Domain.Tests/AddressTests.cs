@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Linq;
+using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
+using MediatR;
 using Xunit;
 
 namespace Home.Bills.Domain.Tests
 {
     public class AddressTests
     {
+        private AddressFactory _addressFactory;
+
+        public AddressTests()
+        {
+            _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IMediator>());
+        }
+
         [Fact]
         public void ShouldAddNewMeter()
         {
@@ -60,9 +69,17 @@ namespace Home.Bills.Domain.Tests
             Assert.Throws<InvalidOperationException>(() => address.ProvideRead(12.00, "1234", DateTime.Now));
         }
 
-        private static Address CreateAddress()
+        private  Address CreateAddress()
         {
-            return Address.Create("test", "test", "141", "2");
+            return 
+               _addressFactory.Create(new AddressFactoryInput()
+               {
+                   Street = "test street",
+                   City = "test city",
+                   StreetNumber = "2b",
+                   HomeNumber = "2",
+                   Id = Guid.NewGuid()
+               });
         }
 
         [Fact]

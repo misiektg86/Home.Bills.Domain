@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
+using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Models;
@@ -15,11 +16,13 @@ namespace Home.Bills.Controllers
         private readonly IRepository<Address, Guid> _addressRepository;
 
         private readonly IAddressDataProvider _addressDataProvider;
+        private readonly IAggregateFactory<Address, AddressFactoryInput, Guid> _addressFactory;
 
-        public AddressController(IRepository<Address, Guid> addressRepository, IAddressDataProvider addressDataProvider)
+        public AddressController(IRepository<Address, Guid> addressRepository, IAddressDataProvider addressDataProvider, IAggregateFactory<Address, AddressFactoryInput, Guid> addressFactory)
         {
             _addressRepository = addressRepository;
             _addressDataProvider = addressDataProvider;
+            _addressFactory = addressFactory;
         }
 
         [HttpGet]
@@ -50,7 +53,7 @@ namespace Home.Bills.Controllers
                 return StatusCode((int)HttpStatusCode.Conflict);
             }
 
-            var address = Address.Create(data.Street, data.City, data.StreetNumber, data.HomeNumber);
+            var address = _addressFactory.Create(new AddressFactoryInput() { Street = data.Street, City = data.City, StreetNumber = data.StreetNumber, HomeNumber = data.HomeNumber });
 
             _addressRepository.Add(address);
 

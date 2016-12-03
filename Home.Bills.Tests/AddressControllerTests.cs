@@ -3,12 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Controllers;
+using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Models;
+using MediatR;
 using NSubstitute;
 using Xunit;
-using Xunit.Sdk;
 
 namespace Home.Bills.Tests
 {
@@ -24,7 +25,7 @@ namespace Home.Bills.Tests
             addressDataProvider.AddressExists(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(false);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider);
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IMediator>()));
 
             await
                 addressController.Post(new Dtos.Address()
@@ -47,7 +48,7 @@ namespace Home.Bills.Tests
             addressDataProvider.AddressExists(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(true);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider);
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IMediator>()));
 
             await
                 addressController.Post(new Dtos.Address()
@@ -65,13 +66,16 @@ namespace Home.Bills.Tests
         public async Task ShouldDeleteAddressIfExists()
         {
             var addressRepository = Substitute.For<IRepository<Address, Guid>>();
+
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
 
-            var addressEntity = Address.Create("test", "test", "test", "test");
+            var addressFactory = new AddressFactory(Substitute.For<IMediator>());
+
+            var addressEntity = addressFactory.Create(new AddressFactoryInput() {City = "test",Street = "test", HomeNumber = "test", StreetNumber = "test", Id = Guid.NewGuid()});
 
             addressRepository.Get(addressEntity.Id).Returns(addressEntity);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider);
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, addressFactory);
 
             await addressController.Delete(addressEntity.Id);
 
@@ -83,12 +87,13 @@ namespace Home.Bills.Tests
         {
             var addressRepository = Substitute.For<IRepository<Address, Guid>>();
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
+            var addressFactory = new AddressFactory(Substitute.For<IMediator>());
 
             Guid entityId = Guid.NewGuid();
 
             addressRepository.Get(entityId).Returns(default(Address));
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider);
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IMediator>()));
 
             await addressController.Delete(entityId);
 
@@ -100,14 +105,15 @@ namespace Home.Bills.Tests
         {
             var addressRepository = Substitute.For<IRepository<Address, Guid>>();
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
+            var addressFactory = new AddressFactory(Substitute.For<IMediator>());
 
-            var addressEntity = Address.Create("test", "test", "test", "test");
+            var addressEntity = addressFactory.Create(new AddressFactoryInput() { City = "test", Street = "test", HomeNumber = "test", StreetNumber = "test", Id = Guid.NewGuid() });
 
             addressEntity.AddMeter("123", 10);
 
             addressRepository.Get(addressEntity.Id).Returns(addressEntity);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider);
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, addressFactory);
 
             await
                 addressController.ProvideRead(new MeterRead()
@@ -129,12 +135,13 @@ namespace Home.Bills.Tests
         {
             var addressRepository = Substitute.For<IRepository<Address, Guid>>();
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
+            var addressFactory = new AddressFactory(Substitute.For<IMediator>());
 
-            var addressEntity = Address.Create("test", "test", "test", "test");
+            var addressEntity = addressFactory.Create(new AddressFactoryInput() { City = "test", Street = "test", HomeNumber = "test", StreetNumber = "test", Id = Guid.NewGuid() });
 
             addressRepository.Get(addressEntity.Id).Returns(addressEntity);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider);
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, addressFactory);
 
             await
                 addressController.CheckInPerson(new CheckIn()
@@ -154,14 +161,15 @@ namespace Home.Bills.Tests
         {
             var addressRepository = Substitute.For<IRepository<Address, Guid>>();
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
+            var addressFactory = new AddressFactory(Substitute.For<IMediator>());
 
-            var addressEntity = Address.Create("test", "test", "test", "test");
+            var addressEntity = addressFactory.Create(new AddressFactoryInput() { City = "test", Street = "test", HomeNumber = "test", StreetNumber = "test", Id = Guid.NewGuid() });
 
             addressEntity.CheckInPersons(6);
 
             addressRepository.Get(addressEntity.Id).Returns(addressEntity);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider);
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, addressFactory);
 
             await
                 addressController.CheckOutPerson(new CheckOut()

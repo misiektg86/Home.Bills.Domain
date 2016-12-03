@@ -1,4 +1,6 @@
-﻿namespace Frameworks.Light.Ddd
+﻿using Frameworks.Light.Ddd;
+
+namespace Home.Bills.Infrastructure
 {
     public interface IAggregateFactory<out TAggregateRoot, in TCreateInput, TEntityId> where TAggregateRoot : AggregateRoot<TEntityId>
     {

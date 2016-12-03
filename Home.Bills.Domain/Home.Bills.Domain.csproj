@@ -64,8 +64,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressAggregate\AddressFactory.cs" />
+    <Compile Include="AddressAggregate\AddressFactoryInput.cs" />
     <Compile Include="AddressAggregate\DataProviders\IAddressDataProvider.cs" />
     <Compile Include="AddressAggregate\Entities\Address.cs" />
+    <Compile Include="AddressAggregate\Entities\PersonsStatusChanged.cs" />
+    <Compile Include="AddressAggregate\Events\PersonsCheckedIn.cs" />
+    <Compile Include="AddressAggregate\Events\PersonsCheckedOut.cs" />
     <Compile Include="AddressAggregate\Events\AddressCreated.cs" />
     <Compile Include="AddressAggregate\Events\MeterAdded.cs" />
     <Compile Include="AddressAggregate\Events\ReadProvided.cs" />
