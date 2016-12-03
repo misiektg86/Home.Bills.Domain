@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Frameworks.Light.Ddd;
 
 namespace Home.Bills.Payments.Domain.AddressAggregate
@@ -7,14 +8,28 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
     {
         internal Address() { }
 
+        private Dictionary<string, decimal> _tariffAssigments;
+
         internal Address(Guid id)
         {
             Id = id;
+            _tariffAssigments = new Dictionary<string, decimal>();
         }
 
-        public void AssignMeterToTariff(string meterSerialNumber, Tariff tariff)
+        public static Address Create(Guid id)
         {
-            throw new NotImplementedException();
+            return new Address(id);
+        }
+
+        public void ApplyTariff(string meterSerialNumber, decimal tariff)
+        {
+            if (_tariffAssigments.ContainsKey(meterSerialNumber))
+            {
+                _tariffAssigments[meterSerialNumber] = tariff;
+                return;
+            }
+
+            _tariffAssigments.Add(meterSerialNumber, tariff);
         }
 
         public void RegisterUsage(string meterSerialNumber, double value)
@@ -26,9 +41,10 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
         {
             throw new NotImplementedException();
         }
-    }
 
-    public class Tariff
-    {
+        public decimal GetTariff(string meterSerialNumber)
+        {
+            return _tariffAssigments[meterSerialNumber];
+        }
     }
 }

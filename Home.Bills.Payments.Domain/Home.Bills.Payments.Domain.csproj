@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressAggregate\Address.cs" />
+    <Compile Include="AddressAggregate\Usage.cs" />
     <Compile Include="IPaymentsDataProvider.cs" />
     <Compile Include="Payment.cs" />
     <Compile Include="PaymentAlreadyPaidException.cs" />
