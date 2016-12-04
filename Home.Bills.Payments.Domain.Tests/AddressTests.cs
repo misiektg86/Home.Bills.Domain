@@ -2,6 +2,7 @@
 using System.Linq;
 using Home.Bills.Infrastructure;
 using Home.Bills.Payments.Domain.AddressAggregate;
+using MediatR;
 using NSubstitute;
 using Xunit;
 
@@ -11,9 +12,13 @@ namespace Home.Bills.Payments.Domain.Tests
     {
         private readonly MartenDatabaseFixture _martenDatabaseFixture;
 
+        private AddressFactory _addressFactory;
+
         public AddressTests(MartenDatabaseFixture martenDatabaseFixture)
         {
             _martenDatabaseFixture = martenDatabaseFixture;
+
+            _addressFactory = new AddressFactory(Substitute.For<IMediator>());
         }
 
         [Fact]
@@ -159,9 +164,9 @@ namespace Home.Bills.Payments.Domain.Tests
             Assert.Equal(100m, usage.AmountToPay);
         }
 
-        private static Address CreateAddress()
+        private Address CreateAddress()
         {
-            Address address = Address.Create(Guid.NewGuid());
+            Address address = _addressFactory.Create(new AddressFactoryInput() { AddressId = Guid.NewGuid(), SquareMeters = 50.00 });
             return address;
         }
     }

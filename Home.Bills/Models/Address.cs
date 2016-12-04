@@ -1,4 +1,4 @@
-﻿namespace Home.Bills.Dtos
+﻿namespace Home.Bills.Models
 {
     public class Address
     {
@@ -9,5 +9,7 @@
         public string StreetNumber { get; set; }
 
         public string HomeNumber { get; set; }
+
+        public double SquareMeters { get; set; }
     }
 }

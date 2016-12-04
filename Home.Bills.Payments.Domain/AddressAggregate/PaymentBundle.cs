@@ -6,7 +6,7 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
 {
     public class PaymentBundle
     {
-        private List<Guid> _items;
+        private List<IPayment> _items;
 
         public Guid Id { get; set; }
         public int Month { get; }
@@ -18,15 +18,15 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
             Id = id;
             Month = month;
             Year = year;
-            _items = new List<Guid>();
+            _items = new List<IPayment>();
         }
 
-        public void AddBundleItem(Guid itemId)
+        public void AddBundleItem(IPayment itemId)
         {
             _items.Add(itemId);
         }
 
-        public IEnumerable<Guid> GetItems()
+        public IEnumerable<IPayment> GetItems()
         {
             return _items.ToList();
         }

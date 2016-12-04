@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
-using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Models;
 using Microsoft.AspNetCore.Mvc;
+using Address = Home.Bills.Domain.AddressAggregate.Entities.Address;
 
 namespace Home.Bills.Controllers
 {
@@ -46,7 +46,7 @@ namespace Home.Bills.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Dtos.Address data)
+        public async Task<IActionResult> Post([FromBody]Models.Address data)
         {
             if (await _addressDataProvider.AddressExists(data.City, data.Street, data.StreetNumber, data.HomeNumber))
             {
@@ -61,7 +61,7 @@ namespace Home.Bills.Controllers
         }
 
         [HttpPut("ProvideRead")]
-        public async Task<IActionResult> ProvideRead([FromBody] Models.MeterRead meterRead)
+        public async Task<IActionResult> ProvideRead([FromBody] MeterRead meterRead)
         {
             var address = await _addressRepository.Get(meterRead.AddressId);
 
@@ -78,7 +78,7 @@ namespace Home.Bills.Controllers
         }
 
         [HttpPut("AddMeter")]
-        public async Task<IActionResult> AddMeter([FromBody] Models.Meter meter)
+        public async Task<IActionResult> AddMeter([FromBody] Meter meter)
         {
             var address = await _addressRepository.Get(meter.AddressId);
 
@@ -95,7 +95,7 @@ namespace Home.Bills.Controllers
         }
 
         [HttpPut("CheckIn")]
-        public async Task<IActionResult> CheckInPerson([FromBody] Models.CheckIn checkIn)
+        public async Task<IActionResult> CheckInPerson([FromBody] CheckIn checkIn)
         {
             var address = await _addressRepository.Get(checkIn.AddressId);
 

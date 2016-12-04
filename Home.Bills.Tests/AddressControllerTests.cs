@@ -5,11 +5,11 @@ using Frameworks.Light.Ddd;
 using Home.Bills.Controllers;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
-using Home.Bills.Domain.AddressAggregate.Entities;
-using Home.Bills.Models;
 using MediatR;
 using NSubstitute;
 using Xunit;
+using Address = Home.Bills.Domain.AddressAggregate.Entities.Address;
+using Home.Bills.Models;
 
 namespace Home.Bills.Tests
 {
@@ -28,7 +28,7 @@ namespace Home.Bills.Tests
             AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IMediator>()));
 
             await
-                addressController.Post(new Dtos.Address()
+                addressController.Post(new Models.Address()
                 {
                     City = "test",
                     HomeNumber = "test",
@@ -51,7 +51,7 @@ namespace Home.Bills.Tests
             AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IMediator>()));
 
             await
-                addressController.Post(new Dtos.Address()
+                addressController.Post(new Models.Address()
                 {
                     City = "test",
                     HomeNumber = "test",

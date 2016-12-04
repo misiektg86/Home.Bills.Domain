@@ -2,7 +2,7 @@
 
 namespace Home.Bills.Payments.Domain.AddressAggregate
 {
-    public class Usage: ICloneable
+    public class Usage : ICloneable, IPayment
     {
         public Usage(Guid id, double value, string meterSerialNumber, DateTime registeredDate, decimal amountToPay)
         {
@@ -26,5 +26,12 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
         {
             return MemberwiseClone();
         }
+    }
+
+    public interface IPayment
+    {
+        Guid Id { get; }
+
+        decimal AmountToPay { get; }
     }
 }

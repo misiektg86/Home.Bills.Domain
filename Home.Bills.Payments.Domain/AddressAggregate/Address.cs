@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Frameworks.Light.Ddd;
 using MediatR;
+using Newtonsoft.Json;
 
 namespace Home.Bills.Payments.Domain.AddressAggregate
 {
     public class Address : AggregateRoot<Guid>
     {
+        private readonly double _squareMeters;
+
+        [JsonIgnore]
         public IMediator Mediator { get; }
 
         internal Address() { }
@@ -22,23 +26,24 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
 
         private int _persons;
 
+        private IRentPolicy _rentforApartmentPolicy;
+
+        private double _squereMeters;
+
         internal Address(IMediator mediator)
         {
             Mediator = mediator;
         }
 
-        internal Address(Guid id, IMediator mediator) : this(mediator)
+        internal Address(Guid id, double squareMeters, IMediator mediator) : this(mediator)
         {
+            _squareMeters = squareMeters;
+            _rentforApartmentPolicy = new StandardRentForApartmentPolicy();
             Id = id;
             _tariffAssigments = new Dictionary<string, decimal>();
             _usages = new List<Usage>();
             _paymentBundle = new PaymentBundle(Guid.NewGuid(), DateTime.Now.Month, DateTime.Now.Year);
             _historyBundles = new List<PaymentBundle>();
-        }
-
-        public static Address Create(Guid id)
-        {
-            return new Address(id, new Mediator(type => type, type => Enumerable.Empty<Type>()));
         }
 
         public void ApplyTariff(string meterSerialNumber, decimal tariff)
@@ -72,7 +77,7 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
 
             _usages.Add(usage);
 
-            _paymentBundle.AddBundleItem(usage.Id);
+            _paymentBundle.AddBundleItem(usage);
         }
 
         public void AcceptUsageForMonth()
@@ -82,6 +87,9 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
                 throw new BillForMonthCurrentlyAcceptedException();
             }
 
+            var rent = new Rent(Guid.NewGuid(), _rentforApartmentPolicy.Calculate(_squereMeters, _persons));
+
+            _paymentBundle.AddBundleItem(rent);
             _paymentBundle.Accept();
 
             _historyBundles.Add(_paymentBundle);
@@ -101,10 +109,5 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
         {
             _persons = persons;
         }
-    }
-
-    public interface IApartmentRentCalculator
-    {
-        decimal Calculate(int persons);
     }
 }

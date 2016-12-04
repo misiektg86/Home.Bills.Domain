@@ -70,9 +70,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressAggregate\Address.cs" />
+    <Compile Include="AddressAggregate\AddressFactory.cs" />
+    <Compile Include="AddressAggregate\AddressFactoryInput.cs" />
     <Compile Include="AddressAggregate\BillForMonthCurrentlyAcceptedException.cs" />
+    <Compile Include="AddressAggregate\IRentPolicy.cs" />
     <Compile Include="AddressAggregate\NoActiveBillForMonthException.cs" />
     <Compile Include="AddressAggregate\PaymentBundle.cs" />
+    <Compile Include="AddressAggregate\Rent.cs" />
+    <Compile Include="AddressAggregate\StandardRentForApartmentPolicy.cs" />
     <Compile Include="AddressAggregate\TariffNotAssignedException.cs" />
     <Compile Include="AddressAggregate\Usage.cs" />
     <Compile Include="IPaymentsDataProvider.cs" />
