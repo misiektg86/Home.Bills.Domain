@@ -13,5 +13,7 @@ namespace Home.Bills.Domain.AddressAggregate
         public string HomeNumber { get; set; }
 
         public Guid Id { get; set; }
+
+        public double SquareMeters { get; set; }
     }
 }

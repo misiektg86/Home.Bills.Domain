@@ -102,4 +102,9 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
             _persons = persons;
         }
     }
+
+    public interface IApartmentRentCalculator
+    {
+        decimal Calculate(int persons);
+    }
 }

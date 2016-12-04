@@ -33,10 +33,10 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             Mediator = mediator;
         }
 
-        internal Address(string street, string city, string stretNumber, string homeNumber, List<Meter> meters, List<Usage> usages, Guid id, IMediator mediator) : this(mediator)
+        internal Address(string street, string city, string stretNumber, string homeNumber, List<Meter> meters, List<Usage> usages, Guid id, IMediator mediator, double squareMeters) : this(mediator)
         {
             Id = id;
-            _addressInformation = new AddressInformation(street, city, stretNumber, homeNumber, id);
+            _addressInformation = new AddressInformation(street, city, stretNumber, homeNumber, id, squareMeters);
             _meters = meters;
             _usages = usages;
 

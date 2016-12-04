@@ -47,6 +47,7 @@ namespace Home.Bills.Tests
             Assert.NotNull(address.HomeNumber);
             Assert.NotNull(address.Street);
             Assert.NotNull(address.StreetNumber);
+            Assert.NotNull(address.SquareMeters);
         }
 
         private async Task<Guid> InsertAddress()
@@ -60,7 +61,8 @@ namespace Home.Bills.Tests
                     City = "test city",
                     StreetNumber = "2b",
                     HomeNumber = "2",
-                    Id = Guid.NewGuid()
+                    Id = Guid.NewGuid(),
+                    SquareMeters = 50.00
                 });
 
             var id = address.Id;
