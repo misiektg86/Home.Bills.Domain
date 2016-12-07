@@ -37,7 +37,7 @@ namespace Home.Bills
                 .InstancePerLifetimeScope();
 
             builder.Register(context => DocumentStoreFactory.Create()).As<IDocumentStore>().SingleInstance();
-            builder.RegisterSource(new ContravariantRegistrationSource());
+           
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(typeof(Address).GetTypeInfo().Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.Register<SingleInstanceFactory>(ctx =>
