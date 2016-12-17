@@ -1,10 +1,9 @@
 ﻿using System;
-using Home.Bills.Domain.Contracts.Messages;
 using MediatR;
 
 namespace Home.Bills.Domain.AddressAggregate.Events
 {
-    internal class MeterAdded : IMeterAdded
+    internal class MeterAdded : IMeterAdded, INotification
     {
         public string MeterSerialNumber { get; }
         public Guid AddressId { get; }

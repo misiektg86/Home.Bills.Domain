@@ -1,9 +1,8 @@
 ﻿using System;
-using MediatR;
 
-namespace Home.Bills.Domain.Contracts.Messages
+namespace Home.Bills.Domain.Messages
 {
-    public interface IUsageCreated : INotification
+    public interface IUsageCreated
     {
         string MeterSerialNumber { get; }
         DateTime ReadDateTime { get; }

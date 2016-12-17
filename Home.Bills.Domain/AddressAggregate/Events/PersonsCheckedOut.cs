@@ -1,10 +1,10 @@
 ﻿using System;
-using Home.Bills.Domain.Contracts.Messages;
+using Home.Bills.Domain.Messages;
 using MediatR;
 
 namespace Home.Bills.Domain.AddressAggregate.Events
 {
-    internal class PersonsCheckedOut : IPersonsCheckedOut
+    internal class PersonsCheckedOut : IPersonsCheckedOut, INotification
     {
         public Guid Id { get; }
         public int Persons { get; }

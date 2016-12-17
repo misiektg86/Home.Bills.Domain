@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MediatR;
 
-namespace Home.Bills.Domain.Contracts.Messages
+namespace Home.Bills.Payments.Acl
 {
-    public interface IMeterAdded : INotification
+    public class Class1
     {
     }
 }

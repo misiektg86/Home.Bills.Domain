@@ -1,10 +1,9 @@
 ﻿using System;
-using Home.Bills.Domain.Contracts.Messages;
 using MediatR;
 
 namespace Home.Bills.Domain.AddressAggregate.Events
 {
-    public class UsageCreated : IUsageCreated
+    public class UsageCreated : IUsageCreated,INotification
     {
         public UsageCreated(double value, string meterSerialNumber, DateTime readDateTime, Guid addressId)
         {

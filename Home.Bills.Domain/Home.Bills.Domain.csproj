@@ -79,11 +79,6 @@
     <Compile Include="AddressAggregate\ValueObjects\AddressInformation.cs" />
     <Compile Include="AddressAggregate\Entities\Meter.cs" />
     <Compile Include="AddressAggregate\ValueObjects\MeterId.cs" />
-    <Compile Include="Contracts\Messages\IAddressCreated.cs" />
-    <Compile Include="Contracts\Messages\IMeterAdded.cs" />
-    <Compile Include="Contracts\Messages\IPersonsCheckedIn.cs" />
-    <Compile Include="Contracts\Messages\IPersonsCheckedOut.cs" />
-    <Compile Include="Contracts\Messages\IUsageCreated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AddressAggregate\ValueObjects\Usage.cs" />
   </ItemGroup>
@@ -95,7 +90,12 @@
       <Project>{8EB8E52D-0B05-41DB-B488-FC6D5E628E7D}</Project>
       <Name>Frameworks.Light.Ddd</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Domain.Messages\Home.Bills.Domain.Messages.csproj">
+      <Project>{343625A4-2148-4C13-9085-1EA2797F7046}</Project>
+      <Name>Home.Bills.Domain.Messages</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
