@@ -1,4 +1,5 @@
 ﻿using System;
+using Home.Bills.Domain.Messages;
 using MediatR;
 
 namespace Home.Bills.Domain.AddressAggregate.Events

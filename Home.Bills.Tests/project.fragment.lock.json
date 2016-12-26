@@ -18,6 +18,23 @@
         }
       }
     },
+    "Home.Bills.Domain.Messages/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Domain.Messages.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/Home.Bills.Domain.Messages.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Domain.Messages.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "Home.Bills.Domain/1.0.0": {
       "type": "project",
       "framework": ".NETFramework,Version=v4.6.1",

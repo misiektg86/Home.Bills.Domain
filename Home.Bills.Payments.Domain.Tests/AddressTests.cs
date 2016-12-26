@@ -164,6 +164,11 @@ namespace Home.Bills.Payments.Domain.Tests
             Assert.Equal(100m, usage.AmountToPay);
         }
 
+        public void ShouldAddressCreatedMessageCreateAddress()
+        {
+            
+        }
+
         private Address CreateAddress()
         {
             Address address = _addressFactory.Create(new AddressFactoryInput() { AddressId = Guid.NewGuid(), SquareMeters = 50.00 });

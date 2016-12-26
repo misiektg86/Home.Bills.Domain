@@ -40,7 +40,7 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             _meters = meters;
             _usages = usages;
 
-            Mediator.Publish(new AddressCreated(Id));
+            Mediator.Publish(new AddressCreated(Id, squareMeters));
         }
 
         public void ProvideRead(double read, string meterSerialNumber, DateTime readDateTime)

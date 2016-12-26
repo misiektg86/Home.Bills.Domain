@@ -60,16 +60,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="AddressCreatedConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Home.Bills.Domain.Messages\Home.Bills.Domain.Messages.csproj">
+      <Project>{343625a4-2148-4c13-9085-1ea2797f7046}</Project>
+      <Name>Home.Bills.Domain.Messages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Home.Bills.Infrastructure\Home.Bills.Infrastructure.csproj">
       <Project>{a3ccfcd5-e4fd-4e3b-b3c1-efdde92b504c}</Project>
       <Name>Home.Bills.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Payments.Domain\Home.Bills.Payments.Domain.csproj">
+      <Project>{6955c978-356f-4813-b0c5-7df5a3b773b3}</Project>
+      <Name>Home.Bills.Payments.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

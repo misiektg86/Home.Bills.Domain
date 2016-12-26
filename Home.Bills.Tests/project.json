@@ -18,6 +18,9 @@
         "Home.Bills.Domain": {
           "target": "project"
         },
+        "Home.Bills.Domain.Messages": {
+          "target": "project"
+        },
         "Home.Bills.Infrastructure": {
           "target": "project"
         },

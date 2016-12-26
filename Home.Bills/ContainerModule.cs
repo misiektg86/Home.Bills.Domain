@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.NetworkInformation;
 using System.Reflection;
 using Autofac;
-using Autofac.Features.Variance;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
@@ -25,9 +22,11 @@ namespace Home.Bills
         {           
             builder.RegisterType<GenericMartenRepository<Address>>()
                 .As<IRepository<Address, Guid>>().InstancePerLifetimeScope();
+
             builder.RegisterType<AddressFactory>()
                 .As<Frameworks.Light.Ddd.IAggregateFactory<Address, AddressFactoryInput, Guid>>()
                 .InstancePerLifetimeScope();
+
             builder.RegisterType<AddressDataProvider>().As<IAddressDataProvider>().InstancePerLifetimeScope();
 
             builder.RegisterType<PaymentsDataProvider>().As<IPaymentsDataProvider>().InstancePerLifetimeScope();
@@ -39,7 +38,11 @@ namespace Home.Bills
             builder.Register(context => DocumentStoreFactory.Create()).As<IDocumentStore>().SingleInstance();
            
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
+
             builder.RegisterAssemblyTypes(typeof(Address).GetTypeInfo().Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(typeof(Payments.Domain.AddressAggregate.Address).GetTypeInfo().Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
+
             builder.Register<SingleInstanceFactory>(ctx =>
             {
                 var c = ctx.Resolve<IComponentContext>();
