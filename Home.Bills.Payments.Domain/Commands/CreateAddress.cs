@@ -1,9 +1,9 @@
 ﻿using System;
 using MediatR;
 
-namespace Home.Bills.Payments.Domain.Events
+namespace Home.Bills.Payments.Domain.Commands
 {
-    public class AddressCreated : INotification
+    public class CreateAddress : INotification
     {
         public Guid Id { get; set; }
 

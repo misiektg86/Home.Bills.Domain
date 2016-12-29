@@ -21,6 +21,8 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
             _items = new List<IPayment>();
         }
 
+        internal PaymentBundle() { }
+
         public void AddBundleItem(IPayment itemId)
         {
             _items.Add(itemId);

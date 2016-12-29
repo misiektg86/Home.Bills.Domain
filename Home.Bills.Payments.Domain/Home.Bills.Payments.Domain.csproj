@@ -80,14 +80,16 @@
     <Compile Include="AddressAggregate\StandardRentForApartmentPolicy.cs" />
     <Compile Include="AddressAggregate\TariffNotAssignedException.cs" />
     <Compile Include="AddressAggregate\Usage.cs" />
-    <Compile Include="Events\AddressCreated.cs" />
+    <Compile Include="Commands\CreateAddress.cs" />
+    <Compile Include="Commands\RegisterUsage.cs" />
     <Compile Include="IPaymentsDataProvider.cs" />
     <Compile Include="Payment.cs" />
     <Compile Include="PaymentAlreadyPaidException.cs" />
     <Compile Include="PaymentInformation.cs" />
     <Compile Include="PaymentsDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Receivers\AddressCreatedHandler.cs" />
+    <Compile Include="Handlers\CreateAddressHandler.cs" />
+    <Compile Include="Handlers\RegisterUsageHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Frameworks.Light.Ddd\Frameworks.Light.Ddd.csproj">

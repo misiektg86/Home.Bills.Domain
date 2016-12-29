@@ -13,6 +13,8 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
             AmountToPay = amountToPay;
         }
 
+        internal Usage() { }
+
         public Guid Id { get; }
 
         public double Value { get; }

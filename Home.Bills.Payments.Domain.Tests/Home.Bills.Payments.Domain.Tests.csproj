@@ -111,6 +111,7 @@
   <ItemGroup>
     <Compile Include="AclTests.cs" />
     <Compile Include="AddressTests.cs" />
+    <Compile Include="InfrastructureFixture.cs" />
     <Compile Include="MartenDatabaseFixture.cs" />
     <Compile Include="PaymentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
