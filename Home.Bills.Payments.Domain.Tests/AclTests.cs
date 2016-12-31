@@ -7,6 +7,7 @@ using Home.Bills.Domain.Messages;
 using Home.Bills.Infrastructure;
 using Home.Bills.Payments.Domain.AddressAggregate;
 using Marten;
+using MediatR;
 using Xunit;
 
 namespace Home.Bills.Payments.Domain.Tests
@@ -59,7 +60,7 @@ namespace Home.Bills.Payments.Domain.Tests
 
             await Task.Delay(1000);
 
-            var addressAggregate = await new GenericMartenRepository<Address>(_infrastructureFixture.MartenDatabaseFixture.DocumentStore.OpenSession()).Get(addressId);
+            var addressAggregate = await new GenericMartenRepository<Address>(_infrastructureFixture.MartenDatabaseFixture.DocumentStore.OpenSession(), _infrastructureFixture.AutofacContainer.Resolve<IMediator>()).Get(addressId);
 
             var usages = addressAggregate.GetUsages();
 

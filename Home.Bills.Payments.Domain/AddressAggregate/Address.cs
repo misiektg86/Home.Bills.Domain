@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Frameworks.Light.Ddd;
 using MediatR;
-using Newtonsoft.Json;
 
 namespace Home.Bills.Payments.Domain.AddressAggregate
 {
     public class Address : AggregateRoot<Guid>
     {
         private readonly double _squareMeters;
-
-        [JsonIgnore]
-        public IMediator Mediator { get; }
 
         internal Address() { }
 

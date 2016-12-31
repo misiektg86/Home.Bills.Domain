@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Home.Bills.Domain.AddressAggregate;
@@ -76,7 +77,7 @@ namespace Home.Bills.Tests
 
         private GenericMartenRepository<Address> CreateGenericMartenRepository()
         {
-            var repository = new GenericMartenRepository<Address>(_session);
+            var repository = new GenericMartenRepository<Address>(_session, new Mediator(type => new object(), type => new List<object>()));
             return repository;
         }
     }

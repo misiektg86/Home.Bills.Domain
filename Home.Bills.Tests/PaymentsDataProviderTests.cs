@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Home.Bills.Infrastructure;
 using Home.Bills.Payments.Domain;
 using Marten;
+using MediatR;
 using Xunit;
 
 namespace Home.Bills.Tests
@@ -20,7 +22,7 @@ namespace Home.Bills.Tests
         [Fact]
         public async Task ShouldGetPaymentsForAddress()
         {
-            var paymentsRepo = new GenericMartenRepository<Payment>(_documentSession);
+            var paymentsRepo = new GenericMartenRepository<Payment>(_documentSession, new Mediator(type => new object(), type => new List<object>()));
 
             Guid addressId = Guid.NewGuid();
 

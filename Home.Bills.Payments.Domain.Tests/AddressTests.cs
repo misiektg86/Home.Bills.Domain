@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Home.Bills.Infrastructure;
 using Home.Bills.Payments.Domain.AddressAggregate;
@@ -129,7 +130,7 @@ namespace Home.Bills.Payments.Domain.Tests
         public void ShouldPersistAddressAggregate()
         {
             var session = _martenDatabaseFixture.DocumentStore.OpenSession();
-            var addressRepository = new GenericMartenRepository<Address>(session);
+            var addressRepository = new GenericMartenRepository<Address>(session, new Mediator(type => new object(), type => new List<object>()));
 
             var address = CreateAddress();
 
@@ -151,7 +152,7 @@ namespace Home.Bills.Payments.Domain.Tests
 
             session = _martenDatabaseFixture.DocumentStore.OpenSession();
 
-            addressRepository = new GenericMartenRepository<Address>(session);
+            addressRepository = new GenericMartenRepository<Address>(session, new Mediator(type => new object(), type => new List<object>()));
 
             address = addressRepository.Get(addressId).Result;
 

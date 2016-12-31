@@ -12,9 +12,6 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 {
     public class Address : AggregateRoot<Guid>
     {
-        [JsonIgnore]
-        internal IMediator Mediator { get; set; }
-
         private List<Meter> _meters;
 
         private List<Usage> _usages;
