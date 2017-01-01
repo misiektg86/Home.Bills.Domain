@@ -136,8 +136,6 @@ namespace Home.Bills.Domain.Tests.Integration
             Assert.True(loadedAddress.GetMeters().Any(i => i.Id == "1234"));
 
             Assert.NotEmpty(loadedAddress.GetUsages());
-
-            Assert.Equal(5, loadedAddress.GetUsages().FirstOrDefault()?.Value);
         }
     }
 }

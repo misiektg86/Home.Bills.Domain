@@ -5,6 +5,7 @@ using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Domain.AddressAggregate.ValueObjects;
+using Home.Bills.Domain.UsageAggregate;
 using MediatR;
 using Newtonsoft.Json;
 
@@ -14,7 +15,7 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
     {
         private List<Meter> _meters;
 
-        private List<Usage> _usages;
+        private List<Guid> _usages;
 
         private AddressInformation _addressInformation;
 
@@ -30,7 +31,7 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             Mediator = mediator;
         }
 
-        internal Address(string street, string city, string stretNumber, string homeNumber, List<Meter> meters, List<Usage> usages, Guid id, IMediator mediator, double squareMeters) : this(mediator)
+        internal Address(string street, string city, string stretNumber, string homeNumber, List<Meter> meters, List<Guid> usages, Guid id, IMediator mediator, double squareMeters) : this(mediator)
         {
             Id = id;
             _addressInformation = new AddressInformation(street, city, stretNumber, homeNumber, id, squareMeters);
@@ -40,7 +41,7 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             Mediator.Publish(new AddressCreated(Id, squareMeters));
         }
 
-        public void ProvideRead(double read, string meterSerialNumber, DateTime readDateTime)
+        public Usage ProvideRead(double read, string meterSerialNumber, DateTime readDateTime)
         {
             var meter = _meters.FirstOrDefault(i => i.Id == meterSerialNumber);
 
@@ -51,13 +52,13 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
             var oldState = meter.State;
 
-            var usage = Usage.Create(meterSerialNumber, oldState, read, readDateTime);
-
-            _usages.Add(usage);
-
             meter.State = read;
 
-            Mediator.Publish(new UsageCreated(usage.Value, usage.MeterSerialNumber, usage.ReadDateTime, Id));
+            var usage = Usage.Create(meterSerialNumber, Id, oldState, read, readDateTime, Mediator);
+
+            _usages.Add(usage.Id);
+
+            return usage;
         }
 
         public void AddMeter(string meterSerialNumber, double state)
@@ -110,7 +111,7 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             return _meters.Select(i => i.Clone()).ToList();
         }
 
-        public IEnumerable<Usage> GetUsages()
+        public IEnumerable<Guid> GetUsages()
         {
             return _usages.AsReadOnly();
         }

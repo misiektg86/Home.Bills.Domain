@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 
-namespace Home.Bills.Domain.AddressAggregate.Entities
+namespace Home.Bills.Domain.AddressAggregate.Events
 {
     public class PersonsStatusChanged : INotification
     {

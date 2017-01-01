@@ -101,9 +101,9 @@ namespace Home.Bills.Domain.Tests
 
             address.AddMeter("1234", 10.000);
 
-            address.ProvideRead(12.00, "1234", DateTime.Now);
+            var usage = address.ProvideRead(12.00, "1234", DateTime.Now);
 
-            Assert.Equal(2.00, address.GetUsages().Last().Value);
+            Assert.Equal(2.00, usage.Value);
         }
 
         [Fact]

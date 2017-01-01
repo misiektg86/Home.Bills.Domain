@@ -127,7 +127,7 @@ namespace Home.Bills.Tests
 
             await addressRepository.Received(1).Get(addressEntity.Id);
 
-            Assert.Equal(20, addressEntity.GetUsages().First().Value);
+            Assert.NotNull(addressEntity.GetUsages().First());
         }
 
         [Fact]

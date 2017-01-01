@@ -30,10 +30,16 @@
         "Frameworks.Light.Ddd": {
           "target": "project"
         },
+        "Home.Bills.DataAccess": {
+          "target": "project"
+        },
         "Home.Bills.Domain": {
           "target": "project"
         },
         "Home.Bills.Infrastructure": {
+          "target": "project"
+        },
+        "Home.Bills.Payments.DataAccess": {
           "target": "project"
         },
         "Home.Bills.Payments.Domain": {

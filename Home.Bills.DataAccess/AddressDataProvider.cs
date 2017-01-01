@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Domain.AddressAggregate.ValueObjects;
 using Marten;
-using Marten.Linq;
 
-namespace Home.Bills
+namespace Home.Bills.DataAccess
 {
     public class AddressDataProvider : IAddressDataProvider
     {
@@ -34,8 +32,7 @@ namespace Home.Bills
         {
             var list =
                 await
-                    ((IMartenQueryable) _documentSession.Query<Address>()).ToListAsync<Address>(
-                        CancellationToken.None);
+                    _documentSession.Query<Address>().ToListAsync();
 
             return list.Select(i => i.Information).ToList();
         }

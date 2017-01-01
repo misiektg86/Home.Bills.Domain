@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Bills.Domain.Messages"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Bills.Payments.Acl", "Home.Bills.Payments.Acl\Home.Bills.Payments.Acl.csproj", "{4F7EDD0B-243A-4802-849F-686823729DB3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Bills.DataAccess", "Home.Bills.DataAccess\Home.Bills.DataAccess.csproj", "{D3FD2514-61C4-426B-94B7-F08CC97D91B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Bills.Payments.DataAccess", "Home.Bills.Payments.DataAccess\Home.Bills.Payments.DataAccess.csproj", "{C60259B7-287C-4AC3-8018-A51AF693E936}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +77,14 @@ Global
 		{4F7EDD0B-243A-4802-849F-686823729DB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F7EDD0B-243A-4802-849F-686823729DB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F7EDD0B-243A-4802-849F-686823729DB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3FD2514-61C4-426B-94B7-F08CC97D91B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3FD2514-61C4-426B-94B7-F08CC97D91B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3FD2514-61C4-426B-94B7-F08CC97D91B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3FD2514-61C4-426B-94B7-F08CC97D91B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C60259B7-287C-4AC3-8018-A51AF693E936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C60259B7-287C-4AC3-8018-A51AF693E936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C60259B7-287C-4AC3-8018-A51AF693E936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C60259B7-287C-4AC3-8018-A51AF693E936}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -68,19 +68,21 @@
     <Compile Include="AddressAggregate\AddressFactoryInput.cs" />
     <Compile Include="AddressAggregate\DataProviders\IAddressDataProvider.cs" />
     <Compile Include="AddressAggregate\Entities\Address.cs" />
-    <Compile Include="AddressAggregate\Entities\PersonsStatusChanged.cs" />
+    <Compile Include="AddressAggregate\Events\PersonsStatusChanged.cs" />
     <Compile Include="AddressAggregate\Events\PersonsCheckedIn.cs" />
     <Compile Include="AddressAggregate\Events\PersonsCheckedOut.cs" />
     <Compile Include="AddressAggregate\Events\AddressCreated.cs" />
     <Compile Include="AddressAggregate\Events\MeterAdded.cs" />
     <Compile Include="AddressAggregate\Events\UsageCreated.cs" />
+    <Compile Include="AddressAggregate\Exceptions\AddressNotFoundException.cs" />
     <Compile Include="AddressAggregate\Exceptions\CannotCheckOutMorePersonsThanCheckedInException.cs" />
     <Compile Include="AddressAggregate\Exceptions\MeterNotFoundException.cs" />
     <Compile Include="AddressAggregate\ValueObjects\AddressInformation.cs" />
     <Compile Include="AddressAggregate\Entities\Meter.cs" />
     <Compile Include="AddressAggregate\ValueObjects\MeterId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AddressAggregate\ValueObjects\Usage.cs" />
+    <Compile Include="Services\UsageDomainService.cs" />
+    <Compile Include="UsageAggregate\Usage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

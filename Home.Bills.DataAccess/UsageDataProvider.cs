@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Home.Bills.Domain.UsageAggregate;
+using Marten;
+
+namespace Home.Bills.DataAccess
+{
+    public class UsageDataProvider : IUsageDataProvider
+    {
+        private IDocumentSession _documentSession;
+
+        public UsageDataProvider(IDocumentSession documentSession)
+        {
+            _documentSession = documentSession;
+        }
+
+        public async Task<IEnumerable<Dto.Usage>> GetUsages(Guid addressId)
+            =>
+                await _documentSession.Query<Usage>()
+                    .Where(i => i.AddressId == addressId)
+                    .Select(
+                        i =>
+                            new Dto.Usage()
+                            {
+                                AddressId = i.AddressId,
+                                UsageId = i.Id,
+                                MeterSerialNumber = i.MeterSerialNumber,
+                                ReadDateTime = i.ReadDateTime,
+                                Value = i.Value
+                            })
+                    .ToListAsync();
+
+        public async Task<Dto.Usage> GetLastUsage(Guid address)
+            => await _documentSession.Query<Usage>().Where(i => i.AddressId == address).Select(i => new Dto.Usage()
+            {
+                AddressId = i.AddressId,
+                UsageId = i.Id,
+                MeterSerialNumber = i.MeterSerialNumber,
+                ReadDateTime = i.ReadDateTime,
+                Value = i.Value
+            }).FirstOrDefaultAsync();
+    }
+}

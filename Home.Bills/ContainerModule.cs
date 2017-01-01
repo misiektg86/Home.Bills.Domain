@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
 using Frameworks.Light.Ddd;
+using Home.Bills.DataAccess;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Domain.AddressAggregate.Entities;
