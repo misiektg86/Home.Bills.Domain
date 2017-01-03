@@ -8,7 +8,6 @@ using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
-using Home.Bills.Infrastructure;
 using Home.Bills.Payments.Domain;
 using Marten;
 using Marten.Services;

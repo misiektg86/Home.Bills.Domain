@@ -2,11 +2,10 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Frameworks.Light.Ddd;
 using Marten;
 using MassTransit;
 
-namespace Home.Bills.Infrastructure
+namespace Frameworks.Light.Ddd
 {
     public class GenericMartenRepository<TEntity> : IRepository<TEntity, Guid> where TEntity : AggregateRoot<Guid>
     {

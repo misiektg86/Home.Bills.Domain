@@ -1,7 +1,6 @@
 using System;
 using Autofac;
 using Frameworks.Light.Ddd;
-using Home.Bills.Infrastructure;
 using Home.Bills.Payments.Acl;
 using Home.Bills.Payments.Domain.AddressAggregate;
 using Home.Bills.Payments.Domain.Handlers;

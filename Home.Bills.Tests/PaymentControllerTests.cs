@@ -5,7 +5,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Controllers;
-using Home.Bills.Infrastructure;
 using Home.Bills.Payments.Domain;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;

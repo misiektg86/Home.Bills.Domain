@@ -1,9 +1,9 @@
 ﻿using System;
+using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Domain.Tests.Integration;
 using Home.Bills.Domain.UsageAggregate;
-using Home.Bills.Infrastructure;
 using Marten;
 using MassTransit;
 using Xunit;

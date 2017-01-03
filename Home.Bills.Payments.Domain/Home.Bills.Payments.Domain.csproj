@@ -104,10 +104,6 @@
       <Project>{8EB8E52D-0B05-41DB-B488-FC6D5E628E7D}</Project>
       <Name>Frameworks.Light.Ddd</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Home.Bills.Infrastructure\Home.Bills.Infrastructure.csproj">
-      <Project>{a3ccfcd5-e4fd-4e3b-b3c1-efdde92b504c}</Project>
-      <Name>Home.Bills.Infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

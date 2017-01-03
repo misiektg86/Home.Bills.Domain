@@ -39,6 +39,10 @@
       <HintPath>..\packages\GreenPipes.1.0.6\lib\net452\GreenPipes.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Marten, Version=1.2.4.842, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Marten.1.2.4\lib\net46\Marten.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MassTransit, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
       <HintPath>..\packages\MassTransit.3.5.2\lib\net452\MassTransit.dll</HintPath>
       <Private>True</Private>
@@ -76,6 +80,7 @@
   <ItemGroup>
     <Compile Include="AggregateRoot.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="GenericMartenRepository.cs" />
     <Compile Include="IAggregateFactory.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

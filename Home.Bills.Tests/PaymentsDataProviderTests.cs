@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Home.Bills.Infrastructure;
+using Frameworks.Light.Ddd;
 using Home.Bills.Payments.Domain;
 using Marten;
 using MassTransit;

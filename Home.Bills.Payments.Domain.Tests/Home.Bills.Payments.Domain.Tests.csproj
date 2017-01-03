@@ -125,10 +125,6 @@
       <Project>{343625A4-2148-4C13-9085-1EA2797F7046}</Project>
       <Name>Home.Bills.Domain.Messages</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Home.Bills.Infrastructure\Home.Bills.Infrastructure.csproj">
-      <Project>{a3ccfcd5-e4fd-4e3b-b3c1-efdde92b504c}</Project>
-      <Name>Home.Bills.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Home.Bills.Payments.Acl\Home.Bills.Payments.Acl.csproj">
       <Project>{4F7EDD0B-243A-4802-849F-686823729DB3}</Project>
       <Name>Home.Bills.Payments.Acl</Name>

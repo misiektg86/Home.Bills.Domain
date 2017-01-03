@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Home.Bills.Infrastructure;
+using Frameworks.Light.Ddd;
 using Home.Bills.Payments.Domain.AddressAggregate;
 using MassTransit;
 using NSubstitute;

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Frameworks.Light.Ddd;
 using Home.Bills.DataAccess;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.Entities;
-using Home.Bills.Infrastructure;
 using Marten;
 using MassTransit;
 using NSubstitute;
