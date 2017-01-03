@@ -48,8 +48,16 @@
         "bin/Debug/Home.Bills.Domain.dll": {}
       },
       "runtime": {
+        "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
+        "../packages/GreenPipes.1.0.6/lib/net452/GreenPipes.dll": {},
+        "../packages/Marten.1.2.4/lib/net46/Marten.dll": {},
+        "../packages/MassTransit.3.5.2/lib/net452/MassTransit.dll": {},
         "../packages/MediatR.2.1.0/lib/net45/MediatR.dll": {},
+        "../packages/NewId.3.0.0/lib/net452/NewId.dll": {},
         "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},
+        "../packages/Remotion.Linq.2.1.1/lib/net45/Remotion.Linq.dll": {},
+        "../packages/System.Threading.Tasks.Dataflow.4.6.0/lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {},
         "../packages/xunit.abstractions.2.0.0/lib/net35/xunit.abstractions.dll": {},
         "../packages/xunit.assert.2.1.0/lib/dotnet/xunit.assert.dll": {},
         "../packages/xunit.extensibility.core.2.1.0/lib/dotnet/xunit.core.dll": {},

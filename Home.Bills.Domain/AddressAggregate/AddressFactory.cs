@@ -20,7 +20,7 @@ namespace Home.Bills.Domain.AddressAggregate
 
         public Address Create(AddressFactoryInput input)
         {
-            return new Address(input.Street, input.City, input.StreetNumber, input.HomeNumber, new List<Meter>(), new List<Guid>(), input.Id, _mediator, input.SquareMeters);
+            return new Address(input.Street, input.City, input.StreetNumber, input.HomeNumber, new List<Guid>(), input.Id, _mediator, input.SquareMeters);
         }
     }
 }

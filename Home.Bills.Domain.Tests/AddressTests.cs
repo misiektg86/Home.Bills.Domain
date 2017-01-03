@@ -22,9 +22,11 @@ namespace Home.Bills.Domain.Tests
         {
             var address = CreateAddress();
 
-            address.AddMeter("1234", 10.000);
+            var meterGuid = Guid.NewGuid();
 
-            Assert.Contains(address.GetMeters(), i => i.Id == "1234");
+            address.AssignMeter(meterGuid);
+
+            Assert.Contains(address.GetMeters(), i => i == meterGuid);
         }
 
         [Fact]
@@ -32,34 +34,40 @@ namespace Home.Bills.Domain.Tests
         {
             var address = CreateAddress();
 
-            address.AddMeter("1234", 10.000);
+            var meterGuid = Guid.NewGuid();
 
-            Assert.Throws<InvalidOperationException>(() => address.AddMeter("1234", 10.000));
-        }
+            address.AssignMeter(meterGuid);
 
-        [Fact]
-        public void ShouldExchangeMeter()
-        {
-            var address = CreateAddress();
-
-            address.AddMeter("1234", 10.000);
-
-            address.ExchangeMeter("1234", "4321", 10.000);
-
-            Assert.DoesNotContain(address.GetMeters(), i => i.Id == "1234");
-
-            Assert.Contains(address.GetMeters(), i => i.Id == "4321");
-        }
-
-        [Fact]
-        public void ShouldTrhowExceptionIfMeterDoesntExist()
-        {
-            var address = CreateAddress();
-
-            Assert.Throws<InvalidOperationException>(() => address.ExchangeMeter("1234", "4321", 10.000));
+            Assert.Throws<InvalidOperationException>(() => address.AssignMeter(meterGuid));
         }
 
         //[Fact]
+        //public void ShouldExchangeMeter()
+        //{
+        //    var address = CreateAddress();
+
+        //    var meterGuid = Guid.NewGuid();
+
+        //    var newMeterGuid = Guid.NewGuid();
+
+        //    address.AssignMeter(meterGuid);
+
+        //    address.ExchangeMeter(meterGuid, newMeterGuid, 10.000);
+
+        //    Assert.DoesNotContain(address.GetMeters(), i => i == meterGuid);
+
+        //    Assert.Contains(address.GetMeters(), i => i == newMeterGuid);
+        //}
+
+        //[Fact]
+        //public void ShouldTrhowExceptionIfMeterDoesntExist()
+        //{
+        //    var address = CreateAddress();
+
+        //    Assert.Throws<InvalidOperationException>(() => address.ExchangeMeter(Guid.NewGuid(), Guid.NewGuid(), 10.000));
+        //}
+
+        //[Fact] TODO
         //public void SohuldThrowExceptionIfNewReadLowerThanPrevious()
         //{
         //    var address = CreateAddress();
@@ -82,7 +90,7 @@ namespace Home.Bills.Domain.Tests
                });
         }
 
-        //[Fact]
+        //[Fact] TODO
         //public void ShouldNewReadUpdateMeterState()
         //{
         //    var address = CreateAddress();
@@ -94,7 +102,7 @@ namespace Home.Bills.Domain.Tests
         //    Assert.Equal(12.00, address.GetMeters().Single(i => i.Id == "1234").State);
         //}
 
-        //[Fact]
+        //[Fact] TODO
         //public void ShouldProvideReadCreateNewUsage()
         //{
         //    var address = CreateAddress();
@@ -106,7 +114,7 @@ namespace Home.Bills.Domain.Tests
         //    Assert.Equal(2.00, usage.Value);
         //}
 
-        //[Fact]
+        //[Fact] TODO
         //public void ShouldNotBeAbleToModifyMeterBesideAgregate()
         //{
         //    var address = CreateAddress();
@@ -122,7 +130,7 @@ namespace Home.Bills.Domain.Tests
         //    Assert.NotEqual(address.GetMeters().First().State, meter.State);
         //}
 
-        //[Fact]
+        //[Fact] TODO
         //public void ShouldThrowExceptionIfNoMeterFoundForProvidedRead()
         //{
         //    var address = CreateAddress();

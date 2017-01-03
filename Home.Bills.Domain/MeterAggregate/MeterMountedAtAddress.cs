@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Home.Bills.Domain.MeterAggregate
 {
-    public class MeterAssignedToAddress : INotification
+    public class MeterMountedAtAddress : INotification, IAsyncNotification
     {
         public Guid MeterId { get; set; }
 

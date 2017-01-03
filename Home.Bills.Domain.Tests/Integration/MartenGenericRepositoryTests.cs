@@ -88,11 +88,13 @@ namespace Home.Bills.Domain.Tests.Integration
         {
             var address = await InsertAddress();
 
+            Guid meterId = Guid.NewGuid();
+
             var repo = CreateGenericMartenRepository();
 
             var loadedAddress = await repo.Get(address);
 
-            loadedAddress.AddMeter("1234", 25.00);
+            loadedAddress.AssignMeter(meterId);
 
             repo.Update(loadedAddress);
 
@@ -106,7 +108,7 @@ namespace Home.Bills.Domain.Tests.Integration
 
             loadedAddress = await repo.Get(address);
 
-            Assert.True(loadedAddress.GetMeters().Any(i => i.Id == "1234"));
+            Assert.True(loadedAddress.GetMeters().Any(i => i == meterId));
         }
 
         //[Fact]

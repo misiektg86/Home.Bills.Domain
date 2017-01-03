@@ -30,16 +30,49 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Baseline, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Baseline.1.1.0\lib\net451\Baseline.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GreenPipes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\GreenPipes.1.0.6\lib\net452\GreenPipes.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Marten, Version=1.2.4.842, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Marten.1.2.4\lib\net46\Marten.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MassTransit, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\MassTransit.3.5.2\lib\net452\MassTransit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NewId, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\NewId.3.0.0\lib\net452\NewId.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Npgsql, Version=3.1.6.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.3.1.6\lib\net451\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Remotion.Linq.2.1.1\lib\net45\Remotion.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.6.0\lib\netstandard1.1\System.Threading.Tasks.Dataflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,12 +101,13 @@
     <Compile Include="AddressAggregate\AddressFactoryInput.cs" />
     <Compile Include="AddressAggregate\DataProviders\IAddressDataProvider.cs" />
     <Compile Include="AddressAggregate\Entities\Address.cs" />
+    <Compile Include="AddressAggregate\Events\MeterRemoved.cs" />
     <Compile Include="AddressAggregate\Events\MeterReadProcessBagan.cs" />
     <Compile Include="AddressAggregate\Events\PersonsStatusChanged.cs" />
     <Compile Include="AddressAggregate\Events\PersonsCheckedIn.cs" />
     <Compile Include="AddressAggregate\Events\PersonsCheckedOut.cs" />
     <Compile Include="AddressAggregate\Events\AddressCreated.cs" />
-    <Compile Include="AddressAggregate\Events\MeterAdded.cs" />
+    <Compile Include="AddressAggregate\Events\MeterAssigned.cs" />
     <Compile Include="AddressAggregate\Events\UsageCreated.cs" />
     <Compile Include="AddressAggregate\Exceptions\ActiveReadDoesnotExistException.cs" />
     <Compile Include="AddressAggregate\Exceptions\ActiveReadInProgressException.cs" />
@@ -81,17 +115,18 @@
     <Compile Include="AddressAggregate\Exceptions\CannotCheckOutMorePersonsThanCheckedInException.cs" />
     <Compile Include="AddressAggregate\Exceptions\MeterNotFoundException.cs" />
     <Compile Include="AddressAggregate\ValueObjects\AddressInformation.cs" />
-    <Compile Include="AddressAggregate\Entities\Meter.cs" />
-    <Compile Include="AddressAggregate\ValueObjects\MeterId.cs" />
-    <Compile Include="MeterAggregate\CannotRemoveMeterFromAddressSpecifiedException.cs" />
+    <Compile Include="MeterAggregate\CannotUnmountMeterAtAddressSpecifiedException.cs" />
     <Compile Include="MeterAggregate\Meter.cs" />
-    <Compile Include="MeterAggregate\MeterAlreadyAssignedToAddress.cs" />
-    <Compile Include="MeterAggregate\MeterAssignedToAddress.cs" />
-    <Compile Include="MeterAggregate\MeterRemovedFromAddress.cs" />
+    <Compile Include="MeterAggregate\MeterAlreadyMountedatAddressException.cs" />
+    <Compile Include="MeterAggregate\MeterMountedAtAddress.cs" />
+    <Compile Include="MeterAggregate\MeterFactory.cs" />
+    <Compile Include="MeterAggregate\MeterUnmountedAtAddress.cs" />
     <Compile Include="MeterAggregate\MeterStateCannotBeLowerThanCurrentStateException.cs" />
     <Compile Include="MeterAggregate\MeterStateCorrected.cs" />
     <Compile Include="MeterAggregate\MeterStateUpdated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Receivers\MeterMountedReceiver.cs" />
+    <Compile Include="Receivers\MeterUnmountedReceiver.cs" />
     <Compile Include="Services\UsageDomainService.cs" />
     <Compile Include="UsageAggregate\MeterRead.cs" />
     <Compile Include="UsageAggregate\MeterReadCompleted.cs" />

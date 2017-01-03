@@ -1,67 +1,69 @@
 ﻿using System;
 using System.Globalization;
 using Frameworks.Light.Ddd;
+using MediatR;
 
 namespace Home.Bills.Domain.MeterAggregate
 {
-    public class Meter :AggregateRoot<Guid>
+    public class Meter : AggregateRoot<Guid>
     {
-        private Guid? _addressId;
+        public Guid? AddressId;
 
-        private double _state;
+        public double State { get; private set; }
 
-        private string _serialNumber;
+        public string SerialNumber { get; }
+
         internal Meter() { }
 
-        internal Meter(Guid id, Guid? addressId, double state, string serialNumber)
+        internal Meter(Guid id, Guid? addressId, double state, string serialNumber, IMediator mediator) : base(mediator)
         {
-            _addressId = addressId;
-            _state = state;
-            _serialNumber = serialNumber;
+            AddressId = addressId;
+            State = state;
+            SerialNumber = serialNumber;
             Id = id;
         }
 
-        public void AssignToAddress(Guid addressId)
+        public void MountAtAddress(Guid addressId)
         {
-            if (_addressId.HasValue)
+            if (AddressId.HasValue)
             {
-                throw new MeterAlreadyAssignedToAddressException(Id.ToString());
+                throw new MeterAlreadyMountedatAddressException(Id.ToString());
             }
 
-            _addressId = addressId;
+            AddressId = addressId;
 
-            Mediator.Publish(new MeterAssignedToAddress() {AddressId = _addressId.Value,MeterSerialNumber = _serialNumber, MeterId = Id});
+            Mediator.Publish(new MeterMountedAtAddress() { AddressId = AddressId.Value, MeterSerialNumber = SerialNumber, MeterId = Id });
         }
 
-        public void RemoveFromAddress(Guid addressId)
+        public void UnmountAtAddress(Guid addressId)
         {
-            if (addressId != _addressId)
+            if (addressId != AddressId)
             {
-                throw new CannotRemoveMeterFromAddressSpecifiedException(Id);
+                throw new CannotUnmountMeterAtAddressSpecifiedException(Id);
             }
 
-            _addressId = null;
+            AddressId = null;
 
-            Mediator.Publish(new MeterRemovedFromAddress() {AddressId = addressId,MeterId = Id, MeterSerialNumber = _serialNumber});
+            Mediator.Publish(new MeterUnmountedAtAddress() { AddressId = addressId, MeterId = Id, MeterSerialNumber = SerialNumber });
         }
 
         public void UpdateState(double state)
         {
-            if (state < _state)
+            if (state < State)
             {
-                throw new  MeterStateCannotBeLowerThanCurrentStateException(_state.ToString(CultureInfo.InvariantCulture));
+                throw new MeterStateCannotBeLowerThanCurrentStateException(State.ToString(CultureInfo.InvariantCulture));
             }
 
-            _state = state;
+            State = state;
 
-            Mediator.Publish(new MeterStateUpdated() { AddressId = _addressId, MeterId = Id, MeterSerialNumber = _serialNumber });
+            Mediator.Publish(new MeterStateUpdated() { AddressId = AddressId, MeterId = Id, MeterSerialNumber = SerialNumber });
         }
 
         public void CorrectState(double state)
         {
-            _state = state;
+            State = state;
 
-            Mediator.Publish(new MeterStateCorrected() { AddressId = _addressId, MeterId = Id, MeterSerialNumber = _serialNumber });
+            Mediator.Publish(new MeterStateCorrected() { AddressId = AddressId, MeterId = Id, MeterSerialNumber = SerialNumber });
         }
     }
 }

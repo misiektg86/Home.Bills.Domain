@@ -5,7 +5,6 @@ using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Domain.AddressAggregate.ValueObjects;
-using Home.Bills.Domain.UsageAggregate;
 using MediatR;
 using Newtonsoft.Json;
 
@@ -13,10 +12,8 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 {
     public class Address : AggregateRoot<Guid>
     {
-        private List<Meter> _meters;
-
-        private List<Guid> _usages;
-
+        private List<Guid> _meters;
+        
         private AddressInformation _addressInformation;
 
         public int CheckedInPersons { get; private set; }
@@ -33,12 +30,11 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             Mediator = mediator;
         }
 
-        internal Address(string street, string city, string stretNumber, string homeNumber, List<Meter> meters, List<Guid> usages, Guid id, IMediator mediator, double squareMeters) : this(mediator)
+        internal Address(string street, string city, string stretNumber, string homeNumber, List<Guid> meters, Guid id, IMediator mediator, double squareMeters) : this(mediator)
         {
             Id = id;
             _addressInformation = new AddressInformation(street, city, stretNumber, homeNumber, id, squareMeters);
             _meters = meters;
-            _usages = usages;
 
             Mediator.Publish(new AddressCreated(Id, squareMeters));
         }
@@ -52,7 +48,7 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
             _activeReadId = activeReadId;
 
-            Mediator.Publish(new MeterReadProcessBagan {AddressId = Id,Id = activeReadId,MeterSerialNumbers = _meters.Select(i=>i.Id)});
+            Mediator.Publish(new MeterReadProcessBagan {AddressId = Id,Id = activeReadId,MeterSerialNumbers = _meters.ToList()});
         }
 
         public void FinishMeterReadProcess(Guid activeReadId)
@@ -65,18 +61,16 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             _activeReadId = null;
         }
 
-     
-
-        public void AddMeter(string meterSerialNumber, double state)
+        public void AssignMeter(Guid meterId)
         {
-            if (_meters.Any(i => i.Id == meterSerialNumber))
+            if (_meters.Any(i => i == meterId))
             {
                 throw new InvalidOperationException("Meter with serial number already exists");
             }
 
-            _meters.Add(new Meter(new MeterId(meterSerialNumber)) { State = state });
+            _meters.Add(meterId);
 
-            Mediator.Publish(new MeterAdded(meterSerialNumber, Id, state));
+            Mediator.Publish(new MeterAssigned(meterId, Id));
         }
 
         public void CheckInPersons(int persons)
@@ -100,26 +94,23 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             Mediator.Publish(new PersonsStatusChanged(Id, CheckedInPersons));
         }
 
-        public void ExchangeMeter(string meterSerialNumber, string newMeterSerialNumber, double state)
+        public void RemoveMeter(Guid meterId)
         {
-            if (_meters.All(i => i.Id != meterSerialNumber))
+            if (_meters.All(i => i != meterId))
             {
                 throw new InvalidOperationException("Meter with serial number doesn't exists");
             }
 
-            _meters.Remove(_meters.Find(i => i.Id == meterSerialNumber));
+            _meters.Remove(_meters.Find(i => i == meterId));
 
-            AddMeter(newMeterSerialNumber, state);
+            _meters.Remove(meterId);
+
+            Mediator.Publish(new MeterRemoved() {MeterId = meterId, AddressId = Id});
         }
 
-        public IEnumerable<Meter> GetMeters()
+        public IEnumerable<Guid> GetMeters()
         {
-            return _meters.Select(i => i.Clone()).ToList();
-        }
-
-        public IEnumerable<Guid> GetUsages()
-        {
-            return _usages.AsReadOnly();
+            return _meters.ToList();
         }
     }
 }

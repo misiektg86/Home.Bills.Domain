@@ -11,7 +11,7 @@ namespace Home.Bills.Domain.AddressAggregate.Events
 
         public Guid AddressId { get; set; }
 
-        public IEnumerable<MeterId> MeterSerialNumbers { get; set; }
+        public IEnumerable<Guid> MeterSerialNumbers { get; set; }
 
         public DateTime ReadProcessStartDate { get; set; }
     }

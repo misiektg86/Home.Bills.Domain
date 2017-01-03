@@ -60,8 +60,8 @@ namespace Home.Bills.Controllers
             return CreatedAtRoute("GetAddress", new { id = address.Id }, address);
         }
 
-        [HttpPut("AddMeter")]
-        public async Task<IActionResult> AddMeter([FromBody] Meter meter)
+        [HttpPut("AssignMeter")]
+        public async Task<IActionResult> AssignMeter([FromBody] Meter meter)
         {
             var address = await _addressRepository.Get(meter.AddressId);
 
@@ -70,7 +70,7 @@ namespace Home.Bills.Controllers
                 return NotFound(meter.AddressId);
             }
 
-            address.AddMeter(meter.SerialNumber, meter.State);
+            address.AssignMeter(meter.MeterId);
 
             _addressRepository.Update(address);
 

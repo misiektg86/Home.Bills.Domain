@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Home.Bills.Domain.MeterAggregate
 {
-    internal class MeterRemovedFromAddress : INotification
+    internal class MeterUnmountedAtAddress : INotification, IAsyncNotification
     {
         public Guid AddressId { get; set; }
         public Guid MeterId { get; set; }
