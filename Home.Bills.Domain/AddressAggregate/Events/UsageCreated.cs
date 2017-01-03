@@ -6,20 +6,19 @@ namespace Home.Bills.Domain.AddressAggregate.Events
 {
     public class UsageCreated : IUsageCreated,INotification
     {
-        public UsageCreated(double value, string meterSerialNumber, DateTime readDateTime, Guid addressId)
+        public UsageCreated(double value,Guid meterId, DateTime readDateTime, Guid addressId)
         {
             Value = value;
-            MeterSerialNumber = meterSerialNumber;
+            MeterId = meterId;
             ReadDateTime = readDateTime;
             AddressId = addressId;
         }
-
-        public string MeterSerialNumber { get; }
 
         public DateTime ReadDateTime { get; }
 
         public Guid AddressId { get; }
 
         public double Value { get; }
+        public Guid MeterId { get; private set; }
     }
 }

@@ -14,6 +14,8 @@ namespace Home.Bills.Domain.AddressAggregate.ValueObjects
             SquareMeters = squareMeters;
         }
 
+        internal AddressInformation() { }
+
         public string Street { get; }
         public string City { get; }
         public string StreetNumber { get; }

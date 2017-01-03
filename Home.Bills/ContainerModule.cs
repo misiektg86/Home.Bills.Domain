@@ -7,6 +7,7 @@ using Home.Bills.DataAccess;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Domain.AddressAggregate.Entities;
+using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Infrastructure;
 using Home.Bills.Payments.Domain;
 using Marten;
@@ -21,8 +22,7 @@ namespace Home.Bills
     {
         protected override void Load(ContainerBuilder builder)
         {           
-            builder.RegisterType<GenericMartenRepository<Address>>()
-                .As<IRepository<Address, Guid>>().InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(GenericMartenRepository<>)).AsImplementedInterfaces().InstancePerLifetimeScope();
 
             builder.RegisterType<AddressFactory>()
                 .As<Frameworks.Light.Ddd.IAggregateFactory<Address, AddressFactoryInput, Guid>>()
@@ -35,6 +35,10 @@ namespace Home.Bills
             builder.Register(context => context.Resolve<IDocumentStore>().OpenSession())
                 .As<IDocumentSession>()
                 .InstancePerLifetimeScope();
+
+           // builder.RegisterType<UsageDomainService>().AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterType<UsageDataProvider>().As<IUsageDataProvider>().InstancePerLifetimeScope();
 
             builder.Register(context => DocumentStoreFactory.Create()).As<IDocumentStore>().SingleInstance();
            

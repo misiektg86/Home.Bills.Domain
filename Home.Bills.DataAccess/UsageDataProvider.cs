@@ -26,7 +26,7 @@ namespace Home.Bills.DataAccess
                             {
                                 AddressId = i.AddressId,
                                 UsageId = i.Id,
-                                MeterSerialNumber = i.MeterSerialNumber,
+                                MeterId = i.MeterId,
                                 ReadDateTime = i.ReadDateTime,
                                 Value = i.Value
                             })
@@ -37,7 +37,7 @@ namespace Home.Bills.DataAccess
             {
                 AddressId = i.AddressId,
                 UsageId = i.Id,
-                MeterSerialNumber = i.MeterSerialNumber,
+                MeterId = i.MeterId,
                 ReadDateTime = i.ReadDateTime,
                 Value = i.Value
             }).FirstOrDefaultAsync();

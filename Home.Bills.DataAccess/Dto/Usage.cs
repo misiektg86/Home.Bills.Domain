@@ -10,7 +10,7 @@ namespace Home.Bills.DataAccess.Dto
 
         public double Value { get; set; }
 
-        public string MeterSerialNumber { get; set; }
+        public Guid MeterId { get; set; }
 
         public DateTime ReadDateTime { get; set; }
     }

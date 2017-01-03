@@ -1,35 +1,38 @@
-﻿using System;
-using System.Threading.Tasks;
-using Frameworks.Light.Ddd;
-using Home.Bills.Domain.AddressAggregate.Entities;
-using Home.Bills.Domain.AddressAggregate.Exceptions;
-using Home.Bills.Domain.UsageAggregate;
+﻿//using System;
+//using System.Threading.Tasks;
+//using Frameworks.Light.Ddd;
+//using Home.Bills.Domain.AddressAggregate.Entities;
+//using Home.Bills.Domain.AddressAggregate.Exceptions;
+//using Home.Bills.Domain.UsageAggregate;
 
-namespace Home.Bills.Domain.Services
-{
-    public class UsageDomainService
-    {
-        private readonly IRepository<Usage, Guid> _usageRepository;
-        private readonly IRepository<Address, Guid> _addressRepository;
+//namespace Home.Bills.Domain.Services
+//{
+//    public class UsageDomainService
+//    {
+//        private readonly IRepository<Usage, Guid> _usageRepository;
 
-        public UsageDomainService(IRepository<Usage, Guid> usageRepository, IRepository<Address, Guid> addressRepository)
-        {
-            _usageRepository = usageRepository;
-            _addressRepository = addressRepository;
-        }
+//        private readonly IRepository<Address, Guid> _addressRepository;
 
-        public async Task CreateUsageFromMeterRead(Guid addressId, double read, string meterSerialNumber, DateTime readDateTime)
-        {
-            var address = await _addressRepository.Get(addressId);
+//        public UsageDomainService(IRepository<Usage, Guid> usageRepository, IRepository<Address, Guid> addressRepository)
+//        {
+//            _usageRepository = usageRepository;
+//            _addressRepository = addressRepository;
+//        }
 
-            if (address == null)
-            {
-                throw new AddressNotFoundException(addressId.ToString());
-            }
+//        public async Task CreateUsageFromMeterRead(Guid usageId, Guid addressId, double read, string meterSerialNumber, DateTime readDateTime)
+//        {
+//            var address = await _addressRepository.Get(addressId);
 
-            var usage = address.ProvideRead(read, meterSerialNumber, readDateTime);
+//            if (address == null)
+//            {
+//                throw new AddressNotFoundException(addressId.ToString());
+//            }
 
-            _usageRepository.Add(usage);
-        }
-    }
-}
+//            var usage = address.ProvideRead(usageId, read, meterSerialNumber, readDateTime);
+
+//            _addressRepository.Update(address);
+
+//            _usageRepository.Add(usage);
+//        }
+//    }
+//}

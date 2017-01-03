@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Entities;
+using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Domain.AddressAggregate.ValueObjects;
 using Home.Bills.Domain.UsageAggregate;
 using MediatR;

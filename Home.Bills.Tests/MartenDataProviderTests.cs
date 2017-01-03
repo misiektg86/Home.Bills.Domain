@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Home.Bills.DataAccess;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.Entities;
+using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Infrastructure;
 using Marten;
 using MediatR;

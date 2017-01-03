@@ -100,35 +100,6 @@ namespace Home.Bills.Tests
             addressRepository.Received(0).Delete(entityId);
         }
 
-        [Fact]
-        public async Task ShouldProvidedReadCreateUsage()
-        {
-            var addressRepository = Substitute.For<IRepository<Address, Guid>>();
-            var addressDataProvider = Substitute.For<IAddressDataProvider>();
-            var addressFactory = new AddressFactory(Substitute.For<IMediator>());
-
-            var addressEntity = addressFactory.Create(new AddressFactoryInput() { City = "test", Street = "test", HomeNumber = "test", StreetNumber = "test", Id = Guid.NewGuid() });
-
-            addressEntity.AddMeter("123", 10);
-
-            addressRepository.Get(addressEntity.Id).Returns(addressEntity);
-
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, addressFactory);
-
-            await
-                addressController.ProvideRead(new MeterRead()
-                {
-                    AddressId = addressEntity.Id,
-                    MeterSerialNumber = "123",
-                    Read = 30,
-                    ReadDate = DateTime.Now
-                });
-
-
-            await addressRepository.Received(1).Get(addressEntity.Id);
-
-            Assert.NotNull(addressEntity.GetUsages().First());
-        }
 
         [Fact]
         public async Task ShouldCheckInPersons()

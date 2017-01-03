@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Frameworks.Light.Ddd;
@@ -24,6 +24,8 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
         [JsonIgnore]
         public AddressInformation Information => _addressInformation?.Clone();
 
+        private Guid? _activeReadId;
+
         internal Address() { }
 
         internal Address(IMediator mediator)
@@ -41,25 +43,29 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             Mediator.Publish(new AddressCreated(Id, squareMeters));
         }
 
-        public Usage ProvideRead(double read, string meterSerialNumber, DateTime readDateTime)
+        public void BeginMeterReadProcess(Guid activeReadId)
         {
-            var meter = _meters.FirstOrDefault(i => i.Id == meterSerialNumber);
-
-            if (meter == null)
+            if (_activeReadId.HasValue)
             {
-                throw new MeterNotFoundException($"Meter with serial number: {meterSerialNumber} doesn't exist.");
+                throw new ActiveReadInProgressException(activeReadId.ToString());
             }
 
-            var oldState = meter.State;
+            _activeReadId = activeReadId;
 
-            meter.State = read;
-
-            var usage = Usage.Create(meterSerialNumber, Id, oldState, read, readDateTime, Mediator);
-
-            _usages.Add(usage.Id);
-
-            return usage;
+            Mediator.Publish(new MeterReadProcessBagan {AddressId = Id,Id = activeReadId,MeterSerialNumbers = _meters.Select(i=>i.Id)});
         }
+
+        public void FinishMeterReadProcess(Guid activeReadId)
+        {
+            if (_activeReadId != activeReadId)
+            {
+                throw new ActiveReadDoesnotExistException(activeReadId.ToString());
+            }
+
+            _activeReadId = null;
+        }
+
+     
 
         public void AddMeter(string meterSerialNumber, double state)
         {

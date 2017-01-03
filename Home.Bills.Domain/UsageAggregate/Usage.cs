@@ -9,33 +9,36 @@ namespace Home.Bills.Domain.UsageAggregate
     {
         public Guid AddressId { get; }
 
-        public string MeterSerialNumber { get; private set; }
+        public Guid MeterId { get; private set; }
 
-        public double Value { get; private set; }
+        public double Value { get; }
 
         public DateTime ReadDateTime { get; private set; }
 
         internal Usage() { }
 
-        private Usage(Guid id, Guid addressId, string meterSerialNumber, double usage, DateTime readDateTime, IMediator mediator)
+        private Usage(Guid id, Guid addressId, Guid meterId, double usage, DateTime readDateTime, IMediator mediator)
         {
             Mediator = mediator;
             AddressId = addressId;
             Id = id;
             Value = usage;
-            MeterSerialNumber = meterSerialNumber;
+            MeterId = meterId;
             ReadDateTime = readDateTime;
-            Mediator.Publish(new UsageCreated(usage, meterSerialNumber, readDateTime, addressId));
         }
 
-        public static Usage Create(string meterSerialNumber, Guid addressId, double previoudRead, double currentRead, DateTime readDateTime, IMediator mediator)
+        public static Usage Create(Guid usageId, Guid meterId, Guid addressId, double previoudRead, double currentRead, DateTime readDateTime, IMediator mediator)
         {
             if (previoudRead > currentRead)
             {
                 throw new InvalidOperationException("Previous read cannot be bigger than current read");
             }
 
-            return new Usage(Guid.NewGuid(), addressId, meterSerialNumber, currentRead - previoudRead, readDateTime, mediator);
+            var usage = new Usage(usageId, addressId, meterId, currentRead - previoudRead, readDateTime, mediator);
+
+            mediator.Publish(new UsageCreated(usage.Value, meterId, readDateTime, addressId));
+
+            return usage;
         }
 
         internal Usage Clone() => MemberwiseClone() as Usage;

@@ -53,28 +53,11 @@ namespace Home.Bills.Controllers
                 return StatusCode((int)HttpStatusCode.Conflict);
             }
 
-            var address = _addressFactory.Create(new AddressFactoryInput() { Street = data.Street, City = data.City, StreetNumber = data.StreetNumber, HomeNumber = data.HomeNumber });
+            var address = _addressFactory.Create(new AddressFactoryInput() { Street = data.Street, City = data.City, StreetNumber = data.StreetNumber, HomeNumber = data.HomeNumber, Id = Guid.NewGuid(), SquareMeters = data.SquareMeters });
 
             _addressRepository.Add(address);
 
             return CreatedAtRoute("GetAddress", new { id = address.Id }, address);
-        }
-
-        [HttpPut("ProvideRead")]
-        public async Task<IActionResult> ProvideRead([FromBody] MeterRead meterRead)
-        {
-            var address = await _addressRepository.Get(meterRead.AddressId);
-
-            if (address == null)
-            {
-                return NotFound(meterRead.AddressId);
-            }
-
-            address.ProvideRead(meterRead.Read, meterRead.MeterSerialNumber, meterRead.ReadDate);
-
-            _addressRepository.Update(address);
-
-            return StatusCode(204);
         }
 
         [HttpPut("AddMeter")]
