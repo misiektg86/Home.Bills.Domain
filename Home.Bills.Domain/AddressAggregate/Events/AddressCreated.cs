@@ -1,10 +1,9 @@
 ﻿using System;
 using Home.Bills.Domain.Messages;
-using MediatR;
 
 namespace Home.Bills.Domain.AddressAggregate.Events
 {
-    internal class AddressCreated : IAddressCreated, INotification
+    internal class AddressCreated : IAddressCreated
     {
         public Guid Id { get; }
         public double SquareMeters { get; }

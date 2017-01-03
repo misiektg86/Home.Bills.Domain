@@ -40,12 +40,12 @@ namespace Home.Bills.Domain.UsageAggregate
                 throw new MeterNotFoundException($"Meter with id: {meterId} doesn't exist.");
             }
 
-            Mediator.Publish(new ReadProvided() {OldRead = _meters[meterId], Read = read, MeterId = meterId, AddressId = _addressId, ReadDateTime = DateTime.Now});
+            MessageBus.Publish(new ReadProvided() {OldRead = _meters[meterId], Read = read, MeterId = meterId, AddressId = _addressId, ReadDateTime = DateTime.Now});
         }
 
         public void CreateUsage(double oldRead, double read, DateTime readDateTime, Guid meterId, Guid usageId)
         {
-            var usage = Usage.Create(usageId, meterId, _addressId, _meters[meterId], read, readDateTime, Mediator);
+            var usage = Usage.Create(usageId, meterId, _addressId, _meters[meterId], read, readDateTime, MessageBus);
 
             _usages.Add(usage);
 
@@ -53,7 +53,7 @@ namespace Home.Bills.Domain.UsageAggregate
             {
                 IsCompleted = true;
 
-                Mediator.Publish(new MeterReadCompleted() {MeterReadId = Id, AddressId = _addressId});
+                MessageBus.Publish(new MeterReadCompleted() {MeterReadId = Id, AddressId = _addressId});
             }
         }
     }

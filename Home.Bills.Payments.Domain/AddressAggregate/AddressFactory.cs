@@ -1,21 +1,21 @@
 ﻿using System;
 using Frameworks.Light.Ddd;
-using MediatR;
+using MassTransit;
 
 namespace Home.Bills.Payments.Domain.AddressAggregate
 {
     public class AddressFactory : IAggregateFactory<Address, AddressFactoryInput, Guid>
     {
-        private readonly IMediator _mediator;
+        private readonly IBus _messageBus;
 
-        public AddressFactory(IMediator mediator)
+        public AddressFactory(IBus messageBus)
         {
-            _mediator = mediator;
+            _messageBus = messageBus;
         }
 
         public Address Create(AddressFactoryInput input)
         {
-            return new Address(input.AddressId, input.SquareMeters, _mediator);
+            return new Address(input.AddressId, input.SquareMeters, _messageBus);
         }
     }
 }

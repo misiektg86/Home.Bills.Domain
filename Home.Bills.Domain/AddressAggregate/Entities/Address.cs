@@ -5,7 +5,7 @@ using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Domain.AddressAggregate.ValueObjects;
-using MediatR;
+using MassTransit;
 using Newtonsoft.Json;
 
 namespace Home.Bills.Domain.AddressAggregate.Entities
@@ -25,18 +25,18 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
         internal Address() { }
 
-        internal Address(IMediator mediator)
+        internal Address(IBus messageBus)
         {
-            Mediator = mediator;
+            MessageBus = messageBus;
         }
 
-        internal Address(string street, string city, string stretNumber, string homeNumber, List<Guid> meters, Guid id, IMediator mediator, double squareMeters) : this(mediator)
+        internal Address(string street, string city, string stretNumber, string homeNumber, List<Guid> meters, Guid id, IBus messageBus, double squareMeters) : this(messageBus)
         {
             Id = id;
             _addressInformation = new AddressInformation(street, city, stretNumber, homeNumber, id, squareMeters);
             _meters = meters;
 
-            Mediator.Publish(new AddressCreated(Id, squareMeters));
+            MessageBus.Publish(new AddressCreated(Id, squareMeters));
         }
 
         public void BeginMeterReadProcess(Guid activeReadId)
@@ -48,7 +48,7 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
             _activeReadId = activeReadId;
 
-            Mediator.Publish(new MeterReadProcessBagan {AddressId = Id,Id = activeReadId,MeterSerialNumbers = _meters.ToList()});
+            MessageBus.Publish(new MeterReadProcessBagan {AddressId = Id,Id = activeReadId,MeterSerialNumbers = _meters.ToList()});
         }
 
         public void FinishMeterReadProcess(Guid activeReadId)
@@ -70,15 +70,15 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
             _meters.Add(meterId);
 
-            Mediator.Publish(new MeterAssigned(meterId, Id));
+            MessageBus.Publish(new MeterAssigned(meterId, Id));
         }
 
         public void CheckInPersons(int persons)
         {
             CheckedInPersons += persons;
 
-            Mediator.Publish(new PersonsCheckedIn(Id, persons));
-            Mediator.Publish(new PersonsStatusChanged(Id, CheckedInPersons));
+            MessageBus.Publish(new PersonsCheckedIn(Id, persons));
+            MessageBus.Publish(new PersonsStatusChanged(Id, CheckedInPersons));
         }
 
         public void CheckOutPersons(int persons)
@@ -90,8 +90,8 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
             CheckedInPersons -= persons;
 
-            Mediator.Publish(new PersonsCheckedOut(Id, persons));
-            Mediator.Publish(new PersonsStatusChanged(Id, CheckedInPersons));
+            MessageBus.Publish(new PersonsCheckedOut(Id, persons));
+            MessageBus.Publish(new PersonsStatusChanged(Id, CheckedInPersons));
         }
 
         public void RemoveMeter(Guid meterId)
@@ -105,7 +105,7 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
             _meters.Remove(meterId);
 
-            Mediator.Publish(new MeterRemoved() {MeterId = meterId, AddressId = Id});
+            MessageBus.Publish(new MeterRemoved() {MeterId = meterId, AddressId = Id});
         }
 
         public IEnumerable<Guid> GetMeters()

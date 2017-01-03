@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Home.Bills.Infrastructure;
 using Home.Bills.Payments.Domain.AddressAggregate;
-using MediatR;
+using MassTransit;
 using NSubstitute;
 using Xunit;
 
@@ -19,7 +18,7 @@ namespace Home.Bills.Payments.Domain.Tests
         {
             _martenDatabaseFixture = martenDatabaseFixture;
 
-            _addressFactory = new AddressFactory(Substitute.For<IMediator>());
+            _addressFactory = new AddressFactory(Substitute.For<IBus>());
         }
 
         [Fact]
@@ -130,7 +129,7 @@ namespace Home.Bills.Payments.Domain.Tests
         public void ShouldPersistAddressAggregate()
         {
             var session = _martenDatabaseFixture.DocumentStore.OpenSession();
-            var addressRepository = new GenericMartenRepository<Address>(session, new Mediator(type => new object(), type => new List<object>()));
+            var addressRepository = new GenericMartenRepository<Address>(session, Substitute.For<IBus>());
 
             var address = CreateAddress();
 
@@ -152,7 +151,7 @@ namespace Home.Bills.Payments.Domain.Tests
 
             session = _martenDatabaseFixture.DocumentStore.OpenSession();
 
-            addressRepository = new GenericMartenRepository<Address>(session, new Mediator(type => new object(), type => new List<object>()));
+            addressRepository = new GenericMartenRepository<Address>(session, Substitute.For<IBus>());
 
             address = addressRepository.Get(addressId).Result;
 

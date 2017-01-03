@@ -1,9 +1,8 @@
 ﻿using System;
-using MediatR;
 
 namespace Home.Bills.Domain.UsageAggregate
 {
-    internal class ReadProvided : INotification
+    internal class ReadProvided
     {
         public Guid AddressId { get; set; }
         public Guid MeterId { get; set; }

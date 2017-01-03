@@ -1,9 +1,8 @@
 ﻿using System;
-using MediatR;
 
 namespace Home.Bills.Payments.Domain.Commands
 {
-    public class RegisterUsage : INotification, IAsyncNotification
+    public class RegisterUsage
     {
         public string MeterSerialNumber { get; set; }
         public DateTime ReadDateTime { get; set; }

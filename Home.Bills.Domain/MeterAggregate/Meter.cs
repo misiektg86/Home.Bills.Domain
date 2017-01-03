@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Frameworks.Light.Ddd;
-using MediatR;
+using MassTransit;
 
 namespace Home.Bills.Domain.MeterAggregate
 {
@@ -15,7 +15,7 @@ namespace Home.Bills.Domain.MeterAggregate
 
         internal Meter() { }
 
-        internal Meter(Guid id, Guid? addressId, double state, string serialNumber, IMediator mediator) : base(mediator)
+        internal Meter(Guid id, Guid? addressId, double state, string serialNumber, IBus messageBus) : base(messageBus)
         {
             AddressId = addressId;
             State = state;
@@ -32,7 +32,7 @@ namespace Home.Bills.Domain.MeterAggregate
 
             AddressId = addressId;
 
-            Mediator.Publish(new MeterMountedAtAddress() { AddressId = AddressId.Value, MeterSerialNumber = SerialNumber, MeterId = Id });
+            MessageBus.Publish(new MeterMountedAtAddress() { AddressId = AddressId.Value, MeterSerialNumber = SerialNumber, MeterId = Id });
         }
 
         public void UnmountAtAddress(Guid addressId)
@@ -44,7 +44,7 @@ namespace Home.Bills.Domain.MeterAggregate
 
             AddressId = null;
 
-            Mediator.Publish(new MeterUnmountedAtAddress() { AddressId = addressId, MeterId = Id, MeterSerialNumber = SerialNumber });
+            MessageBus.Publish(new MeterUnmountedAtAddress() { AddressId = addressId, MeterId = Id, MeterSerialNumber = SerialNumber });
         }
 
         public void UpdateState(double state)
@@ -56,14 +56,14 @@ namespace Home.Bills.Domain.MeterAggregate
 
             State = state;
 
-            Mediator.Publish(new MeterStateUpdated() { AddressId = AddressId, MeterId = Id, MeterSerialNumber = SerialNumber });
+            MessageBus.Publish(new MeterStateUpdated() { AddressId = AddressId, MeterId = Id, MeterSerialNumber = SerialNumber });
         }
 
         public void CorrectState(double state)
         {
             State = state;
 
-            Mediator.Publish(new MeterStateCorrected() { AddressId = AddressId, MeterId = Id, MeterSerialNumber = SerialNumber });
+            MessageBus.Publish(new MeterStateCorrected() { AddressId = AddressId, MeterId = Id, MeterSerialNumber = SerialNumber });
         }
     }
 }

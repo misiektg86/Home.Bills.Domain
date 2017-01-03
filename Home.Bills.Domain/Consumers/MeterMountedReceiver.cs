@@ -4,12 +4,11 @@ using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Domain.MeterAggregate;
 using Marten;
-using MassTransit.Util;
-using MediatR;
+using MassTransit;
 
-namespace Home.Bills.Domain.Receivers
+namespace Home.Bills.Domain.Consumers
 {
-    public class MeterMountedReceiver : IAsyncNotificationHandler<MeterMountedAtAddress>, INotificationHandler<MeterMountedAtAddress>
+    public class MeterMountedReceiver : IConsumer<MeterMountedAtAddress>
     {
         private readonly IRepository<Address, Guid> _addressRepository;
         private readonly IDocumentSession _documentSession;
@@ -20,20 +19,15 @@ namespace Home.Bills.Domain.Receivers
             _documentSession = documentSession;
         }
 
-        public async Task Handle(MeterMountedAtAddress notification)
+        public async Task Consume(ConsumeContext<MeterMountedAtAddress> context)
         {
-            var address = await _addressRepository.Get(notification.AddressId);
+            var address = await _addressRepository.Get(context.Message.AddressId);
 
-            address.AssignMeter(notification.MeterId);
+            address.AssignMeter(context.Message.MeterId);
 
             _addressRepository.Update(address);
 
             await _documentSession.SaveChangesAsync();
-        }
-
-        void INotificationHandler<MeterMountedAtAddress>.Handle(MeterMountedAtAddress notification)
-        {
-            TaskUtil.Await(async () => await Handle(notification));
         }
     }
 }

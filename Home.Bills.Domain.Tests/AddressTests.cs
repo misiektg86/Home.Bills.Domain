@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
-using MediatR;
+using MassTransit;
 using Xunit;
 
 namespace Home.Bills.Domain.Tests
@@ -14,7 +13,7 @@ namespace Home.Bills.Domain.Tests
 
         public AddressTests()
         {
-            _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IMediator>());
+            _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IBus>());
         }
 
         [Fact]

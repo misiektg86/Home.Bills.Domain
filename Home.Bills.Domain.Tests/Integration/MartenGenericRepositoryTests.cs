@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.Entities;
-using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Infrastructure;
 using Marten;
-using MediatR;
+using MassTransit;
 using Xunit;
 
 namespace Home.Bills.Domain.Tests.Integration
@@ -23,7 +21,7 @@ namespace Home.Bills.Domain.Tests.Integration
             _fixture = fixture;
             _session = fixture.DocumentStore.OpenSession();
 
-            _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IMediator>());
+            _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IBus>());
         }
 
         [Fact]
@@ -63,7 +61,7 @@ namespace Home.Bills.Domain.Tests.Integration
 
         private GenericMartenRepository<Address> CreateGenericMartenRepository()
         {
-            var repository = new GenericMartenRepository<Address>(_session, new Mediator(type => new object(), type => new List<object>()));
+            var repository = new GenericMartenRepository<Address>(_session, NSubstitute.Substitute.For<IBus>());
             return repository;
         }
 

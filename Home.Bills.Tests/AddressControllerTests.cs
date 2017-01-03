@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Controllers;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
-using MediatR;
 using NSubstitute;
 using Xunit;
 using Address = Home.Bills.Domain.AddressAggregate.Entities.Address;
 using Home.Bills.Models;
+using MassTransit;
 
 namespace Home.Bills.Tests
 {
@@ -25,7 +24,7 @@ namespace Home.Bills.Tests
             addressDataProvider.AddressExists(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(false);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IMediator>()));
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IBus>()));
 
             await
                 addressController.Post(new Models.Address()
@@ -48,7 +47,7 @@ namespace Home.Bills.Tests
             addressDataProvider.AddressExists(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(true);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IMediator>()));
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IBus>()));
 
             await
                 addressController.Post(new Models.Address()
@@ -69,7 +68,7 @@ namespace Home.Bills.Tests
 
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
 
-            var addressFactory = new AddressFactory(Substitute.For<IMediator>());
+            var addressFactory = new AddressFactory(Substitute.For<IBus>());
 
             var addressEntity = addressFactory.Create(new AddressFactoryInput() {City = "test",Street = "test", HomeNumber = "test", StreetNumber = "test", Id = Guid.NewGuid()});
 
@@ -87,13 +86,13 @@ namespace Home.Bills.Tests
         {
             var addressRepository = Substitute.For<IRepository<Address, Guid>>();
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
-            var addressFactory = new AddressFactory(Substitute.For<IMediator>());
+            var addressFactory = new AddressFactory(Substitute.For<IBus>());
 
             Guid entityId = Guid.NewGuid();
 
             addressRepository.Get(entityId).Returns(default(Address));
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IMediator>()));
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IBus>()));
 
             await addressController.Delete(entityId);
 
@@ -106,7 +105,7 @@ namespace Home.Bills.Tests
         {
             var addressRepository = Substitute.For<IRepository<Address, Guid>>();
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
-            var addressFactory = new AddressFactory(Substitute.For<IMediator>());
+            var addressFactory = new AddressFactory(Substitute.For<IBus>());
 
             var addressEntity = addressFactory.Create(new AddressFactoryInput() { City = "test", Street = "test", HomeNumber = "test", StreetNumber = "test", Id = Guid.NewGuid() });
 
@@ -132,7 +131,7 @@ namespace Home.Bills.Tests
         {
             var addressRepository = Substitute.For<IRepository<Address, Guid>>();
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
-            var addressFactory = new AddressFactory(Substitute.For<IMediator>());
+            var addressFactory = new AddressFactory(Substitute.For<IBus>());
 
             var addressEntity = addressFactory.Create(new AddressFactoryInput() { City = "test", Street = "test", HomeNumber = "test", StreetNumber = "test", Id = Guid.NewGuid() });
 

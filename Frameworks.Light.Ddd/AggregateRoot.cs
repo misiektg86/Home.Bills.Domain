@@ -1,4 +1,4 @@
-using MediatR;
+using MassTransit;
 using Newtonsoft.Json;
 
 namespace Frameworks.Light.Ddd
@@ -7,12 +7,12 @@ namespace Frameworks.Light.Ddd
     {
         protected AggregateRoot(){}
 
-        protected AggregateRoot(IMediator mediator)
+        protected AggregateRoot(IBus messageBus)
         {
-            Mediator = mediator;
+            MessageBus = messageBus;
         }
 
         [JsonIgnore]
-        protected IMediator Mediator { get; set; }
+        protected IBus MessageBus { get; set; }
     }
 }

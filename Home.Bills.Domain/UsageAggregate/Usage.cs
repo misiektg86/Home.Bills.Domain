@@ -1,7 +1,7 @@
 ﻿using System;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Events;
-using MediatR;
+using MassTransit;
 
 namespace Home.Bills.Domain.UsageAggregate
 {
@@ -17,9 +17,9 @@ namespace Home.Bills.Domain.UsageAggregate
 
         internal Usage() { }
 
-        private Usage(Guid id, Guid addressId, Guid meterId, double usage, DateTime readDateTime, IMediator mediator)
+        private Usage(Guid id, Guid addressId, Guid meterId, double usage, DateTime readDateTime, IBus messageBus)
         {
-            Mediator = mediator;
+            MessageBus = messageBus;
             AddressId = addressId;
             Id = id;
             Value = usage;
@@ -27,16 +27,16 @@ namespace Home.Bills.Domain.UsageAggregate
             ReadDateTime = readDateTime;
         }
 
-        public static Usage Create(Guid usageId, Guid meterId, Guid addressId, double previoudRead, double currentRead, DateTime readDateTime, IMediator mediator)
+        public static Usage Create(Guid usageId, Guid meterId, Guid addressId, double previoudRead, double currentRead, DateTime readDateTime, IBus mesageBus)
         {
             if (previoudRead > currentRead)
             {
                 throw new InvalidOperationException("Previous read cannot be bigger than current read");
             }
 
-            var usage = new Usage(usageId, addressId, meterId, currentRead - previoudRead, readDateTime, mediator);
+            var usage = new Usage(usageId, addressId, meterId, currentRead - previoudRead, readDateTime, mesageBus);
 
-            mediator.Publish(new UsageCreated(usage.Value, meterId, readDateTime, addressId));
+            mesageBus.Publish(new UsageCreated(usage.Value, meterId, readDateTime, addressId));
 
             return usage;
         }

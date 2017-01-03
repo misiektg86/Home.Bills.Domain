@@ -2,25 +2,22 @@
 using System.Collections.Generic;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Entities;
-using Home.Bills.Domain.AddressAggregate.Exceptions;
-using Home.Bills.Domain.AddressAggregate.ValueObjects;
-using Home.Bills.Domain.UsageAggregate;
-using MediatR;
+using MassTransit;
 
 namespace Home.Bills.Domain.AddressAggregate
 {
     public class AddressFactory : IAggregateFactory<Address, AddressFactoryInput, Guid>
     {
-        private readonly IMediator _mediator;
+        private readonly IBus _messageBus;
 
-        public AddressFactory(IMediator mediator)
+        public AddressFactory(IBus messageBus)
         {
-            _mediator = mediator;
+            _messageBus = messageBus;
         }
 
         public Address Create(AddressFactoryInput input)
         {
-            return new Address(input.Street, input.City, input.StreetNumber, input.HomeNumber, new List<Guid>(), input.Id, _mediator, input.SquareMeters);
+            return new Address(input.Street, input.City, input.StreetNumber, input.HomeNumber, new List<Guid>(), input.Id, _messageBus, input.SquareMeters);
         }
     }
 }

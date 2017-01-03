@@ -1,9 +1,8 @@
 ﻿using System;
-using MediatR;
 
 namespace Home.Bills.Domain.AddressAggregate.Events
 {
-    public class PersonsStatusChanged : INotification
+    public class PersonsStatusChanged
     {
         public Guid Id { get; set; }
         public int CheckedInPersons { get; set; }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Home.Bills.DataAccess.Dto;
 using Marten;
@@ -8,6 +10,7 @@ namespace Home.Bills.DataAccess
     public interface IMeterDataProvider
     {
         Task<Meter> GetMeter(Guid meterId);
+        Task<IEnumerable<Meter>> GetAllMeters(Guid addressId);
     }
 
     internal class MeterDataProvider : IMeterDataProvider
@@ -35,6 +38,19 @@ namespace Home.Bills.DataAccess
                 SerialNumber = meter.SerialNumber,
                 State = meter.State
             };
+        }
+
+        public async Task<IEnumerable<Meter>> GetAllMeters(Guid addressId)
+        {
+            return
+                await _session.Query<Domain.MeterAggregate.Meter>().Where(i => i.AddressId == addressId).Select(meter =>
+                     new Meter
+                     {
+                         AddressId = meter.AddressId,
+                         MeterId = meter.Id,
+                         SerialNumber = meter.SerialNumber,
+                         State = meter.State
+                     }).ToListAsync();
         }
     }
 }

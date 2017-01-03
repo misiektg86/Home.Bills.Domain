@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Home.Bills.DataAccess;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.Entities;
 using Home.Bills.Domain.Tests.Integration;
 using Home.Bills.Domain.UsageAggregate;
 using Home.Bills.Infrastructure;
 using Marten;
-using MediatR;
+using MassTransit;
 using Xunit;
 
 namespace Home.Bills.Domain.Tests
@@ -23,10 +21,10 @@ namespace Home.Bills.Domain.Tests
         public UsageDomainServiceTests(MartenDatabaseFixture martenDatabaseFixture)
         {
             _martenDatabaseFixture = martenDatabaseFixture;
-            _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IMediator>());
+            _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IBus>());
             _documentSession = martenDatabaseFixture.DocumentStore.OpenSession();
-            _addressRepository = new GenericMartenRepository<Address>(_documentSession, NSubstitute.Substitute.For<IMediator>());
-            _usageRepository = new GenericMartenRepository<Usage>(_documentSession, NSubstitute.Substitute.For<IMediator>());
+            _addressRepository = new GenericMartenRepository<Address>(_documentSession, NSubstitute.Substitute.For<IBus>());
+            _usageRepository = new GenericMartenRepository<Usage>(_documentSession, NSubstitute.Substitute.For<IBus>());
         }
 
         //[Fact]

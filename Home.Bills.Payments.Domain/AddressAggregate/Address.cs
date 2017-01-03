@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Frameworks.Light.Ddd;
-using MediatR;
+using MassTransit;
 
 namespace Home.Bills.Payments.Domain.AddressAggregate
 {
@@ -26,12 +26,12 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
 
         private double _squereMeters;
 
-        internal Address(IMediator mediator)
+        internal Address(IBus messageBus)
         {
-            Mediator = mediator;
+            MessageBus = messageBus;
         }
 
-        internal Address(Guid id, double squareMeters, IMediator mediator) : this(mediator)
+        internal Address(Guid id, double squareMeters, IBus messageBus) : this(messageBus)
         {
             _squareMeters = squareMeters;
             _rentforApartmentPolicy = new StandardRentForApartmentPolicy();

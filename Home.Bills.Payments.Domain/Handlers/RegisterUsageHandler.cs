@@ -4,11 +4,11 @@ using Frameworks.Light.Ddd;
 using Home.Bills.Payments.Domain.AddressAggregate;
 using Home.Bills.Payments.Domain.Commands;
 using Marten;
-using MediatR;
+using MassTransit;
 
 namespace Home.Bills.Payments.Domain.Handlers
 {
-    public class RegisteredUsageHandler : IAsyncNotificationHandler<RegisterUsage>
+    public class RegisteredUsageHandler : IConsumer<RegisterUsage>
     {
         private readonly IDocumentSession _documentSession;
         private readonly IRepository<Address, Guid> _addressRepository;
@@ -19,11 +19,11 @@ namespace Home.Bills.Payments.Domain.Handlers
             _addressRepository = addressRepository;
         }
 
-        public async Task Handle(RegisterUsage notification)
+        public async Task Consume(ConsumeContext<RegisterUsage> context)
         {
-            var address = await _addressRepository.Get(notification.AddressId);
+            var address = await _addressRepository.Get(context.Message.AddressId);
 
-            address.RegisterUsage(notification.MeterSerialNumber, notification.Value);
+            address.RegisterUsage(context.Message.MeterSerialNumber, context.Message.Value);
 
             _addressRepository.Update(address);
 

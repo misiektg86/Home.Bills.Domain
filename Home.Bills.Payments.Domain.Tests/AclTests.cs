@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.Messages;
-using Home.Bills.Infrastructure;
 using Home.Bills.Payments.Domain.AddressAggregate;
-using Marten;
-using MediatR;
 using Xunit;
 
 namespace Home.Bills.Payments.Domain.Tests
@@ -28,7 +24,7 @@ namespace Home.Bills.Payments.Domain.Tests
 
             await _infrastructureFixture.Bus.Publish<IAddressCreated>(new { Id = addressId, SquareMeters = 50.00 });
 
-            await Task.Delay(500);
+            await Task.Delay(1000);
 
             var addressRepository = _infrastructureFixture.AutofacContainer.Resolve<IRepository<Address, Guid>>();
 

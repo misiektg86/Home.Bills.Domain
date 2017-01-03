@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Payments.Domain.AddressAggregate;
 using Home.Bills.Payments.Domain.Commands;
 using Marten;
-using MediatR;
+using MassTransit;
 
 namespace Home.Bills.Payments.Domain.Handlers
 {
-    public class CreateAddressHandler : INotificationHandler<CreateAddress>
+    public class CreateAddressHandler : IConsumer<CreateAddress>
     {
         private readonly IAggregateFactory<Address, AddressFactoryInput, Guid> _factory;
         private readonly IRepository<Address, Guid> _addressRepository;
@@ -20,13 +21,13 @@ namespace Home.Bills.Payments.Domain.Handlers
             _documentSession = documentSession;
         }
 
-        public void Handle(CreateAddress notification)
+        public async Task Consume(ConsumeContext<CreateAddress> context)
         {
-            var address = _factory.Create(new AddressFactoryInput() { AddressId = notification.Id, SquareMeters = notification.SquareMeters });
+            var address = _factory.Create(new AddressFactoryInput() { AddressId = context.Message.Id, SquareMeters = context.Message.SquareMeters });
 
             _addressRepository.Add(address);
 
-            _documentSession.SaveChanges();
+           await _documentSession.SaveChangesAsync();
         }
     }
 }

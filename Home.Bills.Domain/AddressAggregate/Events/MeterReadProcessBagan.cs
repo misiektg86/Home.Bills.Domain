@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Home.Bills.Domain.AddressAggregate.ValueObjects;
-using MediatR;
 
 namespace Home.Bills.Domain.AddressAggregate.Events
 {
-    public class MeterReadProcessBagan : INotification
+    public class MeterReadProcessBagan
     {
         public Guid Id { get; set; }
 

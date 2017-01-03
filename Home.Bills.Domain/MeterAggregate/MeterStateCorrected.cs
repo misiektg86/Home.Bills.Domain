@@ -1,9 +1,8 @@
 ﻿using System;
-using MediatR;
 
 namespace Home.Bills.Domain.MeterAggregate
 {
-    internal class MeterStateCorrected : INotification
+    internal class MeterStateCorrected
     {
         public Guid? AddressId { get; set; }
         public Guid MeterId { get; set; }

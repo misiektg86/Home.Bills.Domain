@@ -4,19 +4,19 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Marten;
-using MediatR;
+using MassTransit;
 
 namespace Home.Bills.Infrastructure
 {
     public class GenericMartenRepository<TEntity> : IRepository<TEntity, Guid> where TEntity : AggregateRoot<Guid>
     {
         private readonly IDocumentSession _session;
-        private readonly IMediator _mediator;
+        private readonly IBus _messageBus;
 
-        public GenericMartenRepository(IDocumentSession session, IMediator mediator)
+        public GenericMartenRepository(IDocumentSession session, IBus messageBus)
         {
             _session = session;
-            _mediator = mediator;
+            _messageBus = messageBus;
         }
 
         public async Task<TEntity> Get(Guid id)
@@ -50,15 +50,15 @@ namespace Home.Bills.Infrastructure
 
         private void SetMediator(TEntity entity) // change to Marten listener or Newtonsoft.Json configuration
         {
-            var mediatorProperty = entity.GetType()
+            var busProperty = entity.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.NonPublic)
-                .FirstOrDefault(i => i.PropertyType == typeof(IMediator));
-            if (mediatorProperty == null)
+                .FirstOrDefault(i => i.PropertyType == typeof(IBus));
+            if (busProperty == null)
             {
                 return;
             }
 
-            mediatorProperty.SetValue(entity, _mediator);
+            busProperty.SetValue(entity, _messageBus);
         }
     }
 }
