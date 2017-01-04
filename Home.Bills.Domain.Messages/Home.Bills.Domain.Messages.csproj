@@ -42,9 +42,10 @@
   <ItemGroup>
     <Compile Include="IAddressCreated.cs" />
     <Compile Include="IMeterAdded.cs" />
+    <Compile Include="IMeterReadProcessFinished.cs" />
     <Compile Include="IPersonsCheckedIn.cs" />
     <Compile Include="IPersonsCheckedOut.cs" />
-    <Compile Include="IUsageCreated.cs" />
+    <Compile Include="IUsageCalculated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

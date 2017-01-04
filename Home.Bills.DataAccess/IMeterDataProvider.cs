@@ -11,9 +11,11 @@ namespace Home.Bills.DataAccess
     {
         Task<Meter> GetMeter(Guid meterId);
         Task<IEnumerable<Meter>> GetAllMeters(Guid addressId);
+
+        Task<IEnumerable<Meter>> GetAllMeters();
     }
 
-    internal class MeterDataProvider : IMeterDataProvider
+    public class MeterDataProvider : IMeterDataProvider
     {
         private readonly IDocumentSession _session;
 
@@ -44,6 +46,19 @@ namespace Home.Bills.DataAccess
         {
             return
                 await _session.Query<Domain.MeterAggregate.Meter>().Where(i => i.AddressId == addressId).Select(meter =>
+                     new Meter
+                     {
+                         AddressId = meter.AddressId,
+                         MeterId = meter.Id,
+                         SerialNumber = meter.SerialNumber,
+                         State = meter.State
+                     }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Meter>> GetAllMeters()
+        {
+            return
+                await _session.Query<Domain.MeterAggregate.Meter>().Select(meter =>
                      new Meter
                      {
                          AddressId = meter.AddressId,

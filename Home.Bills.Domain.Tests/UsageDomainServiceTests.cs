@@ -1,9 +1,9 @@
 ﻿using System;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate;
-using Home.Bills.Domain.AddressAggregate.Entities;
+using Home.Bills.Domain.AddressAggregate.Events;
+using Home.Bills.Domain.MeterReadAggregate;
 using Home.Bills.Domain.Tests.Integration;
-using Home.Bills.Domain.UsageAggregate;
 using Marten;
 using MassTransit;
 using Xunit;
@@ -15,7 +15,7 @@ namespace Home.Bills.Domain.Tests
         private readonly MartenDatabaseFixture _martenDatabaseFixture;
         private AddressFactory _addressFactory;
         private GenericMartenRepository<Address> _addressRepository;
-        private GenericMartenRepository<Usage> _usageRepository;
+        //private GenericMartenRepository<Usage> _usageRepository;
         private IDocumentSession _documentSession;
 
         public UsageDomainServiceTests(MartenDatabaseFixture martenDatabaseFixture)
@@ -24,7 +24,7 @@ namespace Home.Bills.Domain.Tests
             _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IBus>());
             _documentSession = martenDatabaseFixture.DocumentStore.OpenSession();
             _addressRepository = new GenericMartenRepository<Address>(_documentSession, NSubstitute.Substitute.For<IBus>());
-            _usageRepository = new GenericMartenRepository<Usage>(_documentSession, NSubstitute.Substitute.For<IBus>());
+          //  _usageRepository = new GenericMartenRepository<Usage>(_documentSession, NSubstitute.Substitute.For<IBus>());
         }
 
         //[Fact]

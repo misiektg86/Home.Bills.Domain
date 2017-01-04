@@ -20,6 +20,7 @@
     <ProjectReference Include="..\Home.Bills.DataAccess\Home.Bills.DataAccess.csproj" />
     <ProjectReference Include="..\Home.Bills.Domain\Home.Bills.Domain.csproj" />
     <ProjectReference Include="..\Home.Bills.Infrastructure\Home.Bills.Infrastructure.csproj" />
+    <ProjectReference Include="..\Home.Bills.Payments.Acl\Home.Bills.Payments.Acl.csproj" />
     <ProjectReference Include="..\Home.Bills.Payments.DataAccess\Home.Bills.Payments.DataAccess.csproj" />
     <ProjectReference Include="..\Home.Bills.Payments.Domain\Home.Bills.Payments.Domain.csproj" />
   </ItemGroup>

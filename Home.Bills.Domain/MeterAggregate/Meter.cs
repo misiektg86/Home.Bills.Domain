@@ -21,6 +21,10 @@ namespace Home.Bills.Domain.MeterAggregate
             State = state;
             SerialNumber = serialNumber;
             Id = id;
+            if (addressId.HasValue)
+            {
+                Publish(new MeterMountedAtAddress() { AddressId = AddressId.Value, MeterSerialNumber = SerialNumber, MeterId = Id });
+            }
         }
 
         public void MountAtAddress(Guid addressId)
@@ -32,7 +36,7 @@ namespace Home.Bills.Domain.MeterAggregate
 
             AddressId = addressId;
 
-            MessageBus.Publish(new MeterMountedAtAddress() { AddressId = AddressId.Value, MeterSerialNumber = SerialNumber, MeterId = Id });
+            Publish(new MeterMountedAtAddress() { AddressId = AddressId.Value, MeterSerialNumber = SerialNumber, MeterId = Id });
         }
 
         public void UnmountAtAddress(Guid addressId)
@@ -44,7 +48,7 @@ namespace Home.Bills.Domain.MeterAggregate
 
             AddressId = null;
 
-            MessageBus.Publish(new MeterUnmountedAtAddress() { AddressId = addressId, MeterId = Id, MeterSerialNumber = SerialNumber });
+            Publish(new MeterUnmountedAtAddress() { AddressId = addressId, MeterId = Id, MeterSerialNumber = SerialNumber });
         }
 
         public void UpdateState(double state)
@@ -56,14 +60,14 @@ namespace Home.Bills.Domain.MeterAggregate
 
             State = state;
 
-            MessageBus.Publish(new MeterStateUpdated() { AddressId = AddressId, MeterId = Id, MeterSerialNumber = SerialNumber });
+            Publish(new MeterStateUpdated() { AddressId = AddressId, MeterId = Id, MeterSerialNumber = SerialNumber, State = state });
         }
 
         public void CorrectState(double state)
         {
             State = state;
 
-            MessageBus.Publish(new MeterStateCorrected() { AddressId = AddressId, MeterId = Id, MeterSerialNumber = SerialNumber });
+            Publish(new MeterStateCorrected() { AddressId = AddressId, MeterId = Id, MeterSerialNumber = SerialNumber });
         }
     }
 }

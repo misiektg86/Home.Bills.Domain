@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -68,7 +69,16 @@ namespace Home.Bills
 
             app.UseSwaggerUi();
 
-            appLifetime.ApplicationStopped.Register(() => ApplicationContainer.Dispose());
+            appLifetime.ApplicationStopped.Register(() =>
+            {
+                ApplicationContainer.Resolve<IBusControl>().Stop();
+                ApplicationContainer.Dispose();
+            });
+
+            appLifetime.ApplicationStarted.Register(() =>
+            {
+                ApplicationContainer.Resolve<IBusControl>().Start();
+            });
         }
     }
 }

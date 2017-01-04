@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Payments.Domain;
 using Marten;
 using MassTransit;
-using MediatR;
 using NSubstitute;
 using Xunit;
 

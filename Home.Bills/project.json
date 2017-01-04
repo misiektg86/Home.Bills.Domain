@@ -3,7 +3,7 @@
     "Autofac.Extensions.DependencyInjection": "4.0.0",
     "Marten": "1.1.0",
     "MassTransit": "3.5.2",
-    "MediatR": "2.1.0",
+    "MassTransit.Autofac": "3.5.2",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.0.1",
     "Microsoft.AspNetCore.Routing": "1.0.1",
@@ -37,6 +37,9 @@
           "target": "project"
         },
         "Home.Bills.Infrastructure": {
+          "target": "project"
+        },
+        "Home.Bills.Payments.Acl": {
           "target": "project"
         },
         "Home.Bills.Payments.DataAccess": {

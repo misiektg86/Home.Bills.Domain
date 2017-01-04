@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Home.Bills.Domain.UsageAggregate
+namespace Home.Bills.Domain.MeterReadAggregate
 {
     internal class MeterReadCompleted
     {

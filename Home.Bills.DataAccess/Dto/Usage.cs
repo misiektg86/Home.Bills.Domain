@@ -13,5 +13,9 @@ namespace Home.Bills.DataAccess.Dto
         public Guid MeterId { get; set; }
 
         public DateTime ReadDateTime { get; set; }
+
+        public double PrevioudRead { get; set; }
+
+        public double CurrentRead { get; set; }
     }
 }

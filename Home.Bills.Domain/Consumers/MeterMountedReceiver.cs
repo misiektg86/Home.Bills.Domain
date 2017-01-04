@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
-using Home.Bills.Domain.AddressAggregate.Entities;
+using Home.Bills.Domain.AddressAggregate;
+using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.MeterAggregate;
 using Marten;
 using MassTransit;

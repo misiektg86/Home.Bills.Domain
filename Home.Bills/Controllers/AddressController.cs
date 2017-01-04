@@ -6,7 +6,7 @@ using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Models;
 using Microsoft.AspNetCore.Mvc;
-using Address = Home.Bills.Domain.AddressAggregate.Entities.Address;
+using Address = Home.Bills.Domain.AddressAggregate.Events.Address;
 
 namespace Home.Bills.Controllers
 {
@@ -58,6 +58,40 @@ namespace Home.Bills.Controllers
             _addressRepository.Add(address);
 
             return CreatedAtRoute("GetAddress", new { id = address.Id }, address);
+        }
+
+        [HttpPut("BeginMeterReadProcess",Name = "BeginMeterReadProcess")]
+        public async Task<IActionResult> BeginMeterReadProcess([FromBody] MeterRead meter)
+        {
+            var address = await _addressRepository.Get(meter.AddressId);
+
+            if (address == null)
+            {
+                return NotFound(meter.AddressId);
+            }
+
+            address.BeginMeterReadProcess(meter.MeterReadId);
+
+            _addressRepository.Update(address);
+
+            return StatusCode(204);
+        }
+
+        [HttpPut("FinishMeterReadProcess", Name = "FinishMeterReadProcess")]
+        public async Task<IActionResult> FinishMeterReadProcess([FromBody] MeterRead meter)
+        {
+            var address = await _addressRepository.Get(meter.AddressId);
+
+            if (address == null)
+            {
+                return NotFound(meter.AddressId);
+            }
+
+            address.FinishMeterReadProcess(meter.MeterReadId);
+
+            _addressRepository.Update(address);
+
+            return StatusCode(204);
         }
 
         [HttpPut("AssignMeter")]

@@ -2,18 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Frameworks.Light.Ddd;
-using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Domain.AddressAggregate.ValueObjects;
 using MassTransit;
 using Newtonsoft.Json;
 
-namespace Home.Bills.Domain.AddressAggregate.Entities
+namespace Home.Bills.Domain.AddressAggregate.Events
 {
     public class Address : AggregateRoot<Guid>
     {
         private List<Guid> _meters;
-        
+
         private AddressInformation _addressInformation;
 
         public int CheckedInPersons { get; private set; }
@@ -21,7 +20,7 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
         [JsonIgnore]
         public AddressInformation Information => _addressInformation?.Clone();
 
-        private Guid? _activeReadId;
+        private Guid? _meterReadId;
 
         internal Address() { }
 
@@ -30,35 +29,37 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
             MessageBus = messageBus;
         }
 
-        internal Address(string street, string city, string stretNumber, string homeNumber, List<Guid> meters, Guid id, IBus messageBus, double squareMeters) : this(messageBus)
+        internal Address(string street, string city, string stretNumber, string homeNumber, Guid id, IBus messageBus, double squareMeters) : this(messageBus)
         {
             Id = id;
             _addressInformation = new AddressInformation(street, city, stretNumber, homeNumber, id, squareMeters);
-            _meters = meters;
+            _meters = new List<Guid>();
 
-            MessageBus.Publish(new AddressCreated(Id, squareMeters));
+            Publish(new AddressCreated(Id, squareMeters));
         }
 
-        public void BeginMeterReadProcess(Guid activeReadId)
+        public void BeginMeterReadProcess(Guid meterReadId)
         {
-            if (_activeReadId.HasValue)
+            if (_meterReadId.HasValue)
             {
-                throw new ActiveReadInProgressException(activeReadId.ToString());
+                throw new ActiveReadInProgressException(meterReadId.ToString());
             }
 
-            _activeReadId = activeReadId;
+            _meterReadId = meterReadId;
 
-            MessageBus.Publish(new MeterReadProcessBagan {AddressId = Id,Id = activeReadId,MeterSerialNumbers = _meters.ToList()});
+            Publish(new MeterReadProcessBagan { AddressId = Id, MeterReadId = meterReadId, MeterIds = _meters.ToList() });
         }
 
-        public void FinishMeterReadProcess(Guid activeReadId)
+        public void FinishMeterReadProcess(Guid meterReadId)
         {
-            if (_activeReadId != activeReadId)
+            if (_meterReadId != meterReadId)
             {
-                throw new ActiveReadDoesnotExistException(activeReadId.ToString());
+                throw new ActiveReadDoesnotExistException(meterReadId.ToString());
             }
 
-            _activeReadId = null;
+            _meterReadId = null;
+
+            Publish(new MeterReadProcessFinished(Id,meterReadId));
         }
 
         public void AssignMeter(Guid meterId)
@@ -70,15 +71,15 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
             _meters.Add(meterId);
 
-            MessageBus.Publish(new MeterAssigned(meterId, Id));
+            Publish(new MeterAssigned(meterId, Id));
         }
 
         public void CheckInPersons(int persons)
         {
             CheckedInPersons += persons;
 
-            MessageBus.Publish(new PersonsCheckedIn(Id, persons));
-            MessageBus.Publish(new PersonsStatusChanged(Id, CheckedInPersons));
+            Publish(new PersonsCheckedIn(Id, persons));
+            Publish(new PersonsStatusChanged(Id, CheckedInPersons));
         }
 
         public void CheckOutPersons(int persons)
@@ -90,8 +91,8 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
             CheckedInPersons -= persons;
 
-            MessageBus.Publish(new PersonsCheckedOut(Id, persons));
-            MessageBus.Publish(new PersonsStatusChanged(Id, CheckedInPersons));
+            Publish(new PersonsCheckedOut(Id, persons));
+            Publish(new PersonsStatusChanged(Id, CheckedInPersons));
         }
 
         public void RemoveMeter(Guid meterId)
@@ -105,7 +106,7 @@ namespace Home.Bills.Domain.AddressAggregate.Entities
 
             _meters.Remove(meterId);
 
-            MessageBus.Publish(new MeterRemoved() {MeterId = meterId, AddressId = Id});
+            Publish(new MeterRemoved() { MeterId = meterId, AddressId = Id });
         }
 
         public IEnumerable<Guid> GetMeters()

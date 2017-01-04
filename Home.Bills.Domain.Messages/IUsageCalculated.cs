@@ -2,7 +2,7 @@
 
 namespace Home.Bills.Domain.Messages
 {
-    public interface IUsageCreated
+    public interface IUsageCalculated
     {
         DateTime ReadDateTime { get; }
         Guid AddressId { get; }

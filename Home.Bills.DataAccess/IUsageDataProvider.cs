@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Home.Bills.Domain.UsageAggregate;
 
 namespace Home.Bills.DataAccess
 {

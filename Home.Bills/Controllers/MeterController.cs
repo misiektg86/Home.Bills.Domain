@@ -28,15 +28,21 @@ namespace Home.Bills.Controllers
             return new ObjectResult(_meterDataProvider.GetMeter(meterId));
         }
 
+        [HttpGet(Name = "GetMeters")]
+        public IActionResult GetMeter()
+        {
+            return new ObjectResult(_meterDataProvider.GetAllMeters());
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody]Models.Meter meter)
         {
             _meterRepository.Add(_meterFactory.Create(new MeterFactoryInput() { AddressId = meter.AddressId, MeterId = meter.MeterId }));
 
-            return CreatedAtRoute("GetMeter", meter.MeterId);
+            return CreatedAtRoute("GetMeter", new { meterId = meter.MeterId }, meter);
         }
 
-        [HttpPut(Name = "MountMeterAtAddress")]
+        [HttpPut("MountMeterAtAddress", Name = "MountMeterAtAddress")]
         public async Task<IActionResult> MountMeterAtAddress([FromBody]Models.Meter meter)
         {
             var meterEntity = await _meterRepository.Get(meter.MeterId);
@@ -47,6 +53,8 @@ namespace Home.Bills.Controllers
             }
 
             meterEntity.MountAtAddress(meter.AddressId);
+
+           _meterRepository.Update(meterEntity);
 
             return NoContent();
         }
@@ -62,6 +70,8 @@ namespace Home.Bills.Controllers
             }
 
             meterEntity.UnmountAtAddress(meter.AddressId);
+
+            _meterRepository.Update(meterEntity);
 
             return NoContent();
         }

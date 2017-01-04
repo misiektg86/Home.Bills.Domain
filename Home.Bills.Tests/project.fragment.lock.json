@@ -123,6 +123,27 @@
         }
       }
     },
+    "Home.Bills.Payments.Acl/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Payments.Acl.dll": {}
+      },
+      "runtime": {
+        "../packages/GreenPipes.1.0.6/lib/net452/GreenPipes.dll": {},
+        "../packages/MassTransit.3.5.2/lib/net452/MassTransit.dll": {},
+        "../packages/NewId.3.0.0/lib/net452/NewId.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "bin/Debug/Home.Bills.Payments.Acl.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Payments.Acl.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "Home.Bills.Payments.DataAccess/1.0.0": {
       "type": "project",
       "framework": ".NETFramework,Version=v4.6.1",

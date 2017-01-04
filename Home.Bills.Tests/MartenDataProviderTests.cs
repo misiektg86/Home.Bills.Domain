@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.DataAccess;
 using Home.Bills.Domain.AddressAggregate;
-using Home.Bills.Domain.AddressAggregate.Entities;
+using Home.Bills.Domain.AddressAggregate.Events;
 using Marten;
 using MassTransit;
 using NSubstitute;

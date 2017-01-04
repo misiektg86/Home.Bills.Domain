@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Home.Bills.Domain.UsageAggregate;
+using Home.Bills.Domain.MeterReadAggregate;
 using Marten;
 
 namespace Home.Bills.DataAccess
@@ -18,9 +18,9 @@ namespace Home.Bills.DataAccess
 
         public async Task<IEnumerable<Dto.Usage>> GetUsages(Guid addressId)
             =>
-                await _documentSession.Query<Usage>()
+                await _documentSession.Query<MeterRead>()
                     .Where(i => i.AddressId == addressId)
-                    .Select(
+                    .SelectMany(i=>i.
                         i =>
                             new Dto.Usage()
                             {
@@ -39,7 +39,8 @@ namespace Home.Bills.DataAccess
                 UsageId = i.Id,
                 MeterId = i.MeterId,
                 ReadDateTime = i.ReadDateTime,
-                Value = i.Value
+                Value = i.Value,
+                CurrentRead = i.CurrentRead
             }).FirstOrDefaultAsync();
     }
 }
