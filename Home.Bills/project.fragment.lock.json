@@ -57,10 +57,12 @@
         "bin/Debug/Home.Bills.Domain.dll": {}
       },
       "runtime": {
+        "../packages/Automatonymous.3.5.8/lib/net452/Automatonymous.dll": {},
         "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
         "../packages/GreenPipes.1.0.6/lib/net452/GreenPipes.dll": {},
         "../packages/Marten.1.2.4/lib/net46/Marten.dll": {},
         "../packages/MassTransit.3.5.2/lib/net452/MassTransit.dll": {},
+        "../packages/MassTransit.Automatonymous.3.5.2/lib/net452/MassTransit.AutomatonymousIntegration.dll": {},
         "../packages/NewId.3.0.0/lib/net452/NewId.dll": {},
         "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
         "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},

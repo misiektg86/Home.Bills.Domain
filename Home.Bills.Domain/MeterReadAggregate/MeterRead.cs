@@ -44,7 +44,7 @@ namespace Home.Bills.Domain.MeterReadAggregate
             var meter = Meters.FirstOrDefault(i => i == meterId);
 
             if (meter.Equals(default(Guid)))
-            {
+            {`
                 throw new MeterNotFoundException($"Meter with id: {meterId} doesn't exist.");
             }
 
@@ -56,13 +56,11 @@ namespace Home.Bills.Domain.MeterReadAggregate
             var usage = Usage.Create(usageId, Id, meterId, AddressId, previousRead, newRead, readDateTime, MessageBus);
 
             _usages.Add(usage);
+        }
 
-            if (_usages.All(i => Meters.Contains(i.MeterId)))
-            {
-                IsCompleted = true;
-
-                MessageBus.Publish(new MeterReadCompleted() { MeterReadId = Id, AddressId = AddressId });
-            }
+        public void CompleteMeterRead()
+        {
+            IsCompleted = true;
         }
     }
 }
