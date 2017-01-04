@@ -122,7 +122,10 @@
     <Compile Include="AddressAggregate\ValueObjects\AddressInformation.cs" />
     <Compile Include="Consumers\MeterReadProcessBaganConsumer.cs" />
     <Compile Include="Consumers\MeterReadProcessSaga.cs" />
+    <Compile Include="Consumers\MeterReadSmInstance.cs" />
     <Compile Include="Consumers\MeterStateUpdatedConsumer.cs" />
+    <Compile Include="Consumers\MeterStateUpdateSaga.cs" />
+    <Compile Include="Consumers\MeterStateUpdateSmInstance.cs" />
     <Compile Include="MeterAggregate\CannotUnmountMeterAtAddressSpecifiedException.cs" />
     <Compile Include="MeterAggregate\Meter.cs" />
     <Compile Include="MeterAggregate\MeterAlreadyMountedatAddressException.cs" />
@@ -132,6 +135,7 @@
     <Compile Include="MeterAggregate\MeterStateCannotBeLowerThanCurrentStateException.cs" />
     <Compile Include="MeterAggregate\MeterStateCorrected.cs" />
     <Compile Include="MeterAggregate\MeterStateUpdated.cs" />
+    <Compile Include="MeterReadAggregate\CreateUsageCalculation.cs" />
     <Compile Include="MeterReadAggregate\MeterReadFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Consumers\MeterMountedReceiver.cs" />

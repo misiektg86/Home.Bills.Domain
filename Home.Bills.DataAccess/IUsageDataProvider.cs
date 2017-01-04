@@ -6,8 +6,8 @@ namespace Home.Bills.DataAccess
 {
     public interface IUsageDataProvider
     {
-        Task<IEnumerable<Dto.Usage>> GetUsages(Guid addressId);
+        Task<IEnumerable<Dto.Usage>> GetLastUsages(Guid addressId);
 
-        Task<Dto.Usage> GetLastUsage(Guid address);
+        Task<IEnumerable<Dto.Usage>> GetUsages(Guid meterReadId);
     }
 }

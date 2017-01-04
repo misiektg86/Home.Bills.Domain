@@ -1,67 +1,66 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Automatonymous;
 using Home.Bills.Domain.AddressAggregate.Events;
-using Home.Bills.Domain.MeterAggregate;
-using MassTransit.Util;
 
 namespace Home.Bills.Domain.Consumers
 {
     public class MeterReadProcessSaga : MassTransitStateMachine<MeterReadSmInstance>
     {
         public Event<MeterReadProcessBagan> MeterReadBegan { get; set; }
-        
-        public Event<MeterStateUpdated> MeterStateUpdated { get; set; }
+
+        public Event<UsageCalculated> UsageCalculated { get; set; }
 
         public State Initiated { get; set; }
 
-        public State CollectingMeterReads { get; set; }
+        public State CollectingUsageCalculations { get; set; }
+
+        public State CollectedUsageCalculations { get; set; }
 
         public MeterReadProcessSaga()
         {
-           InstanceState(instance => instance.CurrentState);
+            InstanceState(instance => instance.CurrentState);
 
             Event(() => MeterReadBegan,
                 configurator =>
-                    configurator.CorrelateById(context => context.Message.MeterReadId)
-                        .SelectId(context => context.Message.MeterReadId));
-            Event(() => MeterStateUpdated,
-                configurator =>
-                    configurator.CorrelateBy(
-                        (instance, context) =>
-                            instance.AddressId == context.Message.AddressId &&
-                            instance.Meters.Contains(context.Message.MeterId)));
+                    configurator.CorrelateBy((instance, context) => instance.MeterReadId == context.Message.MeterReadId)
+                        .SelectId(context => Guid.NewGuid()));
+
+            Event(() => UsageCalculated,configurator => configurator.CorrelateBy((instance, context) => instance.MeterReadId == context.Message.MeterReadId));
 
             Initially(When(MeterReadBegan).Then(context =>
             {
-                context.Instance.MetersCollected = new List<Guid>();
                 context.Instance.AddressId = context.Data.AddressId;
-                context.Instance.Meters = context.Data.MeterIds;
+                context.Instance.MeterReadId = context.Data.MeterReadId;
+                context.Instance.UsagesToCalculate = context.Data.MeterIds.ToList();
             }).TransitionTo(Initiated));
 
-            During(Initiated,When(MeterStateUpdated).Then(context =>
-            {
-                context.Instance.MetersCollected.Add(context.Data.MeterId);
-            }).TransitionTo(CollectingMeterReads));
+            During(Initiated, When(UsageCalculated, context => context.Instance.UsagesToCalculate.Contains(context.Data.MeterId)).Then(context =>
+              {
+                  context.Instance.UsagesToCalculate.Remove(context.Data.MeterId);
+              }).TransitionTo(CollectingUsageCalculations));
 
-            During(CollectingMeterReads,When(MeterStateUpdated,context => !context.Instance.MetersCollected.Contains(context.Data.MeterId)).Then(context =>
-            {
-                context.Instance.MetersCollected.Add(context.Data.MeterId);
-            }),When(MeterStateUpdated,context => context.Instance.Meters.eq));
+            WhenEnter(CollectingUsageCalculations,
+                binder =>
+                    binder.If(context => !context.Instance.UsagesToCalculate.Any(),
+                        activityBinder =>
+                            activityBinder.TransitionTo(CollectedUsageCalculations).Publish(
+                                context =>
+                                    new MeterReadProcessFinished(context.Instance.MeterReadId,
+                                        context.Instance.AddressId)).Finalize()));
+            During(CollectingUsageCalculations,
+                When(UsageCalculated,
+                        context =>
+                            context.Instance.UsagesToCalculate.Contains(context.Data.MeterId) &&
+                            context.Instance.UsagesToCalculate.Count > 1)
+                    .Then(context => context.Instance.UsagesToCalculate.Remove(context.Data.MeterId)),
+                When(UsageCalculated, context => context.Instance.UsagesToCalculate.Contains(context.Data.MeterId) &&
+                                                 context.Instance.UsagesToCalculate.Count == 1)
+                    .TransitionTo(CollectedUsageCalculations)
+                    .Publish(context => new MeterReadProcessFinished(context.Instance.MeterReadId,
+                        context.Instance.AddressId)).Finalize());
+
+            SetCompletedWhenFinalized();
         }
-    }
-
-    public class MeterReadSmInstance : SagaStateMachineInstance
-    {
-        public Guid CorrelationId { get; set; }
-
-        public State CurrentState { get; set; }
-
-        public IEnumerable<Guid> Meters { get; set; }
-
-        public List<Guid> MetersCollected { get; set; }
-
-        public Guid AddressId { get; set; }
     }
 }

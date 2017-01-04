@@ -16,11 +16,11 @@ namespace Home.Bills.DataAccess
             _documentSession = documentSession;
         }
 
-        public async Task<IEnumerable<Dto.Usage>> GetUsages(Guid addressId)
+        public async Task<IEnumerable<Dto.Usage>> GetLastUsages(Guid addressId)
             =>
                 await _documentSession.Query<MeterRead>()
-                    .Where(i => i.AddressId == addressId)
-                    .SelectMany(i=>i.
+                    .Where(i => i.AddressId == addressId).OrderByDescending(read => read.ReadBeginDateTime).Take(1)
+                    .SelectMany(i=>i.Usages).Select(
                         i =>
                             new Dto.Usage()
                             {
@@ -32,8 +32,12 @@ namespace Home.Bills.DataAccess
                             })
                     .ToListAsync();
 
-        public async Task<Dto.Usage> GetLastUsage(Guid address)
-            => await _documentSession.Query<Usage>().Where(i => i.AddressId == address).Select(i => new Dto.Usage()
+        public async Task<IEnumerable<Dto.Usage>> GetUsages(Guid meterReadId)
+        {
+            var meterRead = await _documentSession.Query<MeterRead>()
+                .FirstOrDefaultAsync(i => i.Id == meterReadId);
+
+            return meterRead?.Usages.Select(i => new Dto.Usage()
             {
                 AddressId = i.AddressId,
                 UsageId = i.Id,
@@ -41,6 +45,7 @@ namespace Home.Bills.DataAccess
                 ReadDateTime = i.ReadDateTime,
                 Value = i.Value,
                 CurrentRead = i.CurrentRead
-            }).FirstOrDefaultAsync();
+            });
+        }
     }
 }

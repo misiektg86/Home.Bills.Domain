@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Home.Bills.DataAccess;
@@ -20,18 +21,9 @@ namespace Home.Bills.Controllers
         }
 
         [HttpGet("{addressId}", Name = "GetLastUsage")]
-        public async Task<Home.Bills.DataAccess.Dto.Usage> GetLastUsage(Guid addressId)
+        public async Task<IEnumerable<Home.Bills.DataAccess.Dto.Usage>> GetLastUsage(Guid addressId)
         {
-            return await _usageDataProvider.GetLastUsage(addressId);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Models.Usage data)
-        {
-            await _usageDomainService.CreateUsageFromMeterRead(data.UsageId, data.AddressId, data.Value, data.MeterSerialNumber,
-                 data.ReadDateTime);
-
-            return CreatedAtRoute("GetLastUsage", new { data.AddressId }, data);
+            return await _usageDataProvider.GetLastUsages(addressId);
         }
     }
 }

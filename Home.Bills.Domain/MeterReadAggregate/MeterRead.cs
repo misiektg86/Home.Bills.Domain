@@ -44,7 +44,7 @@ namespace Home.Bills.Domain.MeterReadAggregate
             var meter = Meters.FirstOrDefault(i => i == meterId);
 
             if (meter.Equals(default(Guid)))
-            {`
+            {
                 throw new MeterNotFoundException($"Meter with id: {meterId} doesn't exist.");
             }
 
