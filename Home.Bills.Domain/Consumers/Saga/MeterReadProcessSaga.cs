@@ -2,6 +2,7 @@
 using System.Linq;
 using Automatonymous;
 using Home.Bills.Domain.AddressAggregate.Events;
+using Home.Bills.Domain.MeterReadAggregate;
 
 namespace Home.Bills.Domain.Consumers
 {
@@ -46,7 +47,7 @@ namespace Home.Bills.Domain.Consumers
                         activityBinder =>
                             activityBinder.TransitionTo(CollectedUsageCalculations).Publish(
                                 context =>
-                                    new MeterReadProcessFinished(context.Instance.MeterReadId,
+                                    new FinishMeterReadProcess(context.Instance.MeterReadId,
                                         context.Instance.AddressId)).Finalize()));
             During(CollectingUsageCalculations,
                 When(UsageCalculated,
@@ -57,7 +58,7 @@ namespace Home.Bills.Domain.Consumers
                 When(UsageCalculated, context => context.Instance.UsagesToCalculate.Contains(context.Data.MeterId) &&
                                                  context.Instance.UsagesToCalculate.Count == 1)
                     .TransitionTo(CollectedUsageCalculations)
-                    .Publish(context => new MeterReadProcessFinished(context.Instance.MeterReadId,
+                    .Publish(context => new FinishMeterReadProcess(context.Instance.MeterReadId,
                         context.Instance.AddressId)).Finalize());
 
             SetCompletedWhenFinalized();

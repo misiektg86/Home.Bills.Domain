@@ -6,7 +6,7 @@ using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.AddressAggregate.DataProviders;
 using NSubstitute;
 using Xunit;
-using Address = Home.Bills.Domain.AddressAggregate.Events.Address;
+using Address = Home.Bills.Domain.AddressAggregate.Address;
 using Home.Bills.Models;
 using MassTransit;
 

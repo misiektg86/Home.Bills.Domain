@@ -48,7 +48,7 @@ namespace Home.Bills.Domain.Consumers
                     {
                         context.Instance.MetersToStateUpdate.Remove(context.Data.MeterId);
                     })
-                    .Send((instance, data) => new Uri("rabbitmq://localhost:5672/Home.Bills"),
+                    .Send((instance, data) => new Uri("loopback://localhost/Home.Bills"),
                         context =>
                             new CreateUsageCalculation()
                             {

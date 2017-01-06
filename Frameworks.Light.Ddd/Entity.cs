@@ -14,12 +14,13 @@ namespace Frameworks.Light.Ddd
 
         protected void Await(Task task)
         {
-            TaskUtil.Await(task);
+            TaskUtil.Await(async () => await task);
         }
 
         protected void Publish<T>(T message) where T : class
         {
-            Await(MessageBus.Publish(message));
+            var task = MessageBus.Publish(message);
+            Await(task);
         }
     }
 }

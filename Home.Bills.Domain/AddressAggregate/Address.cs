@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Frameworks.Light.Ddd;
+using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Domain.AddressAggregate.ValueObjects;
 using MassTransit;
 using Newtonsoft.Json;
 
-namespace Home.Bills.Domain.AddressAggregate.Events
+namespace Home.Bills.Domain.AddressAggregate
 {
     public class Address : AggregateRoot<Guid>
     {
@@ -16,6 +17,8 @@ namespace Home.Bills.Domain.AddressAggregate.Events
         private AddressInformation _addressInformation;
 
         public int CheckedInPersons { get; private set; }
+
+        public Guid? LastFinishedMeterReadProcess { get; private set; }
 
         [JsonIgnore]
         public AddressInformation Information => _addressInformation?.Clone();
@@ -56,6 +59,8 @@ namespace Home.Bills.Domain.AddressAggregate.Events
             {
                 throw new ActiveReadDoesnotExistException(meterReadId.ToString());
             }
+
+            LastFinishedMeterReadProcess = _meterReadId;
 
             _meterReadId = null;
 

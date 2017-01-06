@@ -51,11 +51,13 @@ namespace Home.Bills.Domain.MeterReadAggregate
             MessageBus.Publish(new ReadProvided() { PreviousRead = previousRead, NewRead = read, MeterId = meterId, AddressId = AddressId, ReadDateTime = DateTime.Now });
         }
 
-        public void CreateUsage(double previousRead, double newRead, DateTime readDateTime, Guid meterId, Guid usageId)
+        public Usage CreateUsage(double previousRead, double newRead, DateTime readDateTime, Guid meterId, Guid usageId)
         {
             var usage = Usage.Create(usageId, Id, meterId, AddressId, previousRead, newRead, readDateTime, MessageBus);
 
             _usages.Add(usage);
+
+            return usage;
         }
 
         public void CompleteMeterRead()

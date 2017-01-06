@@ -2,9 +2,15 @@
 
 namespace Home.Bills.Domain.MeterReadAggregate
 {
-    internal class MeterReadCompleted
+    public class FinishMeterReadProcess
     {
-        public Guid AddressId { get; set; }
-        public Guid MeterReadId { get; set; }
+        public FinishMeterReadProcess(Guid instanceMeterReadId, Guid instanceAddressId)
+        {
+            MeterReadId = instanceMeterReadId;
+            AddressId = instanceAddressId;
+        }
+
+        public Guid AddressId { get;  }
+        public Guid MeterReadId { get; }
     }
 }

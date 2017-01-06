@@ -9,22 +9,22 @@ using MassTransit;
 
 namespace Home.Bills.Domain.Consumers
 {
-    public class MeterMountedReceiver : IConsumer<MeterMountedAtAddress>
+    internal class MeterUnmountedConsumer : IConsumer<MeterUnmountedAtAddress>
     {
         private readonly IRepository<Address, Guid> _addressRepository;
         private readonly IDocumentSession _documentSession;
 
-        public MeterMountedReceiver(IRepository<Address, Guid> addressRepository, IDocumentSession documentSession)
+        public MeterUnmountedConsumer(IRepository<Address, Guid> addressRepository, IDocumentSession documentSession)
         {
             _addressRepository = addressRepository;
             _documentSession = documentSession;
         }
 
-        public async Task Consume(ConsumeContext<MeterMountedAtAddress> context)
+        public async Task Consume(ConsumeContext<MeterUnmountedAtAddress> context)
         {
             var address = await _addressRepository.Get(context.Message.AddressId);
 
-            address.AssignMeter(context.Message.MeterId);
+            address.RemoveMeter(context.Message.MeterId);
 
             _addressRepository.Update(address);
 
