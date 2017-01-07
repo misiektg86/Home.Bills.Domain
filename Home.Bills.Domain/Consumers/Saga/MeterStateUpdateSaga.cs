@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Automatonymous;
 using Home.Bills.Domain.AddressAggregate.Events;
+using Home.Bills.Domain.Messages;
 using Home.Bills.Domain.MeterAggregate;
 using Home.Bills.Domain.MeterReadAggregate;
 
@@ -12,6 +13,8 @@ namespace Home.Bills.Domain.Consumers
         public Event<MeterReadProcessBagan> MeterReadBegan { get; set; }
 
         public Event<MeterStateUpdated> MeterstateUpdated { get; set; }
+
+        public Event<IMeterReadProcessCanceled> MeterReadCanceled { get; set; }
 
         public State Initiated { get; set; }
 
@@ -32,8 +35,9 @@ namespace Home.Bills.Domain.Consumers
                 configurator =>
                     configurator.CorrelateBy(
                         (instance, context) =>
-                            instance.AddressId == context.Message.AddressId &&
                             instance.MetersToStateUpdate.Contains(context.Message.MeterId)));
+
+            Event(() => MeterReadCanceled, configurator => configurator.CorrelateBy((instance, context) => instance.MeterReadId == context.Message.MeterReadId));
 
             Initially(When(MeterReadBegan).Then(context =>
             {
@@ -48,14 +52,15 @@ namespace Home.Bills.Domain.Consumers
                     {
                         context.Instance.MetersToStateUpdate.Remove(context.Data.MeterId);
                     })
-                    .Send((instance, data) => new Uri("loopback://localhost/Home.Bills"),
+                    .Send((instance, data) => new Uri("rabbitmq://dev-machine:5672/home_bills/Home.Bills"),
                         context =>
                             new CreateUsageCalculation()
                             {
                                 AddressId = context.Instance.AddressId,
                                 MeterId = context.Data.MeterId,
                                 MeterReadId = context.Instance.MeterReadId,
-                                MeterState = context.Data.State
+                                MeterState = context.Data.State,
+                                UsageId = Guid.NewGuid()
                             })
                     .TransitionTo(CollectingMetersStates));
 
@@ -70,27 +75,31 @@ namespace Home.Bills.Domain.Consumers
                         context =>
                             context.Instance.MetersToStateUpdate.Contains(context.Data.MeterId) &&
                             context.Instance.MetersToStateUpdate.Count > 1)
-                    .Then(context => context.Instance.MetersToStateUpdate.Remove(context.Data.MeterId)).Send((instance, data) => new Uri("rabbitmq://localhost:5672/Home.Bills"),
+                    .Then(context => context.Instance.MetersToStateUpdate.Remove(context.Data.MeterId)).Send((instance, data) => new Uri("rabbitmq://dev-machine:5672/home_bills/Home.Bills"),
                         context =>
                             new CreateUsageCalculation()
                             {
                                 AddressId = context.Instance.AddressId,
                                 MeterId = context.Data.MeterId,
                                 MeterReadId = context.Instance.MeterReadId,
-                                MeterState = context.Data.State
+                                MeterState = context.Data.State,
+                                UsageId = Guid.NewGuid()
                             }),
                 When(MeterstateUpdated, context => context.Instance.MetersToStateUpdate.Contains(context.Data.MeterId) &&
-                                                   context.Instance.MetersToStateUpdate.Count == 1).Send((instance, data) => new Uri("rabbitmq://localhost:5672/Home.Bills"),
+                                                   context.Instance.MetersToStateUpdate.Count == 1).Send((instance, data) => new Uri("rabbitmq://dev-machine:5672/home_bills/Home.Bills"),
                         context =>
                             new CreateUsageCalculation()
                             {
                                 AddressId = context.Instance.AddressId,
                                 MeterId = context.Data.MeterId,
                                 MeterReadId = context.Instance.MeterReadId,
-                                MeterState = context.Data.State
+                                MeterState = context.Data.State,
+                                UsageId = Guid.NewGuid()
                             })
                     .TransitionTo(CollectedMetersStates)
                     .Finalize());
+
+            DuringAny(When(MeterReadCanceled).Finalize());
 
             SetCompletedWhenFinalized();
         }

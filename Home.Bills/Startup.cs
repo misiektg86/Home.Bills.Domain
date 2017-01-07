@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Frameworks.Light.Ddd;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -77,7 +78,11 @@ namespace Home.Bills
 
             appLifetime.ApplicationStarted.Register(() =>
             {
-                ApplicationContainer.Resolve<IBusControl>().Start();
+                var bus = ApplicationContainer.Resolve<IBusControl>();
+
+                MessageBusConverter.Bus = bus; // TODO to solve
+                Entity<Guid>.StaticBus = bus; // TODO to solve
+                bus.Start();
             });
         }
     }

@@ -94,6 +94,23 @@ namespace Home.Bills.Controllers
             return StatusCode(204);
         }
 
+        [HttpPut("CancelMeterReadProcess", Name = "CancelMeterReadProcess")]
+        public async Task<IActionResult> CancelMeterReadProcess([FromBody] MeterRead meter)
+        {
+            var address = await _addressRepository.Get(meter.AddressId);
+
+            if (address == null)
+            {
+                return NotFound(meter.AddressId);
+            }
+
+            address.CancelMeterReadProcess(meter.MeterReadId);
+
+            _addressRepository.Update(address);
+
+            return StatusCode(204);
+        }
+
         [HttpPut("AssignMeter")]
         public async Task<IActionResult> AssignMeter([FromBody] Meter meter)
         {

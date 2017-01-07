@@ -15,7 +15,7 @@ namespace Home.Bills.Domain.Consumers
         }
         public async Task Consume(ConsumeContext<CreateUsageCalculation> context)
         {
-            await _usageDomainService.CalculateUsage(context.Message.MeterReadId, context.Message.AddressId, context.Message.MeterState, context.Message.MeterId);
+            await _usageDomainService.CalculateUsage(context.Message.MeterReadId, context.Message.AddressId, context.Message.MeterState, context.Message.MeterId, context.Message.UsageId);
         }
     }
 }

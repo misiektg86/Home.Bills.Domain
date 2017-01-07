@@ -105,6 +105,7 @@
     <Compile Include="AddressAggregate\AddressFactoryInput.cs" />
     <Compile Include="AddressAggregate\DataProviders\IAddressDataProvider.cs" />
     <Compile Include="AddressAggregate\Address.cs" />
+    <Compile Include="AddressAggregate\Events\MeterReadProcessCanceled.cs" />
     <Compile Include="AddressAggregate\Events\MeterReadProcessFinished.cs" />
     <Compile Include="AddressAggregate\Events\MeterRemoved.cs" />
     <Compile Include="AddressAggregate\Events\MeterReadProcessBagan.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Consumers\CreateUsageCalculationConsumer.cs" />
     <Compile Include="Consumers\MeterReadProcessBaganConsumer.cs" />
     <Compile Include="Consumers\FinishMeterReadProcessConsumer.cs" />
+    <Compile Include="Consumers\MeterReadProcessCanceledConsumer.cs" />
     <Compile Include="Consumers\MeterReadProcessFinishedConsumer.cs" />
     <Compile Include="Consumers\Saga\MeterReadProcessSaga.cs" />
     <Compile Include="Consumers\Saga\MeterReadSmInstance.cs" />

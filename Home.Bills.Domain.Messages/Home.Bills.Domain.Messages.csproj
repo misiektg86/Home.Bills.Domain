@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IAddressCreated.cs" />
     <Compile Include="IMeterAdded.cs" />
+    <Compile Include="IMeterReadProcessCanceled.cs" />
     <Compile Include="IMeterReadProcessFinished.cs" />
     <Compile Include="IPersonsCheckedIn.cs" />
     <Compile Include="IPersonsCheckedOut.cs" />

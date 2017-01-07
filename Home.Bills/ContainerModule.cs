@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Reflection;
 using Autofac;
+using Automatonymous;
 using Frameworks.Light.Ddd;
 using GreenPipes.Policies;
 using GreenPipes.Policies.ExceptionFilters;
@@ -10,13 +10,14 @@ using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.MeterAggregate;
 using Home.Bills.Domain.MeterReadAggregate;
+using Home.Bills.Domain.Services;
 using Home.Bills.Payments.Acl;
 using Home.Bills.Payments.Domain;
 using Home.Bills.Payments.Domain.Handlers;
 using Marten;
-using Marten.Services;
 using MassTransit;
-using Newtonsoft.Json.Serialization;
+using MassTransit.MartenIntegration;
+using MassTransit.Saga;
 using Module = Autofac.Module;
 
 namespace Home.Bills
@@ -25,9 +26,15 @@ namespace Home.Bills
     {
         protected override void Load(ContainerBuilder builder)
         {
+            #region Repositories
+
             builder.RegisterGeneric(typeof(GenericMartenRepository<>))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
+               .AsImplementedInterfaces()
+               .InstancePerLifetimeScope();
+
+            #endregion
+
+            #region Factories
 
             builder.RegisterType<AddressFactory>()
                 .As<Frameworks.Light.Ddd.IAggregateFactory<Address, AddressFactoryInput, Guid>>()
@@ -41,66 +48,65 @@ namespace Home.Bills
              .As<Frameworks.Light.Ddd.IAggregateFactory<MeterRead, MeterReadFactoryInput, Guid>>()
              .InstancePerLifetimeScope();
 
-            builder.RegisterType<AddressDataProvider>().As<IAddressDataProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<Payments.Domain.AddressAggregate.AddressFactory>()
+            .As<Frameworks.Light.Ddd.IAggregateFactory<Payments.Domain.AddressAggregate.Address, Payments.Domain.AddressAggregate.AddressFactoryInput, Guid>>()
+            .InstancePerLifetimeScope();
 
+            #endregion
+
+            #region DataProviders
+
+            builder.RegisterType<AddressDataProvider>().As<IAddressDataProvider>().InstancePerLifetimeScope();
             builder.RegisterType<PaymentsDataProvider>().As<IPaymentsDataProvider>().InstancePerLifetimeScope();
             builder.RegisterType<MeterDataProvider>().As<IMeterDataProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<UsageDataProvider>().As<IUsageDataProvider>().InstancePerLifetimeScope();
 
+            #endregion
+
+            #region DomainServices
+
+            builder.RegisterType<UsageDomainService>().AsSelf().InstancePerLifetimeScope();
+
+            #endregion
+
+            #region Marten
 
             builder.Register(context => context.Resolve<IDocumentStore>().OpenSession())
                 .As<IDocumentSession>()
                 .InstancePerLifetimeScope();
+            builder.Register(DocumentStoreFactory.Create).As<IDocumentStore>().SingleInstance();
 
-            builder.RegisterType<UsageDataProvider>().As<IUsageDataProvider>().InstancePerLifetimeScope();
+            #endregion
 
-            builder.Register(context => DocumentStoreFactory.Create()).As<IDocumentStore>().SingleInstance();
+            #region MassTransit
 
-            builder.RegisterAssemblyTypes(typeof(Payments.Domain.AddressAggregate.Address).GetTypeInfo().Assembly)
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterConsumers(typeof(AddressCreatedConsumer).Assembly, typeof(CreateAddressHandler).Assembly, typeof(MeterMountedAtAddress).Assembly);
-
+            builder.RegisterStateMachineSagas(typeof(MeterMountedAtAddress).Assembly).InstancePerLifetimeScope();
+            builder.RegisterConsumers(typeof(AddressCreatedConsumer).Assembly, typeof(CreateAddressHandler).Assembly, typeof(MeterMountedAtAddress).Assembly).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(MartenSagaRepository<>)).As(typeof(ISagaRepository<>)).InstancePerLifetimeScope();
             builder.Register(context =>
+            {
+                return Bus.Factory.CreateUsingRabbitMq(configurator =>
                 {
-                    return Bus.Factory.CreateUsingInMemory(configurator =>
-                    {
-                        configurator.UseRetry(new IncrementalRetryPolicy(new AllExceptionFilter(), 10,TimeSpan.FromMilliseconds(100),TimeSpan.FromMilliseconds(100) ));
-                        configurator.ReceiveEndpoint("Home.Bills", endpointConfigurator =>
+                    var host = configurator.Host(new Uri("rabbitmq://dev-machine:5672/home_bills"),
+                        hostConfigurator =>
                         {
-                            endpointConfigurator.LoadFrom(context);
+                            hostConfigurator.Username("home");
+                            hostConfigurator.Password("bills");
                         });
-                    });
-                }).SingleInstance()
+
+                    configurator.UseRetry(new IncrementalRetryPolicy(new AllExceptionFilter(), 10, TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(100)));
+
+                    configurator.ReceiveEndpoint(host, "Home.Bills", endpointConfigurator =>
+                     {
+                         endpointConfigurator.LoadFrom(context);
+                         endpointConfigurator.LoadStateMachineSagas(context);
+                     });
+                });
+            }).SingleInstance()
                 .As<IBusControl>()
                 .As<IBus>();
-        }
-    }
 
-    public class DocumentStoreFactory
-    {
-        public static IDocumentStore Create()
-        {
-            return DocumentStore
-                .For(_ =>
-                {
-                    _.MappingFor(typeof(Payments.Domain.AddressAggregate.Address)).DatabaseSchemaName = "Bills_Payments";
-                    _.MappingFor(typeof(Payment)).DatabaseSchemaName = "Bills_Payments";
-                    _.Schema.For<Payments.Domain.AddressAggregate.Address>().DocumentAlias("Bills_Payments_Address");
-                    _.Connection("host=dev-machine;database=home_bills;password=admin;username=postgres");
-
-                    var serializer = new JsonNetSerializer();
-
-                    var dcr = new DefaultContractResolver();
-
-                    dcr.DefaultMembersSearchFlags |= BindingFlags.NonPublic | BindingFlags.Instance;
-
-                    serializer.Customize(i =>
-                    {
-                        i.ContractResolver = dcr;
-                    });
-                    _.Serializer(serializer);
-                });
+            #endregion
         }
     }
 }

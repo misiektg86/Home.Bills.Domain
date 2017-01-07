@@ -7,18 +7,19 @@ namespace Home.Bills.Domain.MeterReadAggregate
 {
     public class Usage : Entity<Guid>
     {
-        public Guid AddressId { get; }
-        public Guid MeterReadId { get; }
+        public Guid AddressId { get; private set; }
+
+        public Guid MeterReadId { get; private set; }
 
         public Guid MeterId { get; private set; }
 
-        public double PrevioudRead { get; }
+        public double PrevioudRead { get; private set; }
 
-        public double CurrentRead { get; }
+        public double CurrentRead { get; private set; }
 
         public double Value { get; private set; }
 
-        public DateTime ReadDateTime { get; }
+        public DateTime ReadDateTime { get; private set; }
 
         internal Usage() { }
 

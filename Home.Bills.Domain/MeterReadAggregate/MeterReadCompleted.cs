@@ -10,7 +10,10 @@ namespace Home.Bills.Domain.MeterReadAggregate
             AddressId = instanceAddressId;
         }
 
-        public Guid AddressId { get;  }
-        public Guid MeterReadId { get; }
+        public FinishMeterReadProcess() { }
+
+        public Guid AddressId { get; private set; }
+
+        public Guid MeterReadId { get; private set; }
     }
 }

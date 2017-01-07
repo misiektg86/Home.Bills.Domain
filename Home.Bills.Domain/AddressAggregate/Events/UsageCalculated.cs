@@ -27,6 +27,7 @@ namespace Home.Bills.Domain.AddressAggregate.Events
         public double Value { get; }
 
         public Guid MeterId { get; private set; }
+
         public Guid MeterReadId { get; }
     }
 }

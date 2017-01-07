@@ -21,7 +21,7 @@ namespace Home.Bills.Domain.Services
             _addressRepository = addressRepository;
         }
 
-        public async Task CalculateUsage(Guid meterReadId, Guid addressId, double meterState, Guid messageMeterId)
+        public async Task CalculateUsage(Guid meterReadId, Guid addressId, double meterState, Guid messageMeterId, Guid usageId)
         {
             var address = await _addressRepository.Get(addressId);
 
@@ -34,7 +34,7 @@ namespace Home.Bills.Domain.Services
             {
                 meterRead = await meterReadTask;
 
-                usage = meterRead.CreateUsage(0.00, meterState, DateTime.Now, messageMeterId, Guid.NewGuid());
+                usage = meterRead.CreateUsage(meterState, meterState, DateTime.Now, messageMeterId, Guid.NewGuid());
 
                 usage.CalculateUsage();
 
@@ -51,14 +51,14 @@ namespace Home.Bills.Domain.Services
 
             meterRead = await meterReadTask;
 
-            usage = meterRead.CreateUsage(lastUsageForMeter?.CurrentRead ?? 0.00, meterState, DateTime.Now, messageMeterId,
-                Guid.NewGuid());
+            usage = meterRead.CreateUsage(lastUsageForMeter?.CurrentRead ?? meterState, meterState, DateTime.Now, messageMeterId,
+                usageId);
 
             usage.CalculateUsage();
 
             _meterReadRepository.Update(meterRead);
 
-            await _documentSession.SaveChangesAsync();
+             await _documentSession.SaveChangesAsync();
         }
     }
 }

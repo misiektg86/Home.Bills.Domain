@@ -2,6 +2,7 @@
 using System.Linq;
 using Automatonymous;
 using Home.Bills.Domain.AddressAggregate.Events;
+using Home.Bills.Domain.Messages;
 using Home.Bills.Domain.MeterReadAggregate;
 
 namespace Home.Bills.Domain.Consumers
@@ -11,6 +12,8 @@ namespace Home.Bills.Domain.Consumers
         public Event<MeterReadProcessBagan> MeterReadBegan { get; set; }
 
         public Event<UsageCalculated> UsageCalculated { get; set; }
+
+        public Event<IMeterReadProcessCanceled> MeterReadCanceled { get; set; }
 
         public State Initiated { get; set; }
 
@@ -28,6 +31,8 @@ namespace Home.Bills.Domain.Consumers
                         .SelectId(context => Guid.NewGuid()));
 
             Event(() => UsageCalculated,configurator => configurator.CorrelateBy((instance, context) => instance.MeterReadId == context.Message.MeterReadId));
+
+            Event(() => MeterReadCanceled, configurator => configurator.CorrelateBy((instance, context) => instance.MeterReadId == context.Message.MeterReadId));
 
             Initially(When(MeterReadBegan).Then(context =>
             {
@@ -60,6 +65,8 @@ namespace Home.Bills.Domain.Consumers
                     .TransitionTo(CollectedUsageCalculations)
                     .Publish(context => new FinishMeterReadProcess(context.Instance.MeterReadId,
                         context.Instance.AddressId)).Finalize());
+
+            DuringAny(When(MeterReadCanceled).Finalize());
 
             SetCompletedWhenFinalized();
         }

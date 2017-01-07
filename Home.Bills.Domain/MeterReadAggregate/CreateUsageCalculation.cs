@@ -11,5 +11,7 @@ namespace Home.Bills.Domain.MeterReadAggregate
         public Guid AddressId { get; set; }
 
         public double MeterState { get; set; }
+
+        public Guid UsageId { get; set; }
     }
 }

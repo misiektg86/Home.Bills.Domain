@@ -3,23 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
+using Newtonsoft.Json;
 
 namespace Home.Bills.Domain.MeterReadAggregate
 {
     public class MeterRead : AggregateRoot<Guid>
     {
-        public DateTime ReadBeginDateTime { get; }
+        public DateTime ReadBeginDateTime { get; private set; }
 
-        public IEnumerable<Guid> Meters { get; }
+        public IEnumerable<Guid> Meters { get; private set; }
 
-        public Guid AddressId { get; }
+        public Guid AddressId { get; private set; }
 
-        internal MeterRead() { }
+        internal MeterRead()
+        {
+            _usages = new List<Usage>();
+            Meters = new List<Guid>();
+        }
 
         private List<Usage> _usages;
 
         public bool IsCompleted { get; private set; }
 
+        [JsonIgnore]
         public IEnumerable<Usage> Usages
         {
             get { return _usages.Select(i => i.Clone()).ToList(); }
@@ -34,25 +40,13 @@ namespace Home.Bills.Domain.MeterReadAggregate
             _usages = new List<Usage>();
         }
 
-        public void ProvideRead(Guid usageId, double previousRead, double read, Guid meterId, DateTime readDateTime)
-        {
-            if (_usages.Any(i => i.MeterId == meterId))
-            {
-                return;
-            }
-
-            var meter = Meters.FirstOrDefault(i => i == meterId);
-
-            if (meter.Equals(default(Guid)))
-            {
-                throw new MeterNotFoundException($"Meter with id: {meterId} doesn't exist.");
-            }
-
-            MessageBus.Publish(new ReadProvided() { PreviousRead = previousRead, NewRead = read, MeterId = meterId, AddressId = AddressId, ReadDateTime = DateTime.Now });
-        }
-
         public Usage CreateUsage(double previousRead, double newRead, DateTime readDateTime, Guid meterId, Guid usageId)
         {
+            if (_usages.Any(i => i.Id == usageId))
+            {
+                return _usages.First(i => i.Id == usageId);
+            }
+
             var usage = Usage.Create(usageId, Id, meterId, AddressId, previousRead, newRead, readDateTime, MessageBus);
 
             _usages.Add(usage);

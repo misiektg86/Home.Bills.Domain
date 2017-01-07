@@ -7,11 +7,11 @@ namespace Home.Bills.Domain.MeterAggregate
 {
     public class Meter : AggregateRoot<Guid>
     {
-        public Guid? AddressId;
+        public Guid? AddressId { get; private set; }
 
         public double State { get; private set; }
 
-        public string SerialNumber { get; }
+        public string SerialNumber { get; private set; }
 
         internal Meter() { }
 
@@ -60,7 +60,7 @@ namespace Home.Bills.Domain.MeterAggregate
 
             State = state;
 
-            Publish(new MeterStateUpdated() { AddressId = AddressId, MeterId = Id, MeterSerialNumber = SerialNumber, State = state });
+            Publish(new MeterStateUpdated() { MeterId = Id, State = state });
         }
 
         public void CorrectState(double state)

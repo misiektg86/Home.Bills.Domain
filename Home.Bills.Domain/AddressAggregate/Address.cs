@@ -64,7 +64,19 @@ namespace Home.Bills.Domain.AddressAggregate
 
             _meterReadId = null;
 
-            Publish(new MeterReadProcessFinished(Id,meterReadId));
+            Publish(new MeterReadProcessFinished(meterReadId,Id));
+        }
+
+        public void CancelMeterReadProcess(Guid meterReadId)
+        {
+            if (_meterReadId != meterReadId)
+            {
+                throw new ActiveReadDoesnotExistException(meterReadId.ToString());
+            }
+
+            _meterReadId = null;
+
+            Publish(new MeterReadProcessCanceled(meterReadId, Id));
         }
 
         public void AssignMeter(Guid meterId)

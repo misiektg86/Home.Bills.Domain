@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.DataAccess;
@@ -35,15 +34,15 @@ namespace Home.Bills.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]Models.Meter meter)
+        public IActionResult Post([FromBody]Models.MeterCreate meter)
         {
-            _meterRepository.Add(_meterFactory.Create(new MeterFactoryInput() { AddressId = meter.AddressId, MeterId = meter.MeterId }));
+            _meterRepository.Add(_meterFactory.Create(new MeterFactoryInput() { AddressId = meter.AddressId, MeterId = meter.MeterId, SerialNumber = meter.SerialNumber, State = meter.State }));
 
             return CreatedAtRoute("GetMeter", new { meterId = meter.MeterId }, meter);
         }
 
         [HttpPut("MountMeterAtAddress", Name = "MountMeterAtAddress")]
-        public async Task<IActionResult> MountMeterAtAddress([FromBody]Models.Meter meter)
+        public async Task<IActionResult> MountMeterAtAddress([FromBody]Models.MeterMount meter)
         {
             var meterEntity = await _meterRepository.Get(meter.MeterId);
 
@@ -54,13 +53,13 @@ namespace Home.Bills.Controllers
 
             meterEntity.MountAtAddress(meter.AddressId);
 
-           _meterRepository.Update(meterEntity);
+            _meterRepository.Update(meterEntity);
 
             return NoContent();
         }
 
         [HttpPut("UnmountMeterAtAddress", Name = "UnmountMeterAtAddress")]
-        public async Task<IActionResult> UnmountMeterAtAddress([FromBody]Models.Meter meter)
+        public async Task<IActionResult> UnmountMeterAtAddress([FromBody]Models.MeterMount meter)
         {
             var meterEntity = await _meterRepository.Get(meter.MeterId);
 
@@ -70,6 +69,40 @@ namespace Home.Bills.Controllers
             }
 
             meterEntity.UnmountAtAddress(meter.AddressId);
+
+            _meterRepository.Update(meterEntity);
+
+            return NoContent();
+        }
+
+        [HttpPut("UpdateMeterState", Name = "UpdateMeterState")]
+        public async Task<IActionResult> UpdateMeterState([FromBody]Models.MeterState meter)
+        {
+            var meterEntity = await _meterRepository.Get(meter.MeterId);
+
+            if (meterEntity == null)
+            {
+                return NotFound(meter.MeterId);
+            }
+
+            meterEntity.UpdateState(meter.State);
+
+            _meterRepository.Update(meterEntity);
+
+            return NoContent();
+        }
+
+        [HttpPut("CorrectMeterState", Name = "CorrectMeterState")]
+        public async Task<IActionResult> CorrectMeterState([FromBody]Models.MeterState meter)
+        {
+            var meterEntity = await _meterRepository.Get(meter.MeterId);
+
+            if (meterEntity == null)
+            {
+                return NotFound(meter.MeterId);
+            }
+
+            meterEntity.CorrectState(meter.State);
 
             _meterRepository.Update(meterEntity);
 
