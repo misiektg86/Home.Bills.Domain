@@ -8,6 +8,6 @@ namespace Home.Bills.DataAccess
     {
         Task<IEnumerable<Dto.Usage>> GetLastUsages(Guid addressId);
 
-        Task<IEnumerable<Dto.Usage>> GetUsages(Guid meterReadId);
+        Task<IEnumerable<Dto.Usage>> GetUsages(Guid addressId);
     }
 }

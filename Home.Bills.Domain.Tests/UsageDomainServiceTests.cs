@@ -23,7 +23,7 @@ namespace Home.Bills.Domain.Tests
             _martenDatabaseFixture = martenDatabaseFixture;
             _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IBus>());
             _documentSession = martenDatabaseFixture.DocumentStore.OpenSession();
-            _addressRepository = new GenericMartenRepository<Address>(_documentSession, NSubstitute.Substitute.For<IBus>());
+            _addressRepository = new GenericMartenRepository<Address>(_documentSession);
           //  _usageRepository = new GenericMartenRepository<Usage>(_documentSession, NSubstitute.Substitute.For<IBus>());
         }
 

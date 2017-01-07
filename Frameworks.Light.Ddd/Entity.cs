@@ -28,7 +28,12 @@ namespace Frameworks.Light.Ddd
     }
     public class MessageBusConverter : JsonConverter
     {
-        public static IBus Bus { get; set; }
+        private readonly Func<IBus> _busFactory;
+
+        public MessageBusConverter(Func<IBus> busFactory)
+        {
+            _busFactory = busFactory;
+        }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -37,7 +42,7 @@ namespace Frameworks.Light.Ddd
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Bus;
+            return _busFactory?.Invoke();
         }
 
         public override bool CanConvert(Type objectType)

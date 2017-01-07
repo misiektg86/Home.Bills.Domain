@@ -50,7 +50,7 @@ namespace Home.Bills.Domain.AddressAggregate
 
             _meterReadId = meterReadId;
 
-            Publish(new MeterReadProcessBagan { AddressId = Id, MeterReadId = meterReadId, MeterIds = _meters.ToList() });
+            Publish(new MeterReadProcessBagan { AddressId = Id, MeterReadId = meterReadId, MeterIds = _meters.ToList(), ReadProcessStartDate = DateTime.Now });
         }
 
         public void FinishMeterReadProcess(Guid meterReadId)
@@ -64,7 +64,7 @@ namespace Home.Bills.Domain.AddressAggregate
 
             _meterReadId = null;
 
-            Publish(new MeterReadProcessFinished(meterReadId,Id));
+            Publish(new MeterReadProcessFinished(meterReadId, Id));
         }
 
         public void CancelMeterReadProcess(Guid meterReadId)

@@ -78,7 +78,7 @@ namespace Home.Bills.Tests
 
         private GenericMartenRepository<Address> CreateGenericMartenRepository()
         {
-            var repository = new GenericMartenRepository<Address>(_session, Substitute.For<IBus>());
+            var repository = new GenericMartenRepository<Address>(_session);
             return repository;
         }
     }

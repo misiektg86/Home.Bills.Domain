@@ -22,7 +22,7 @@ namespace Home.Bills.Tests
         [Fact]
         public async Task ShouldGetPaymentsForAddress()
         {
-            var paymentsRepo = new GenericMartenRepository<Payment>(_documentSession, Substitute.For<IBus>());
+            var paymentsRepo = new GenericMartenRepository<Payment>(_documentSession);
 
             Guid addressId = Guid.NewGuid();
 

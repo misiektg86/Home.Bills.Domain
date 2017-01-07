@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Marten;
-using MassTransit;
 
 namespace Frameworks.Light.Ddd
 {
@@ -16,9 +15,9 @@ namespace Frameworks.Light.Ddd
 
         public Task<TEntity> Get(Guid id)
         {
-            var document = _session.Load<TEntity>(id);
+            var document = _session.LoadAsync<TEntity>(id);
 
-            return Task.FromResult(document);
+            return document;
         }
 
         public void Add(TEntity entity)

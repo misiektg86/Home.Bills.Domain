@@ -80,7 +80,6 @@ namespace Home.Bills
             {
                 var bus = ApplicationContainer.Resolve<IBusControl>();
 
-                MessageBusConverter.Bus = bus; // TODO to solve
                 Entity<Guid>.StaticBus = bus; // TODO to solve
                 bus.Start();
             });

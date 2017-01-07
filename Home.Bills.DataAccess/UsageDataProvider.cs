@@ -17,34 +17,39 @@ namespace Home.Bills.DataAccess
         }
 
         public async Task<IEnumerable<Dto.Usage>> GetLastUsages(Guid addressId)
-            =>
-                await _documentSession.Query<MeterRead>()
-                    .Where(i => i.AddressId == addressId).OrderByDescending(read => read.ReadBeginDateTime).Take(1)
-                    .SelectMany(i=>i.Usages).Select(
-                        i =>
-                            new Dto.Usage()
-                            {
-                                AddressId = i.AddressId,
-                                UsageId = i.Id,
-                                MeterId = i.MeterId,
-                                ReadDateTime = i.ReadDateTime,
-                                Value = i.Value
-                            })
-                    .ToListAsync();
+        {
+            var metrRead =
+            await _documentSession.Query<MeterRead>()
+                    .Where(i => i.AddressId == addressId).OrderByDescending(read => read.ReadBeginDateTime).Take(1).ToListAsync();
 
-        public async Task<IEnumerable<Dto.Usage>> GetUsages(Guid meterReadId)
+            return metrRead?.SelectMany(i => i.Usages).Select(
+                i =>
+                    new Dto.Usage()
+                    {
+                        AddressId = i.AddressId,
+                        UsageId = i.Id,
+                        MeterId = i.MeterId,
+                        ReadDateTime = i.ReadDateTime,
+                        Value = i.Value,
+                        CurrentRead = i.CurrentRead,
+                        PrevioudRead = i.PrevioudRead
+                    }).ToList();
+        }
+
+        public async Task<IEnumerable<Dto.Usage>> GetUsages(Guid addressId)
         {
             var meterRead = await _documentSession.Query<MeterRead>()
-                .FirstOrDefaultAsync(i => i.Id == meterReadId);
+                .Where(i => i.AddressId == addressId).ToListAsync();
 
-            return meterRead?.Usages.Select(i => new Dto.Usage()
+            return meterRead?.SelectMany(read => read.Usages).Select(i => new Dto.Usage()
             {
                 AddressId = i.AddressId,
                 UsageId = i.Id,
                 MeterId = i.MeterId,
                 ReadDateTime = i.ReadDateTime,
                 Value = i.Value,
-                CurrentRead = i.CurrentRead
+                CurrentRead = i.CurrentRead,
+                PrevioudRead = i.PrevioudRead
             });
         }
     }

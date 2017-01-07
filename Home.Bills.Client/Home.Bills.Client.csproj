@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D3FD2514-61C4-426B-94B7-F08CC97D91B2}</ProjectGuid>
+    <ProjectGuid>{8F3DACC6-E1BA-4A51-A613-52D97B15A121}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Home.Bills.DataAccess</RootNamespace>
-    <AssemblyName>Home.Bills.DataAccess</AssemblyName>
+    <RootNamespace>Home.Bills.Client</RootNamespace>
+    <AssemblyName>Home.Bills.Client</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,12 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.2.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.2.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Baseline, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Baseline.1.1.0\lib\net451\Baseline.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Marten, Version=1.2.4.842, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Marten.1.2.4\lib\net46\Marten.dll</HintPath>
+    <Reference Include="Marten, Version=1.2.5.871, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Marten.1.2.5\lib\net46\Marten.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -65,23 +69,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddressDataProvider.cs" />
-    <Compile Include="Dto\Address.cs" />
-    <Compile Include="Dto\Meter.cs" />
-    <Compile Include="Dto\Usage.cs" />
-    <Compile Include="IMeterDataProvider.cs" />
-    <Compile Include="IUsageDataProvider.cs" />
+    <Compile Include="AutofacServiceClientModule.cs" />
+    <Compile Include="IServiceClient.cs" />
+    <Compile Include="MartenServiceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UsageDataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Frameworks.Light.Ddd\Frameworks.Light.Ddd.csproj">
       <Project>{8eb8e52d-0b05-41db-b488-fc6d5e628e7d}</Project>
       <Name>Frameworks.Light.Ddd</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Home.Bills.Domain\Home.Bills.Domain.csproj">
-      <Project>{54329B4C-84D2-473C-8187-C900C8207948}</Project>
-      <Name>Home.Bills.Domain</Name>
+    <ProjectReference Include="..\Home.Bills.DataAccess\Home.Bills.DataAccess.csproj">
+      <Project>{d3fd2514-61c4-426b-94b7-f08cc97d91b2}</Project>
+      <Name>Home.Bills.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
