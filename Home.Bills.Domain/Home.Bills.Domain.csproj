@@ -103,7 +103,6 @@
   <ItemGroup>
     <Compile Include="AddressAggregate\AddressFactory.cs" />
     <Compile Include="AddressAggregate\AddressFactoryInput.cs" />
-    <Compile Include="AddressAggregate\DataProviders\IAddressDataProvider.cs" />
     <Compile Include="AddressAggregate\Address.cs" />
     <Compile Include="AddressAggregate\Events\MeterReadProcessCanceled.cs" />
     <Compile Include="AddressAggregate\Events\MeterReadProcessFinished.cs" />
@@ -163,7 +162,9 @@
       <Name>Home.Bills.Domain.Messages</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AddressAggregate\DataProviders\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

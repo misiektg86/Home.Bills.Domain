@@ -1,16 +1,8 @@
 ﻿using System;
 using Autofac;
-using Automatonymous;
 using Frameworks.Light.Ddd;
 using GreenPipes.Policies;
 using GreenPipes.Policies.ExceptionFilters;
-using Home.Bills.DataAccess;
-using Home.Bills.Domain.AddressAggregate;
-using Home.Bills.Domain.AddressAggregate.Events;
-using Home.Bills.Domain.MeterAggregate;
-using Home.Bills.Domain.MeterReadAggregate;
-using Home.Bills.Domain.Services;
-using Home.Bills.Payments.Acl;
 using Home.Bills.Payments.Domain;
 using Home.Bills.Payments.Domain.Handlers;
 using Marten;
@@ -19,7 +11,7 @@ using MassTransit.MartenIntegration;
 using MassTransit.Saga;
 using Module = Autofac.Module;
 
-namespace Home.Bills
+namespace Home.Bills.Payments
 {
     public class ContainerModule : Module
     {
@@ -35,36 +27,20 @@ namespace Home.Bills
 
             #region Factories
 
-            builder.RegisterType<AddressFactory>()
-                .As<Frameworks.Light.Ddd.IAggregateFactory<Address, AddressFactoryInput, Guid>>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<MeterFactory>()
-               .As<Frameworks.Light.Ddd.IAggregateFactory<Meter, MeterFactoryInput, Guid>>()
-               .InstancePerLifetimeScope();
-
-            builder.RegisterType<MeterReadFactory>()
-             .As<Frameworks.Light.Ddd.IAggregateFactory<MeterRead, MeterReadFactoryInput, Guid>>()
-             .InstancePerLifetimeScope();
-
             builder.RegisterType<Payments.Domain.AddressAggregate.AddressFactory>()
-            .As<Frameworks.Light.Ddd.IAggregateFactory<Payments.Domain.AddressAggregate.Address, Payments.Domain.AddressAggregate.AddressFactoryInput, Guid>>()
+            .As<IAggregateFactory<Payments.Domain.AddressAggregate.Address, Payments.Domain.AddressAggregate.AddressFactoryInput, Guid>>()
             .InstancePerLifetimeScope();
 
             #endregion
 
             #region DataProviders
 
-            builder.RegisterType<AddressDataProvider>().As<IAddressDataProvider>().InstancePerLifetimeScope();
             builder.RegisterType<PaymentsDataProvider>().As<IPaymentsDataProvider>().InstancePerLifetimeScope();
-            builder.RegisterType<MeterDataProvider>().As<IMeterDataProvider>().InstancePerLifetimeScope();
-            builder.RegisterType<UsageDataProvider>().As<IUsageDataProvider>().InstancePerLifetimeScope();
 
             #endregion
 
             #region DomainServices
 
-            builder.RegisterType<UsageDomainService>().AsSelf().InstancePerLifetimeScope();
 
             #endregion
 
@@ -79,8 +55,8 @@ namespace Home.Bills
 
             #region MassTransit
 
-            builder.RegisterStateMachineSagas(typeof(MeterMountedAtAddress).Assembly).InstancePerLifetimeScope();
-            builder.RegisterConsumers(typeof(AddressCreatedConsumer).Assembly, typeof(CreateAddressHandler).Assembly, typeof(MeterMountedAtAddress).Assembly).InstancePerLifetimeScope();
+            builder.RegisterStateMachineSagas(typeof(CreateAddressHandler).Assembly).InstancePerLifetimeScope();
+            builder.RegisterConsumers(typeof(CreateAddressHandler).Assembly).InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(MartenSagaRepository<>)).As(typeof(ISagaRepository<>)).InstancePerLifetimeScope();
             builder.Register(context =>
             {

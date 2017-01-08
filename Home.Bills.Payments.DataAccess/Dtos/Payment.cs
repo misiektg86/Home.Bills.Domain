@@ -1,6 +1,7 @@
 ﻿using System;
+using Home.Bills.Payments.Domain;
 
-namespace Home.Bills.Dtos
+namespace Home.Bills.Payments.DataAccess.Dtos
 {
     public struct Payment
     {
@@ -16,7 +17,7 @@ namespace Home.Bills.Dtos
 
         public decimal ToPay { get; set; }
 
-        public static explicit operator Payment(Payments.Domain.PaymentInformation source)
+        public static explicit operator Payment(PaymentInformation source)
         {
             return new Payment
             {

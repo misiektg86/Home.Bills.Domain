@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Home.Bills.Domain.AddressAggregate;
-using Home.Bills.Domain.AddressAggregate.DataProviders;
-using Home.Bills.Domain.AddressAggregate.Events;
-using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Domain.AddressAggregate.ValueObjects;
 using Marten;
 
@@ -30,13 +27,46 @@ namespace Home.Bills.DataAccess
                     i.Information.HomeNumber.Equals(homeNumber, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public async Task<IEnumerable<AddressInformation>> GetAddresses()
+        public async Task<IEnumerable<Dto.Address>> GetAddresses()
         {
             var list =
                 await
                     _documentSession.Query<Address>().ToListAsync();
 
-            return list.Select(i => i.Information).ToList();
+            return list.Select(i => new Dto.Address()
+            {
+                AddressId = i.Id,
+                CheckedInPersons = i.CheckedInPersons,
+                City = i.Information.City,
+                HomeNumber = i.Information.HomeNumber,
+                LastFinishedMeterReadProcess = i.LastFinishedMeterReadProcess,
+                MeterReadId = i.MeterReadId,
+                Meters = i.Meters.ToList(),
+                SquareMeters = i.Information.SquareMeters,
+                Street = i.Information.Street,
+                StreetNumber = i.Information.StreetNumber
+            }).ToList();
+        }
+
+        public async Task<Dto.Address> GetAddress(Guid addressId)
+        {
+            var address =
+                await
+                    _documentSession.Query<Address>().FirstOrDefaultAsync(i => i.Id == addressId);
+
+            return new Dto.Address()
+            {
+                AddressId = address.Id,
+                CheckedInPersons = address.CheckedInPersons,
+                City = address.Information.City,
+                HomeNumber = address.Information.HomeNumber,
+                LastFinishedMeterReadProcess = address.LastFinishedMeterReadProcess,
+                MeterReadId = address.MeterReadId,
+                Meters = address.Meters.ToList(),
+                SquareMeters = address.Information.SquareMeters,
+                Street = address.Information.Street,
+                StreetNumber = address.Information.StreetNumber
+            };
         }
     }
 }

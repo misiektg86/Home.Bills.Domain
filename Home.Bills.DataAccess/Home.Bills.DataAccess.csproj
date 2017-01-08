@@ -69,6 +69,7 @@
     <Compile Include="Dto\Address.cs" />
     <Compile Include="Dto\Meter.cs" />
     <Compile Include="Dto\Usage.cs" />
+    <Compile Include="IAddressDataProvider.cs" />
     <Compile Include="IMeterDataProvider.cs" />
     <Compile Include="IUsageDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

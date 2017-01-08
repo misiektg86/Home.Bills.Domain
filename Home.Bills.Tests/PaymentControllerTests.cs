@@ -5,11 +5,12 @@ using System.Net;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Controllers;
+using Home.Bills.Payments.Controllers;
 using Home.Bills.Payments.Domain;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Xunit;
-using Payment = Home.Bills.Dtos.Payment;
+using Payment = Home.Bills.Payments.DataAccess.Dtos.Payment;
 
 namespace Home.Bills.Tests
 {

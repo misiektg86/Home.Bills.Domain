@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Controllers;
+using Home.Bills.DataAccess;
 using Home.Bills.Domain.AddressAggregate;
-using Home.Bills.Domain.AddressAggregate.DataProviders;
 using NSubstitute;
 using Xunit;
 using Address = Home.Bills.Domain.AddressAggregate.Address;
