@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressCreatedConsumer.cs" />
+    <Compile Include="MeterReadProcessFinishedConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsageCreatedConsumer.cs" />
   </ItemGroup>
@@ -64,6 +65,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Home.Bills.Client\Home.Bills.Client.csproj">
+      <Project>{8f3dacc6-e1ba-4a51-a613-52d97b15a121}</Project>
+      <Name>Home.Bills.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Home.Bills.Domain.Messages\Home.Bills.Domain.Messages.csproj">
       <Project>{343625a4-2148-4c13-9085-1ea2797f7046}</Project>
       <Name>Home.Bills.Domain.Messages</Name>

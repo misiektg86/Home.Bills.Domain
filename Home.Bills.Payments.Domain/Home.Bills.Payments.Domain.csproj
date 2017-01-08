@@ -84,7 +84,9 @@
     <Compile Include="AddressAggregate\IRentPolicy.cs" />
     <Compile Include="AddressAggregate\NoActiveBillForMonthException.cs" />
     <Compile Include="AddressAggregate\PaymentBundle.cs" />
+    <Compile Include="AddressAggregate\PersonsUpdatedAtAddress.cs" />
     <Compile Include="AddressAggregate\Rent.cs" />
+    <Compile Include="AddressAggregate\RentAppliedForAddress.cs" />
     <Compile Include="AddressAggregate\StandardRentForApartmentPolicy.cs" />
     <Compile Include="AddressAggregate\TariffNotAssignedException.cs" />
     <Compile Include="AddressAggregate\Usage.cs" />
@@ -98,6 +100,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Handlers\CreateAddressHandler.cs" />
     <Compile Include="Handlers\RegisterUsageHandler.cs" />
+    <Compile Include="RegistratorAgregate\Registrator.cs" />
+    <Compile Include="RegistratorAgregate\TariffAppliedForRegistrator.cs" />
+    <Compile Include="TariffAggregate\Tariff.cs" />
+    <Compile Include="TariffAggregate\TariffExpiredException.cs" />
+    <Compile Include="TariffAggregate\TariffRevoked.cs" />
+    <Compile Include="TariffAggregate\TariffRevokedException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Frameworks.Light.Ddd\Frameworks.Light.Ddd.csproj">

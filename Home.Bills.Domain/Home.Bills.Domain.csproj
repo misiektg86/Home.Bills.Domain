@@ -145,7 +145,7 @@
     <Compile Include="Consumers\MeterUnmountedConsumer.cs" />
     <Compile Include="Services\UsageDomainService.cs" />
     <Compile Include="MeterReadAggregate\MeterRead.cs" />
-    <Compile Include="MeterReadAggregate\MeterReadCompleted.cs" />
+    <Compile Include="MeterReadAggregate\FinishMeterReadProcess.cs" />
     <Compile Include="MeterReadAggregate\ReadProvided.cs" />
     <Compile Include="MeterReadAggregate\Usage.cs" />
   </ItemGroup>
