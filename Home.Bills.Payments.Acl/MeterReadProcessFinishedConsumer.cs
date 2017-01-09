@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Home.Bills.Client;
 using Home.Bills.Domain.Messages;
+using Home.Bills.Payments.Domain.Consumers;
 using MassTransit;
 
 namespace Home.Bills.Payments.Acl
@@ -15,7 +16,12 @@ namespace Home.Bills.Payments.Acl
 
         public Task Consume(ConsumeContext<IMeterReadProcessFinished> context)
         {
-            throw new System.NotImplementedException();
+            return
+                context.Publish(new RegistratorReadFinished()
+                {
+                    AddressId = context.Message.AddressId,
+                    MeterReadId = context.Message.MeterReadId
+                });
         }
     }
 }

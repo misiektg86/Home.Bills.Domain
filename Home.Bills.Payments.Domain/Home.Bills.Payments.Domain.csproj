@@ -92,6 +92,8 @@
     <Compile Include="AddressAggregate\Usage.cs" />
     <Compile Include="Commands\CreateAddress.cs" />
     <Compile Include="Commands\RegisterUsage.cs" />
+    <Compile Include="Consumers\RegistratorReadFinished.cs" />
+    <Compile Include="Consumers\RegistratorReadFinishedConsumer.cs" />
     <Compile Include="IPaymentsDataProvider.cs" />
     <Compile Include="Payment.cs" />
     <Compile Include="PaymentAlreadyPaidException.cs" />
