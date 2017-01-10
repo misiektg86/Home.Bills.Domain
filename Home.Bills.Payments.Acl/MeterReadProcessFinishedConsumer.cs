@@ -9,7 +9,8 @@ namespace Home.Bills.Payments.Acl
     public class MeterReadProcessFinishedConsumer : IConsumer<IMeterReadProcessFinished>
     {
         private readonly IServiceClient _billsServiceClient;
-        public MeterReadProcessFinishedConsumer(IServiceClient billsServiceClient)
+
+        public MeterReadProcessFinishedConsumer(IServiceClient billsServiceClient)  
         {
             _billsServiceClient = billsServiceClient;
         }
@@ -17,7 +18,7 @@ namespace Home.Bills.Payments.Acl
         public Task Consume(ConsumeContext<IMeterReadProcessFinished> context)
         {
             return
-                context.Publish(new RegistratorReadFinished()
+                context.Publish(new RegistratorsReadFinished
                 {
                     AddressId = context.Message.AddressId,
                     MeterReadId = context.Message.MeterReadId
