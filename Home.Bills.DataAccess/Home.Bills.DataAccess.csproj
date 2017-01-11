@@ -68,10 +68,14 @@
     <Compile Include="AddressDataProvider.cs" />
     <Compile Include="Dto\Address.cs" />
     <Compile Include="Dto\Meter.cs" />
+    <Compile Include="Dto\MeterRead.cs" />
     <Compile Include="Dto\Usage.cs" />
     <Compile Include="IAddressDataProvider.cs" />
     <Compile Include="IMeterDataProvider.cs" />
+    <Compile Include="IMeterReadDataProvider.cs" />
     <Compile Include="IUsageDataProvider.cs" />
+    <Compile Include="MeterDataProvider.cs" />
+    <Compile Include="MeterReadDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsageDataProvider.cs" />
   </ItemGroup>

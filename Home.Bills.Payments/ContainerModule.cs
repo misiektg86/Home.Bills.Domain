@@ -3,6 +3,7 @@ using Autofac;
 using Frameworks.Light.Ddd;
 using GreenPipes.Policies;
 using GreenPipes.Policies.ExceptionFilters;
+using Home.Bills.Payments.DataAccess;
 using Home.Bills.Payments.Domain;
 using Home.Bills.Payments.Domain.Handlers;
 using Marten;

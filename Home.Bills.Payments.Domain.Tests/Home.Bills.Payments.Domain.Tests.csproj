@@ -106,10 +106,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AclTests.cs" />
-    <Compile Include="AddressTests.cs" />
     <Compile Include="InfrastructureFixture.cs" />
     <Compile Include="MartenDatabaseFixture.cs" />
-    <Compile Include="PaymentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +126,10 @@
     <ProjectReference Include="..\Home.Bills.Payments.Acl\Home.Bills.Payments.Acl.csproj">
       <Project>{4F7EDD0B-243A-4802-849F-686823729DB3}</Project>
       <Name>Home.Bills.Payments.Acl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Payments.DataAccess\Home.Bills.Payments.DataAccess.csproj">
+      <Project>{C60259B7-287C-4AC3-8018-A51AF693E936}</Project>
+      <Name>Home.Bills.Payments.DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\Home.Bills.Payments.Domain\Home.Bills.Payments.Domain.csproj">
       <Project>{6955C978-356F-4813-B0C5-7DF5A3B773B3}</Project>

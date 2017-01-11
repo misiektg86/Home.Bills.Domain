@@ -1,71 +1,72 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Frameworks.Light.Ddd;
-using Home.Bills.Payments.Domain;
-using Microsoft.AspNetCore.Mvc;
-using Payment = Home.Bills.Payments.DataAccess.Dtos.Payment;
+﻿//using System;
+//using System.Linq;
+//using System.Net;
+//using System.Threading.Tasks;
+//using Frameworks.Light.Ddd;
+//using Home.Bills.Payments.DataAccess;
+//using Home.Bills.Payments.Domain;
+//using Microsoft.AspNetCore.Mvc;
+//using Payment = Home.Bills.Payments.DataAccess.Dtos.Payment;
 
-namespace Home.Bills.Payments.Controllers
-{
-    [Route("api/[controller]")]
-    public class PaymentController : Controller
-    {
-        private readonly IPaymentsDataProvider _paymentDataProvider;
-        private readonly IRepository<Payments.Domain.Payment, Guid> _paymentsRepository;
+//namespace Home.Bills.Payments.Controllers
+//{
+//    [Route("api/[controller]")]
+//    public class PaymentController : Controller
+//    {
+//        private readonly IPaymentsDataProvider _paymentDataProvider;
+//        private readonly IRepository<Payments.Domain.Payment, Guid> _paymentsRepository;
 
-        public PaymentController(IPaymentsDataProvider paymentDataProvider, IRepository<Payments.Domain.Payment, Guid> paymentsRepository)
-        {
-            _paymentDataProvider = paymentDataProvider;
-            _paymentsRepository = paymentsRepository;
-        }
+//        public PaymentController(IPaymentsDataProvider paymentDataProvider, IRepository<Payments.Domain.Payment, Guid> paymentsRepository)
+//        {
+//            _paymentDataProvider = paymentDataProvider;
+//            _paymentsRepository = paymentsRepository;
+//        }
 
-        [HttpGet("{addressId}")]
-        public async Task<IActionResult> GetPayments(Guid addressId)
-        {
-            var payments = await _paymentDataProvider.GetAllPaymentsForAddress(addressId);
+//        [HttpGet("{addressId}")]
+//        public async Task<IActionResult> GetPayments(Guid addressId)
+//        {
+//            var payments = await _paymentDataProvider.GetAllPaymentsForAddress(addressId);
 
-            if (payments == null)
-            {
-                return new NotFoundResult();
-            }
+//            if (payments == null)
+//            {
+//                return new NotFoundResult();
+//            }
 
-            return new ObjectResult(payments.Select(i => (Payment)i));
-        }
+//            return new ObjectResult(payments.Select(i => (Payment)i));
+//        }
 
-        [HttpPost]
-        public async Task<IActionResult> CreatePayment([FromBody]Guid addressId, [FromBody]decimal amount, [FromBody]string description)
-        {
-            var activePaymentExists = await _paymentDataProvider.ActivePaymentExists(addressId);
+//        [HttpPost]
+//        public async Task<IActionResult> CreatePayment([FromBody]Guid addressId, [FromBody]decimal amount, [FromBody]string description)
+//        {
+//            var activePaymentExists = await _paymentDataProvider.ActivePaymentExists(addressId);
 
-            if (activePaymentExists)
-            {
-                return StatusCode((int)HttpStatusCode.Conflict);
-            }
+//            if (activePaymentExists)
+//            {
+//                return StatusCode((int)HttpStatusCode.Conflict);
+//            }
 
-            var payment = Payments.Domain.Payment.Create(addressId, amount, description);
+//            var payment = Payments.Domain.Payment.Create(addressId, amount, description);
 
-            _paymentsRepository.Add(payment);
+//            _paymentsRepository.Add(payment);
 
-            return StatusCode(200, payment.Id);
-        }
+//            return StatusCode(200, payment.Id);
+//        }
 
-        [HttpPut("{paymentId}")]
-        public async Task<IActionResult> Pay(Guid paymentId)
-        {
-            var payment = await _paymentsRepository.Get(paymentId);
+//        [HttpPut("{paymentId}")]
+//        public async Task<IActionResult> Pay(Guid paymentId)
+//        {
+//            var payment = await _paymentsRepository.Get(paymentId);
 
-            if (payment == null)
-            {
-                return NotFound(paymentId);
-            }
+//            if (payment == null)
+//            {
+//                return NotFound(paymentId);
+//            }
 
-            payment.Pay();
+//            payment.Pay();
 
-            _paymentsRepository.Update(payment);
+//            _paymentsRepository.Update(payment);
 
-            return StatusCode(200);
-        }
-    }
-}
+//            return StatusCode(200);
+//        }
+//    }
+//}

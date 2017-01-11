@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Autofac;
-using Home.Bills.Payments.Domain;
+using Home.Bills.Payments.Domain.PaymentAggregate;
 using Marten;
 using Marten.Services;
 using MassTransit;

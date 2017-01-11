@@ -14,5 +14,7 @@ namespace Home.Bills.Client
         Task<Address> GetAddressDetails(Guid addressId);
 
         Task<Meter> GetMeter(Guid meterId);
+
+        Task<MeterRead> GetMeterRead(Guid meterReadId);
     }
 }

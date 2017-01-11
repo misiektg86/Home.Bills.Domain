@@ -6,7 +6,7 @@ namespace Home.Bills.DataAccess.Dto
     {
         public Guid AddressId { get; set; }
 
-        public Guid UsageId { get; set; }
+        public Guid MeterReadId { get; set; }
 
         public double Value { get; set; }
 
