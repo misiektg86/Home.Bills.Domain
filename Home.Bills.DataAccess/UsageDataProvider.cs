@@ -27,7 +27,7 @@ namespace Home.Bills.DataAccess
                     new Dto.Usage()
                     {
                         AddressId = i.AddressId,
-                        UsageId = i.Id,
+                        MeterReadId = i.MeterReadId,
                         MeterId = i.MeterId,
                         ReadDateTime = i.ReadDateTime,
                         Value = i.Value,
@@ -44,7 +44,7 @@ namespace Home.Bills.DataAccess
             return meterRead?.SelectMany(read => read.Usages).Select(i => new Dto.Usage()
             {
                 AddressId = i.AddressId,
-                UsageId = i.Id,
+                MeterReadId = i.MeterReadId,
                 MeterId = i.MeterId,
                 ReadDateTime = i.ReadDateTime,
                 Value = i.Value,

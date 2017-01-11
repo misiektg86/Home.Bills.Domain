@@ -23,6 +23,12 @@ namespace Home.Bills.Domain.AddressAggregate
         [JsonIgnore]
         public AddressInformation Information => _addressInformation?.Clone();
 
+        [JsonIgnore]
+        public Guid? MeterReadId => _meterReadId;
+
+        [JsonIgnore]
+        public List<Guid> Meters => _meters;
+
         private Guid? _meterReadId;
 
         internal Address() { }

@@ -1,0 +1,80 @@
+{
+  "version": 2,
+  "exports": {
+    "Frameworks.Light.Ddd/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Frameworks.Light.Ddd.dll": {}
+      },
+      "runtime": {
+        "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
+        "../packages/GreenPipes.1.0.6/lib/net452/GreenPipes.dll": {},
+        "../packages/Marten.1.2.4/lib/net46/Marten.dll": {},
+        "../packages/MassTransit.3.5.2/lib/net452/MassTransit.dll": {},
+        "../packages/NewId.3.0.0/lib/net452/NewId.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},
+        "../packages/Remotion.Linq.2.1.1/lib/net45/Remotion.Linq.dll": {},
+        "../packages/System.Threading.Tasks.Dataflow.4.6.0/lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {},
+        "bin/Debug/Frameworks.Light.Ddd.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Frameworks.Light.Ddd.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Home.Bills.Payments.DataAccess/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Payments.DataAccess.dll": {}
+      },
+      "runtime": {
+        "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
+        "../packages/Marten.1.2.5/lib/net46/Marten.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},
+        "../packages/Remotion.Linq.2.1.1/lib/net45/Remotion.Linq.dll": {},
+        "../packages/System.Threading.Tasks.Dataflow.4.6.0/lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {},
+        "bin/Debug/Home.Bills.Payments.DataAccess.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Payments.DataAccess.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Home.Bills.Payments.Domain/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Payments.Domain.dll": {}
+      },
+      "runtime": {
+        "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
+        "../packages/GreenPipes.1.0.6/lib/net452/GreenPipes.dll": {},
+        "../packages/Marten.1.2.0/lib/net46/Marten.dll": {},
+        "../packages/MassTransit.3.5.2/lib/net452/MassTransit.dll": {},
+        "../packages/NewId.3.0.0/lib/net452/NewId.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},
+        "../packages/Remotion.Linq.2.1.1/lib/net45/Remotion.Linq.dll": {},
+        "../packages/System.Threading.Tasks.Dataflow.4.6.0/lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {},
+        "bin/Debug/Home.Bills.Payments.Domain.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Payments.Domain.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}

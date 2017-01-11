@@ -2,8 +2,8 @@
 using System.Net;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
+using Home.Bills.DataAccess;
 using Home.Bills.Domain.AddressAggregate;
-using Home.Bills.Domain.AddressAggregate.DataProviders;
 using Home.Bills.Models;
 using Microsoft.AspNetCore.Mvc;
 using Address = Home.Bills.Domain.AddressAggregate.Address;
@@ -35,7 +35,7 @@ namespace Home.Bills.Controllers
         [HttpGet("{id}", Name = "GetAddress")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var item = await _addressRepository.Get(id);
+            var item = await _addressDataProvider.GetAddress(id);
 
             if (item == null)
             {
