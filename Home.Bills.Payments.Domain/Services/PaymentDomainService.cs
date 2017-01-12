@@ -1,17 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Frameworks.Light.Ddd;
 using Home.Bills.Payments.Domain.Consumers;
+using Home.Bills.Payments.Domain.PaymentAggregate;
+using Home.Bills.Payments.Domain.RegistratorAgregate;
+using Home.Bills.Payments.Domain.TariffAggregate;
+using Marten;
 
 namespace Home.Bills.Payments.Domain.Services
 {
     public class PaymentDomainService
     {
-        public PaymentDomainService() { }
+        private readonly IAggregateFactory<Payment, PaymentFactoryInput, Guid> _aggregateFactory;
+        private readonly IRepository<Registrator, Guid> _registratorRepository;
+        private readonly IRepository<Tariff, Guid> _tariffRepository;
+        private readonly IRepository<Payment, Guid> _paymentRepository;
 
-        public Task CreatePayment(Guid messageMeterReadId, Guid messageAddressId, List<RegisteredUsage> toList)
+        public PaymentDomainService(IAggregateFactory<Payment, PaymentFactoryInput, Guid> aggregateFactory,
+            IRepository<Registrator, Guid> registratorRepository, IRepository<Tariff, Guid> tariffRepository,
+            IRepository<Payment, Guid> paymentRepository)
         {
-            throw new NotImplementedException();
+            _aggregateFactory = aggregateFactory;
+            _registratorRepository = registratorRepository;
+            _tariffRepository = tariffRepository;
+            _paymentRepository = paymentRepository;
+        }
+
+        public async Task CreatePayment(Guid paymentId, Guid addressId, IEnumerable<RegisteredUsage> registeredUsages)
+        {
+            var payment =
+                _aggregateFactory.Create(new PaymentFactoryInput() { AddressId = addressId, PaymentId = paymentId });
+
+            foreach (var registeredUsage in registeredUsages)
+            {
+                var registrator = await _registratorRepository.Get(registeredUsage.MeterId);
+
+                var tariff = await _tariffRepository.Get(registrator.TariffId);
+
+                var amountToPay = new decimal(registeredUsage.Value) * tariff.TariffValue;
+
+                PaymentItem item = new PaymentItem(tariff.Description, amountToPay);
+
+                payment.AddPaymentItem(item);
+            }
+
+            _paymentRepository.Add(payment);
         }
     }
 }

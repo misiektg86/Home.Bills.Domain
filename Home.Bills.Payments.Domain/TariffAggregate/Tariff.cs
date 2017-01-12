@@ -1,5 +1,6 @@
 ﻿using System;
 using Frameworks.Light.Ddd;
+using MassTransit;
 
 namespace Home.Bills.Payments.Domain.TariffAggregate
 {
@@ -10,6 +11,8 @@ namespace Home.Bills.Payments.Domain.TariffAggregate
         public DateTime? ValidTo { get; private set; }
 
         public bool Revoked { get; private set; }
+
+        public string Description { get; private set; }
 
         /// <summary>
         /// Gets tariff value.
@@ -35,12 +38,18 @@ namespace Home.Bills.Payments.Domain.TariffAggregate
 
         internal Tariff() { }
 
-        internal Tariff(Guid tariffId, DateTime created, DateTime? validTo, decimal tariffValue)
+        internal Tariff(Guid tariffId, DateTime created, DateTime? validTo, decimal tariffValue, string description, IBus messageBus) : base(messageBus)
         {
             _tariffValue = tariffValue;
             Created = created;
             ValidTo = validTo;
+            Description = description;
             Id = tariffId;
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = description;
         }
 
         /// <summary>
@@ -50,7 +59,7 @@ namespace Home.Bills.Payments.Domain.TariffAggregate
         /// <exception cref="TariffExpiredException">Throws exception if tariff expiration date is less than current dateTime.</exception>
         public void RenewTariff(DateTime validTo)
         {
-            if(validTo < DateTime.Now)
+            if (validTo < DateTime.Now)
                 throw new TariffExpiredException(Id.ToString());
 
             ValidTo = validTo;
@@ -60,7 +69,7 @@ namespace Home.Bills.Payments.Domain.TariffAggregate
         {
             Revoked = true;
 
-            Publish(new TariffRevoked {TariffId = Id});
+            Publish(new TariffRevoked { TariffId = Id });
         }
 
     }

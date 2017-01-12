@@ -17,6 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Frameworks.Light.Ddd\Frameworks.Light.Ddd.csproj" />
+    <ProjectReference Include="..\Home.Bills.Client\Home.Bills.Client.csproj" />
     <ProjectReference Include="..\Home.Bills.Payments.DataAccess\Home.Bills.Payments.DataAccess.csproj" />
     <ProjectReference Include="..\Home.Bills.Payments.Domain\Home.Bills.Payments.Domain.csproj" />
   </ItemGroup>

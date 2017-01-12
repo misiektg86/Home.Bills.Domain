@@ -1,72 +1,64 @@
-﻿//using System;
-//using System.Linq;
-//using System.Net;
-//using System.Threading.Tasks;
-//using Frameworks.Light.Ddd;
-//using Home.Bills.Payments.DataAccess;
-//using Home.Bills.Payments.Domain;
-//using Microsoft.AspNetCore.Mvc;
-//using Payment = Home.Bills.Payments.DataAccess.Dtos.Payment;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Home.Bills.Client;
+using Home.Bills.DataAccess.Dto;
+using Home.Bills.Payments.Domain.Consumers;
+using Home.Bills.Payments.Domain.Services;
+using Microsoft.AspNetCore.Mvc;
 
-//namespace Home.Bills.Payments.Controllers
-//{
-//    [Route("api/[controller]")]
-//    public class PaymentController : Controller
-//    {
-//        private readonly IPaymentsDataProvider _paymentDataProvider;
-//        private readonly IRepository<Payments.Domain.Payment, Guid> _paymentsRepository;
+namespace Home.Bills.Payments.Controllers
+{
+    [Route("api/[controller]")]
+    public class PaymentController : Controller
+    {
+        private readonly IServiceClient _serviceClient;
+        private readonly PaymentDomainService _paymentDomainService;
 
-//        public PaymentController(IPaymentsDataProvider paymentDataProvider, IRepository<Payments.Domain.Payment, Guid> paymentsRepository)
-//        {
-//            _paymentDataProvider = paymentDataProvider;
-//            _paymentsRepository = paymentsRepository;
-//        }
+        public PaymentController(IServiceClient serviceClient, PaymentDomainService paymentDomainService )
+        {
+            _serviceClient = serviceClient;
+            _paymentDomainService = paymentDomainService;
+        }
 
-//        [HttpGet("{addressId}")]
-//        public async Task<IActionResult> GetPayments(Guid addressId)
-//        {
-//            var payments = await _paymentDataProvider.GetAllPaymentsForAddress(addressId);
+        //[HttpGet("{addressId}")]
+        //public async Task<IActionResult> GetPayments(Guid addressId)
+        //{
+        //    var payments = await _paymentDataProvider.GetAllPaymentsForAddress(addressId);
 
-//            if (payments == null)
-//            {
-//                return new NotFoundResult();
-//            }
+        //    if (payments == null)
+        //    {
+        //        return new NotFoundResult();
+        //    }
 
-//            return new ObjectResult(payments.Select(i => (Payment)i));
-//        }
+        //    return new ObjectResult(payments.Select(i => (Payment)i));
+        //}
 
-//        [HttpPost]
-//        public async Task<IActionResult> CreatePayment([FromBody]Guid addressId, [FromBody]decimal amount, [FromBody]string description)
-//        {
-//            var activePaymentExists = await _paymentDataProvider.ActivePaymentExists(addressId);
+        [HttpPost]
+        public async Task<IActionResult> CreatePayment([FromBody]CreatePayment model)
+        {
+            var meterRead = await _serviceClient.GetMeterRead(model.MeterReadId);
 
-//            if (activePaymentExists)
-//            {
-//                return StatusCode((int)HttpStatusCode.Conflict);
-//            }
+            await _paymentDomainService.CreatePayment(model.MeterReadId, model.AddressId, meterRead.Usages.Select(Convert).ToList());
 
-//            var payment = Payments.Domain.Payment.Create(addressId, amount, description);
+            return StatusCode(200, model.PaymentId);
+        }
 
-//            _paymentsRepository.Add(payment);
+        public static RegisteredUsage Convert(Usage dto)
+        {
+            return new RegisteredUsage()
+            {
+                MeterId = dto.MeterId,
+                Value = dto.Value,
+                ReadDateTime = dto.ReadDateTime
+            };
+        }
+    }
 
-//            return StatusCode(200, payment.Id);
-//        }
-
-//        [HttpPut("{paymentId}")]
-//        public async Task<IActionResult> Pay(Guid paymentId)
-//        {
-//            var payment = await _paymentsRepository.Get(paymentId);
-
-//            if (payment == null)
-//            {
-//                return NotFound(paymentId);
-//            }
-
-//            payment.Pay();
-
-//            _paymentsRepository.Update(payment);
-
-//            return StatusCode(200);
-//        }
-//    }
-//}
+    public class CreatePayment
+    {
+        public Guid MeterReadId { get; set; }
+        public Guid AddressId { get; set; }
+        public Guid PaymentId { get; set; }
+    }
+}

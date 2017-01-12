@@ -92,6 +92,8 @@
     <Compile Include="AddressAggregate\Usage.cs" />
     <Compile Include="Commands\CreateAddress.cs" />
     <Compile Include="Commands\RegisterUsage.cs" />
+    <Compile Include="PaymentAggregate\PaymentFactory.cs" />
+    <Compile Include="PaymentAggregate\PaymentFactoryInput.cs" />
     <Compile Include="Services\RegisteredUsage.cs" />
     <Compile Include="PaymentAggregate\CanceledPaymentException.cs" />
     <Compile Include="PaymentAggregate\CannotCancelSetteledPaymentException.cs" />
@@ -108,6 +110,8 @@
     <Compile Include="Services\PaymentDomainService.cs" />
     <Compile Include="TariffAggregate\Tariff.cs" />
     <Compile Include="TariffAggregate\TariffExpiredException.cs" />
+    <Compile Include="TariffAggregate\TariffFactory.cs" />
+    <Compile Include="TariffAggregate\TariffFactoryInput.cs" />
     <Compile Include="TariffAggregate\TariffRevoked.cs" />
     <Compile Include="TariffAggregate\TariffRevokedException.cs" />
   </ItemGroup>
