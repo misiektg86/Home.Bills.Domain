@@ -1,5 +1,6 @@
-﻿{
+{
   "dependencies": {
+    "Autofac": "4.2.1",
     "Autofac.Extensions.DependencyInjection": "4.0.0",
     "Marten": "1.1.0",
     "MassTransit": "3.5.2",
@@ -32,6 +33,9 @@
     "net461": {
       "dependencies": {
         "Frameworks.Light.Ddd": {
+          "target": "project"
+        },
+        "Home.Bills.Client": {
           "target": "project"
         },
         "Home.Bills.Payments.DataAccess": {

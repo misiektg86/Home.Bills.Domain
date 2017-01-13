@@ -57,9 +57,9 @@ namespace Home.Bills
             #region DataProviders
 
             builder.RegisterType<AddressDataProvider>().As<IAddressDataProvider>().InstancePerLifetimeScope();
-            builder.RegisterType<PaymentsDataProvider>().As<IPaymentsDataProvider>().InstancePerLifetimeScope();
             builder.RegisterType<MeterDataProvider>().As<IMeterDataProvider>().InstancePerLifetimeScope();
             builder.RegisterType<UsageDataProvider>().As<IUsageDataProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<MeterReadDataProvider>().As<IMeterReadDataProvider>().InstancePerLifetimeScope();
 
             #endregion
 

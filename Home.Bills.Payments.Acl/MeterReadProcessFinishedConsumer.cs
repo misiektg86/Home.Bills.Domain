@@ -5,6 +5,7 @@ using Home.Bills.DataAccess.Dto;
 using Home.Bills.Domain.Messages;
 using Home.Bills.Payments.Domain.Consumers;
 using Home.Bills.Payments.Domain.Services;
+using Marten;
 using MassTransit;
 
 namespace Home.Bills.Payments.Acl
@@ -13,11 +14,13 @@ namespace Home.Bills.Payments.Acl
     {
         private readonly IServiceClient _billsServiceClient;
         private readonly PaymentDomainService _paymentDomainService;
+        private readonly IDocumentSession _documentSession;
 
-        public MeterReadProcessFinishedConsumer(IServiceClient billsServiceClient, PaymentDomainService paymentDomainService)
+        public MeterReadProcessFinishedConsumer(IServiceClient billsServiceClient, PaymentDomainService paymentDomainService, IDocumentSession documentSession)
         {
             _billsServiceClient = billsServiceClient;
             _paymentDomainService = paymentDomainService;
+            _documentSession = documentSession;
         }
 
         public async Task Consume(ConsumeContext<IMeterReadProcessFinished> context)
@@ -26,9 +29,11 @@ namespace Home.Bills.Payments.Acl
 
             await _paymentDomainService.CreatePayment(context.Message.MeterReadId, context.Message.AddressId,
                  meterRead.Usages.Select(Convert).ToList());
+
+            await _documentSession.SaveChangesAsync();
         }
 
-        private RegisteredUsage Convert(Usage dto)
+        public static RegisteredUsage Convert(Usage dto)
         {
             return new RegisteredUsage()
             {
