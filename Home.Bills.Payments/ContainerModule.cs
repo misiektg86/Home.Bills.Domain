@@ -5,6 +5,7 @@ using GreenPipes.Policies;
 using GreenPipes.Policies.ExceptionFilters;
 using Home.Bills.Client;
 using Home.Bills.Payments.DataAccess;
+using Home.Bills.Payments.DataAccess.Dtos;
 using Home.Bills.Payments.Domain;
 using Home.Bills.Payments.Domain.Handlers;
 using Home.Bills.Payments.Domain.Services;
@@ -55,6 +56,7 @@ namespace Home.Bills.Payments
             #region DomainServices
 
             builder.RegisterType<PaymentDomainService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<TariffDataProvider>().As<ITariffDataProvider>().InstancePerLifetimeScope();
 
             #endregion
 

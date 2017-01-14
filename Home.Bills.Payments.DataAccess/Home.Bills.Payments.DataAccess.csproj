@@ -66,11 +66,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConvertExtensions.cs" />
+    <Compile Include="Dtos\ITariffDataProvider.cs" />
+    <Compile Include="Dtos\Tariff.cs" />
     <Compile Include="IPaymentsDataProvider.cs" />
     <Compile Include="PaymentsDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Frameworks.Light.Ddd\Frameworks.Light.Ddd.csproj">
+      <Project>{8eb8e52d-0b05-41db-b488-fc6d5e628e7d}</Project>
+      <Name>Frameworks.Light.Ddd</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Home.Bills.Payments.Domain\Home.Bills.Payments.Domain.csproj">
       <Project>{6955C978-356F-4813-B0C5-7DF5A3B773B3}</Project>
       <Name>Home.Bills.Payments.Domain</Name>
@@ -79,9 +85,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dtos\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
