@@ -90,8 +90,9 @@
     <Compile Include="AddressAggregate\StandardRentForApartmentPolicy.cs" />
     <Compile Include="AddressAggregate\TariffNotAssignedException.cs" />
     <Compile Include="AddressAggregate\Usage.cs" />
-    <Compile Include="Commands\CreateAddress.cs" />
     <Compile Include="Commands\RegisterUsage.cs" />
+    <Compile Include="Consumers\AddressAddedConsumer.cs" />
+    <Compile Include="Consumers\RegistratorAddedConsumer.cs" />
     <Compile Include="PaymentAggregate\PaymentFactory.cs" />
     <Compile Include="PaymentAggregate\PaymentFactoryInput.cs" />
     <Compile Include="RegistratorAgregate\RegistratorFactory.cs" />
@@ -105,7 +106,6 @@
     <Compile Include="PaymentAggregate\PaymentItem.cs" />
     <Compile Include="PaymentAggregate\PaymentSettled.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Handlers\CreateAddressHandler.cs" />
     <Compile Include="RegistratorAgregate\Registrator.cs" />
     <Compile Include="RegistratorAgregate\TariffAppliedForRegistrator.cs" />
     <Compile Include="Services\PaymentDomainService.cs" />
@@ -121,11 +121,17 @@
       <Project>{8EB8E52D-0B05-41DB-B488-FC6D5E628E7D}</Project>
       <Name>Frameworks.Light.Ddd</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Payments.Messages\Home.Bills.Payments.Messages.csproj">
+      <Project>{cb09a61f-c713-469c-95eb-a648ac9aa99d}</Project>
+      <Name>Home.Bills.Payments.Messages</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Handlers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

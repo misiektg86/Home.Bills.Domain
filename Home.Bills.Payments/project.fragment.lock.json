@@ -126,6 +126,23 @@
         }
       }
     },
+    "Home.Bills.Payments.Messages/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Payments.Messages.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/Home.Bills.Payments.Messages.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Payments.Messages.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "Home.Bills.DataAccess/1.0.0": {
       "type": "project",
       "framework": ".NETFramework,Version=v4.6.1",

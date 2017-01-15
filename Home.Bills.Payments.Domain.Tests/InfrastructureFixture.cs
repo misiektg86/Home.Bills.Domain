@@ -5,9 +5,9 @@ using Home.Bills.Payments.Acl;
 using Home.Bills.Payments.DataAccess;
 using Home.Bills.Payments.DataAccess.Dtos;
 using Home.Bills.Payments.Domain.AddressAggregate;
-using Home.Bills.Payments.Domain.Handlers;
 using Marten;
 using MassTransit;
+using AddressAddedConsumer = Home.Bills.Payments.Domain.Consumers.AddressAddedConsumer;
 
 namespace Home.Bills.Payments.Domain.Tests
 {
@@ -40,7 +40,7 @@ namespace Home.Bills.Payments.Domain.Tests
 
             builder.RegisterType<PaymentsDataProvider>().As<IPaymentsDataProvider>().InstancePerLifetimeScope();
 
-            builder.RegisterConsumers(typeof(AddressCreatedConsumer).Assembly,typeof(CreateAddressHandler).Assembly);
+            builder.RegisterConsumers(typeof(MeterMountedAtAddressConsumer).Assembly,typeof(AddressAddedConsumer).Assembly);
             builder.Register(context =>
                 {
                     return MassTransit.Bus.Factory.CreateUsingInMemory(configurator =>

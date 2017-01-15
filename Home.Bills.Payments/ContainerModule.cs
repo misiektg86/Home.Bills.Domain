@@ -8,12 +8,12 @@ using Home.Bills.Client;
 using Home.Bills.Payments.Acl;
 using Home.Bills.Payments.DataAccess;
 using Home.Bills.Payments.DataAccess.Dtos;
-using Home.Bills.Payments.Domain.Handlers;
 using Home.Bills.Payments.Domain.Services;
 using Marten;
 using MassTransit;
 using MassTransit.MartenIntegration;
 using MassTransit.Saga;
+using AddressAddedConsumer = Home.Bills.Payments.Domain.Consumers.AddressAddedConsumer;
 using Module = Autofac.Module;
 
 namespace Home.Bills.Payments
@@ -79,9 +79,10 @@ namespace Home.Bills.Payments
 
             #region MassTransit
 
-            builder.RegisterStateMachineSagas(typeof(CreateAddressHandler).Assembly).InstancePerLifetimeScope();
-            builder.RegisterConsumers(typeof(CreateAddressHandler).Assembly, typeof(MeterReadProcessFinishedConsumer).Assembly).InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(MartenSagaRepository<>)).As(typeof(ISagaRepository<>)).InstancePerLifetimeScope();
+            builder.RegisterStateMachineSagas(typeof(AddressAddedConsumer).Assembly);
+            builder.RegisterConsumers(typeof(AddressAddedConsumer).Assembly,
+                typeof(MeterReadProcessFinishedConsumer).Assembly);
+            builder.RegisterGeneric(typeof(MartenSagaRepository<>)).As(typeof(ISagaRepository<>));
             builder.Register(context =>
             {
                 return Bus.Factory.CreateUsingRabbitMq(configurator =>
@@ -93,7 +94,7 @@ namespace Home.Bills.Payments
                             hostConfigurator.Password("bills");
                         });
 
-                    configurator.UseRetry(new IncrementalRetryPolicy(new AllExceptionFilter(), 10, TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(100)));
+                    configurator.UseRetry(new IncrementalRetryPolicy(new AllExceptionFilter(), 10, TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(200)));
 
                     configurator.ReceiveEndpoint(host, "Home.Bills.Payments", endpointConfigurator =>
                      {

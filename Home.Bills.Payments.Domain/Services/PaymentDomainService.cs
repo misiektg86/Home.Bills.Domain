@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
+using Home.Bills.Payments.Domain.AddressAggregate;
 using Home.Bills.Payments.Domain.Consumers;
 using Home.Bills.Payments.Domain.PaymentAggregate;
 using Home.Bills.Payments.Domain.RegistratorAgregate;
@@ -36,7 +37,12 @@ namespace Home.Bills.Payments.Domain.Services
             {
                 var registrator = await _registratorRepository.Get(registeredUsage.MeterId);
 
-                var tariff = await _tariffRepository.Get(registrator.TariffId);
+                if (!registrator.TariffId.HasValue)
+                {
+                    throw new TariffNotAssignedException(registrator.Id.ToString());
+                }
+
+                var tariff = await _tariffRepository.Get(registrator.TariffId.Value);
 
                 if (tariff.Revoked)
                 {

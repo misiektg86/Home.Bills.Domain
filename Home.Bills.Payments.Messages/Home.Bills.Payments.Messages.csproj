@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{343625A4-2148-4C13-9085-1EA2797F7046}</ProjectGuid>
+    <ProjectGuid>{CB09A61F-C713-469C-95EB-A648AC9AA99D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Home.Bills.Domain.Messages</RootNamespace>
-    <AssemblyName>Home.Bills.Domain.Messages</AssemblyName>
+    <RootNamespace>Home.Bills.Payments.Messages</RootNamespace>
+    <AssemblyName>Home.Bills.Payments.Messages</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,17 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAddressCreated.cs" />
-    <Compile Include="IMeterAdded.cs" />
-    <Compile Include="IMeterMountedAtAddress.cs" />
-    <Compile Include="IMeterReadProcessCanceled.cs" />
-    <Compile Include="IMeterReadProcessFinished.cs" />
-    <Compile Include="IPersonsCheckedIn.cs" />
-    <Compile Include="IPersonsCheckedOut.cs" />
-    <Compile Include="IUsageCalculated.cs" />
+    <Compile Include="IAddressAdded.cs" />
+    <Compile Include="IRegistratorAdded.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

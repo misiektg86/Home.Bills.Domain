@@ -1,5 +1,7 @@
 ﻿using System;
 using Autofac;
+using Autofac.Core;
+using Autofac.Core.Lifetime;
 using Automatonymous;
 using Frameworks.Light.Ddd;
 using GreenPipes;
@@ -64,18 +66,17 @@ namespace Home.Bills
 
             #region Marten
 
-            builder.Register(context => context.Resolve<IDocumentStore>().OpenSession())
+            builder.Register(context => context.Resolve<IDocumentStore>().OpenSession(DocumentTracking.None))
                 .As<IDocumentSession>()
                 .InstancePerLifetimeScope();
             builder.Register(context => DocumentStoreFactory.Create(context.Resolve<IComponentContext>())).As<IDocumentStore>().SingleInstance();
-
             #endregion
 
             #region MassTransit
 
-            builder.RegisterStateMachineSagas(typeof(MeterMountedAtAddress).Assembly).InstancePerLifetimeScope();
-            builder.RegisterConsumers(typeof(MeterMountedAtAddress).Assembly).InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(MartenSagaRepository<>)).As(typeof(ISagaRepository<>)).InstancePerLifetimeScope();
+            builder.RegisterStateMachineSagas(typeof(MeterMountedAtAddress).Assembly);
+            builder.RegisterConsumers(typeof(MeterMountedAtAddress).Assembly);
+            builder.RegisterGeneric(typeof(MartenSagaRepository<>)).As(typeof(ISagaRepository<>));
             builder.Register(context =>
             {
                 return Bus.Factory.CreateUsingRabbitMq(configurator =>
@@ -87,7 +88,7 @@ namespace Home.Bills
                             hostConfigurator.Password("bills");
                         });
 
-                    configurator.UseRetry(new IncrementalRetryPolicy(new AllExceptionFilter(), 10, TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(100)));
+                    configurator.UseRetry(new IncrementalRetryPolicy(new AllExceptionFilter(), 10, TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(200)));
 
                     configurator.ReceiveEndpoint(host, "Home.Bills", endpointConfigurator =>
                      {

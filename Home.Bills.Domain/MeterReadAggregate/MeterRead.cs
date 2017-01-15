@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
+using Home.Bills.Domain.MeterAggregate;
 using Newtonsoft.Json;
 
 namespace Home.Bills.Domain.MeterReadAggregate

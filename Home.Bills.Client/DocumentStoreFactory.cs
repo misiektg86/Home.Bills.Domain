@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using Autofac;
-using Home.Bills.Payments.Domain.PaymentAggregate;
 using Marten;
 using Marten.Services;
-using MassTransit;
+using Newtonsoft.Json.Serialization;
+using Home.Bills.Domain.MeterReadAggregate;
 
-namespace Home.Bills.Payments
+namespace Home.Bills.Client
 {
     public class DocumentStoreFactory
     {
@@ -14,15 +14,15 @@ namespace Home.Bills.Payments
             return DocumentStore
                 .For(_ =>
                 {
-                    _.AutoCreateSchemaObjects = AutoCreate.CreateOnly;
-
-                    _.DatabaseSchemaName = "home_bills_payments";
+                    _.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
+                    _.Schema.For<MeterRead>().UseOptimisticConcurrency(true);
+                    _.DatabaseSchemaName = "home_bills";
 
                     _.Connection("host=dev-machine;database=home_test;password=admin;username=postgres");
 
                     var serializer = new JsonNetSerializer();
 
-                    var dcr = new ContractResolver(componentContext.Resolve<IBus>);
+                    var dcr = new DefaultContractResolver();
 
                     dcr.DefaultMembersSearchFlags |= BindingFlags.NonPublic | BindingFlags.Instance;
 

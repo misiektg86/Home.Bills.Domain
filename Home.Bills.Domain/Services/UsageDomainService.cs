@@ -47,7 +47,7 @@ namespace Home.Bills.Domain.Services
 
             var lastMeterRead = await _meterReadRepository.Get(address.LastFinishedMeterReadProcess.Value);
 
-            var lastUsageForMeter = lastMeterRead.Usages.First(i => i.MeterId == messageMeterId);
+            var lastUsageForMeter = lastMeterRead.Usages.FirstOrDefault(i => i.MeterId == messageMeterId);
 
             meterRead = await meterReadTask;
 

@@ -1,8 +1,9 @@
 ﻿using System;
+using Home.Bills.Domain.Messages;
 
 namespace Home.Bills.Domain.MeterAggregate
 {
-    public class MeterMountedAtAddress
+    public class MeterMountedAtAddress : IMeterMountedAtAddress
     {
         public Guid MeterId { get; set; }
 

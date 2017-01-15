@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacServiceClientModule.cs" />
+    <Compile Include="DocumentStoreFactory.cs" />
     <Compile Include="IServiceClient.cs" />
     <Compile Include="MartenServiceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,6 +83,10 @@
     <ProjectReference Include="..\Home.Bills.DataAccess\Home.Bills.DataAccess.csproj">
       <Project>{d3fd2514-61c4-426b-94b7-f08cc97d91b2}</Project>
       <Name>Home.Bills.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Domain\Home.Bills.Domain.csproj">
+      <Project>{54329B4C-84D2-473C-8187-C900C8207948}</Project>
+      <Name>Home.Bills.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

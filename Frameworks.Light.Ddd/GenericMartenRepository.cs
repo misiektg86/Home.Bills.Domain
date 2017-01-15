@@ -16,7 +16,7 @@ namespace Frameworks.Light.Ddd
         public Task<TEntity> Get(Guid id)
         {
             var document = _session.LoadAsync<TEntity>(id);
-
+           
             return document;
         }
 

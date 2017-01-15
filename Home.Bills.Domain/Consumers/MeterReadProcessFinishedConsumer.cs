@@ -3,13 +3,14 @@ using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.Messages;
+using Home.Bills.Domain.MeterAggregate;
 using Home.Bills.Domain.MeterReadAggregate;
 using Marten;
 using MassTransit;
 
 namespace Home.Bills.Domain.Consumers
 {
-    public class MeterReadProcessFinishedConsumer : IConsumer<IMeterReadProcessFinished>
+    public class MeterReadProcessFinishedConsumer : IConsumer<FinishMeterReadProcess>
     {
         private readonly IDocumentSession _documentSession;
         private readonly IRepository<MeterRead, Guid> _meterReadRepository;
@@ -18,7 +19,7 @@ namespace Home.Bills.Domain.Consumers
             _documentSession = documentSession;
             _meterReadRepository = meterReadRepository;
         }
-        public async Task Consume(ConsumeContext<IMeterReadProcessFinished> context)
+        public async Task Consume(ConsumeContext<FinishMeterReadProcess> context)
         {
             var meterRead = await _meterReadRepository.Get(context.Message.MeterReadId);
 
@@ -27,6 +28,12 @@ namespace Home.Bills.Domain.Consumers
             _meterReadRepository.Update(meterRead);
 
             await _documentSession.SaveChangesAsync();
+
+            await context.Publish(new MeterReadCompleted() // TODO improve ddd framework so that messages are published after document has been persited.
+            {
+                AddressId = context.Message.AddressId,
+                MeterReadId = context.Message.MeterReadId
+            });
         }
     }
 }

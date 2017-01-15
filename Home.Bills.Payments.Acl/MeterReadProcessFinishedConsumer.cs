@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Home.Bills.Client;
 using Home.Bills.DataAccess.Dto;
@@ -27,8 +29,18 @@ namespace Home.Bills.Payments.Acl
         {
             var meterRead = await _billsServiceClient.GetMeterRead(context.Message.MeterReadId);
 
+            if (meterRead == null)
+            {
+                throw new MeterReadNotFoundException(context.Message.MeterReadId.ToString());
+            }
+
+            if (!meterRead.Usages.Any())
+            {
+                throw new NoUsagesExistInMeterReadException(context.Message.MeterReadId.ToString());
+            }
+
             await _paymentDomainService.CreatePayment(context.Message.MeterReadId, context.Message.AddressId,
-                 meterRead.Usages.Select(Convert).ToList());
+                 meterRead.Usages?.Select(Convert).ToList());
 
             await _documentSession.SaveChangesAsync();
         }
@@ -41,6 +53,25 @@ namespace Home.Bills.Payments.Acl
                 Value = dto.Value,
                 ReadDateTime = dto.ReadDateTime
             };
+        }
+    }
+
+    public class NoUsagesExistInMeterReadException : Exception
+    {
+        public NoUsagesExistInMeterReadException()
+        {
+        }
+
+        public NoUsagesExistInMeterReadException(string message) : base(message)
+        {
+        }
+
+        public NoUsagesExistInMeterReadException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected NoUsagesExistInMeterReadException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

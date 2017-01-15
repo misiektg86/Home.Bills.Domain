@@ -134,6 +134,7 @@
     <Compile Include="MeterAggregate\MeterAlreadyMountedatAddressException.cs" />
     <Compile Include="MeterAggregate\MeterMountedAtAddress.cs" />
     <Compile Include="MeterAggregate\MeterFactory.cs" />
+    <Compile Include="MeterAggregate\MeterReadCompleted.cs" />
     <Compile Include="MeterAggregate\MeterUnmountedAtAddress.cs" />
     <Compile Include="MeterAggregate\MeterStateCannotBeLowerThanCurrentStateException.cs" />
     <Compile Include="MeterAggregate\MeterStateCorrected.cs" />

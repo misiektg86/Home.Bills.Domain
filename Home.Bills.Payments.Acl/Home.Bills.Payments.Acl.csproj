@@ -77,7 +77,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddressCreatedConsumer.cs" />
+    <Compile Include="AddressAddedConsumer.cs" />
+    <Compile Include="MeterMountedAtAddressConsumer.cs" />
+    <Compile Include="MeterReadNotFoundException.cs" />
     <Compile Include="MeterReadProcessFinishedConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -100,6 +102,10 @@
     <ProjectReference Include="..\Home.Bills.Payments.Domain\Home.Bills.Payments.Domain.csproj">
       <Project>{6955c978-356f-4813-b0c5-7df5a3b773b3}</Project>
       <Name>Home.Bills.Payments.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Payments.Messages\Home.Bills.Payments.Messages.csproj">
+      <Project>{cb09a61f-c713-469c-95eb-a648ac9aa99d}</Project>
+      <Name>Home.Bills.Payments.Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

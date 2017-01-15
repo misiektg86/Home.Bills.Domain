@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using Autofac;
+using Home.Bills.Domain.MeterReadAggregate;
 using Marten;
 using Marten.Services;
 using MassTransit;
-using Newtonsoft.Json.Converters;
 
 namespace Home.Bills
 {
@@ -15,8 +14,10 @@ namespace Home.Bills
             return DocumentStore
                 .For(_ =>
                 {
-                    _.AutoCreateSchemaObjects = AutoCreate.CreateOnly;
-                    _.Connection("host=dev-machine;database=home_bills;password=admin;username=postgres");
+                    _.DatabaseSchemaName = "home_bills";
+                    _.Schema.For<MeterRead>().UseOptimisticConcurrency(true);
+                    _.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
+                    _.Connection("host=dev-machine;database=home_test;password=admin;username=postgres");
 
                     var serializer = new JsonNetSerializer();
 
