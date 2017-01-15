@@ -66,11 +66,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConvertExtensions.cs" />
-    <Compile Include="Dtos\ITariffDataProvider.cs" />
+    <Compile Include="Dtos\IPaymentsDataProvider.cs" />
+    <Compile Include="Dtos\Payment.cs" />
+    <Compile Include="Dtos\PaymentItem.cs" />
+    <Compile Include="IRegistratorDataProvider.cs" />
+    <Compile Include="ITariffDataProvider.cs" />
+    <Compile Include="Dtos\Registrator.cs" />
     <Compile Include="Dtos\Tariff.cs" />
-    <Compile Include="IPaymentsDataProvider.cs" />
     <Compile Include="PaymentsDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistratorDataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Frameworks.Light.Ddd\Frameworks.Light.Ddd.csproj">

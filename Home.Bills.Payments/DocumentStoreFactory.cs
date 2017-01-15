@@ -14,9 +14,9 @@ namespace Home.Bills.Payments
             return DocumentStore
                 .For(_ =>
                 {
-                    _.MappingFor(typeof(Payments.Domain.AddressAggregate.Address)).DatabaseSchemaName = "Bills_Payments";
-                    _.MappingFor(typeof(Payment)).DatabaseSchemaName = "Bills_Payments";
+                    _.AutoCreateSchemaObjects = AutoCreate.CreateOnly;
                     _.Schema.For<Payments.Domain.AddressAggregate.Address>().DocumentAlias("Bills_Payments_Address");
+
                     _.Connection("host=dev-machine;database=home_bills;password=admin;username=postgres");
 
                     var serializer = new JsonNetSerializer();

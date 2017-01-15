@@ -1,40 +1,22 @@
 ﻿using System;
 using Frameworks.Light.Ddd;
 using MassTransit;
+using Newtonsoft.Json;
 
 namespace Home.Bills.Payments.Domain.TariffAggregate
 {
     public class Tariff : AggregateRoot<Guid>
     {
-        private readonly decimal _tariffValue;
-        public DateTime Created { get; }
+        private decimal _tariffValue;
+        public DateTime Created { get; private set; }
         public DateTime? ValidTo { get; private set; }
 
         public bool Revoked { get; private set; }
 
         public string Description { get; private set; }
 
-        /// <summary>
-        /// Gets tariff value.
-        /// </summary>
-        /// <exception cref="TariffExpiredException">Throws exception when tariff is expired.</exception>
-        public decimal TariffValue
-        {
-            get
-            {
-                if (Revoked)
-                {
-                    throw new TariffRevokedException(Id.ToString());
-                }
-
-                if (ValidTo.HasValue && DateTime.Now >= ValidTo)
-                {
-                    throw new TariffExpiredException(Id.ToString());
-                }
-
-                return _tariffValue;
-            }
-        }
+        [JsonIgnore]
+        public decimal TariffValue => _tariffValue;
 
         internal Tariff() { }
 

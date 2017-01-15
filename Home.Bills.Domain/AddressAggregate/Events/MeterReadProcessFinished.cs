@@ -13,5 +13,7 @@ namespace Home.Bills.Domain.AddressAggregate.Events
             MeterReadId = meterReadId;
             AddressId = addressId;
         }
+
+        public MeterReadProcessFinished() { }
     }
 }

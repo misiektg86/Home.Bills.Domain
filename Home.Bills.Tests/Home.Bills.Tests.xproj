@@ -22,7 +22,6 @@
     <ProjectReference Include="..\Frameworks.Light.Ddd\Frameworks.Light.Ddd.csproj" />
     <ProjectReference Include="..\Home.Bills.Domain.Messages\Home.Bills.Domain.Messages.csproj" />
     <ProjectReference Include="..\Home.Bills.Domain\Home.Bills.Domain.csproj" />
-    <ProjectReference Include="..\Home.Bills.Infrastructure\Home.Bills.Infrastructure.csproj" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

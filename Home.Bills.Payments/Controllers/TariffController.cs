@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Payments.DataAccess.Dtos;
 using Home.Bills.Payments.Domain.TariffAggregate;
+using Home.Bills.Payments.Models;
 using Microsoft.AspNetCore.Mvc;
 using Tariff = Home.Bills.Payments.Domain.TariffAggregate.Tariff;
 
@@ -22,10 +23,16 @@ namespace Home.Bills.Payments.Controllers
             _tariffDataProvider = tariffDataProvider;
         }
 
-        [HttpGet("{tariffId}",Name = "GetTariff")]
+        [HttpGet("{tariffId}", Name = "GetTariff")]
         public async Task<IActionResult> Get(Guid tariffId)
         {
             return new ObjectResult(await _tariffDataProvider.GetTariff(tariffId));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return new ObjectResult(await _tariffDataProvider.GetTariffs());
         }
 
         [HttpPost]
@@ -45,14 +52,15 @@ namespace Home.Bills.Payments.Controllers
 
             return CreatedAtRoute("GetTariff", new { TariffId = tariff.Id }, tariff);
         }
-    }
 
-    public class CreateTariff
-    {
-        public Guid TariffId { get; set; }
-        public Guid AddressId { get; set; }
-        public decimal TariffPrice { get; set; }
-        public string Description { get; set; }
-        public DateTime? ValidTo { get; set; }
+        [HttpPut("RevokeTariff/{tariffId}", Name = "RevokeTariff")]
+        public async Task<IActionResult> RevokeTariff(Guid tariffId)
+        {
+            var tariff = await _tariffRepository.Get(tariffId);
+
+            _tariffRepository.Update(tariff);
+
+            return StatusCode(204);
+        }
     }
 }

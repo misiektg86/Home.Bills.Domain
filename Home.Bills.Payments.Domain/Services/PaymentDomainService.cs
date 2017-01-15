@@ -38,9 +38,19 @@ namespace Home.Bills.Payments.Domain.Services
 
                 var tariff = await _tariffRepository.Get(registrator.TariffId);
 
+                if (tariff.Revoked)
+                {
+                    throw new TariffRevokedException(tariff.Id.ToString());
+                }
+
+                if (tariff.ValidTo.HasValue && DateTime.Now >= tariff.ValidTo)
+                {
+                    throw new TariffExpiredException(tariff.Id.ToString());
+                }
+
                 var amountToPay = new decimal(registeredUsage.Value) * tariff.TariffValue;
 
-                PaymentItem item = new PaymentItem(tariff.Description, amountToPay);
+                PaymentItem item = new PaymentItem($"({tariff.Description}) {registrator.Description}.", amountToPay);
 
                 payment.AddPaymentItem(item);
             }

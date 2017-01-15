@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Marten;
 
@@ -7,6 +9,7 @@ namespace Home.Bills.Payments.DataAccess.Dtos
     public interface ITariffDataProvider
     {
         Task<Tariff> GetTariff(Guid tariffId);
+        Task<IEnumerable<Tariff>> GetTariffs();
     }
 
     public class TariffDataProvider : ITariffDataProvider
@@ -29,6 +32,15 @@ namespace Home.Bills.Payments.DataAccess.Dtos
             }
         }
 
+        public async Task<IEnumerable<Tariff>> GetTariffs()
+        {
+            using (var lSession = _documentStore.LightweightSession())
+            {
+                return
+                    (await lSession.Query<Domain.TariffAggregate.Tariff>().ToListAsync())?.Select(ToDto).ToList();
+            }
+        }
+
         private Tariff ToDto(Domain.TariffAggregate.Tariff tariff)
         {
             if (tariff == null)
@@ -38,7 +50,9 @@ namespace Home.Bills.Payments.DataAccess.Dtos
                 ValidTo = tariff.ValidTo,
                 Created = tariff.Created,
                 Description = tariff.Description,
-                Revoked = tariff.Revoked
+                Revoked = tariff.Revoked,
+                TariffId = tariff.Id,
+                Price = tariff.TariffValue
             };
         }
     }

@@ -3,6 +3,7 @@ using Autofac;
 using Frameworks.Light.Ddd;
 using Home.Bills.Payments.Acl;
 using Home.Bills.Payments.DataAccess;
+using Home.Bills.Payments.DataAccess.Dtos;
 using Home.Bills.Payments.Domain.AddressAggregate;
 using Home.Bills.Payments.Domain.Handlers;
 using Marten;

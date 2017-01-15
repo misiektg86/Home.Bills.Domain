@@ -17,20 +17,19 @@ namespace Home.Bills.Payments.Domain.PaymentAggregate
 
         public DateTime? Accepted { get; private set; }
 
-        public Guid AddressId { get; }
+        public Guid AddressId { get; private set; }
 
         [JsonIgnore]
-        public decimal TotalAmount => _paymentItems.Sum(item => item.Amount);
+        public decimal TotalAmount => _paymentItems?.Sum(item => item.Amount) ?? 0;
 
         [JsonIgnore]
         public IEnumerable<PaymentItem> PaymentItems
         {
-            get { return _paymentItems.Select(i=>(PaymentItem)i.Clone()); }
+            get { return _paymentItems?.Select(i=>(PaymentItem)i.Clone()); }
         }
 
         internal Payment()
         {
-            _paymentItems = new List<PaymentItem>();
         }
 
         internal Payment(Guid paymentId, Guid addressId, IBus messageBus) : base(messageBus)

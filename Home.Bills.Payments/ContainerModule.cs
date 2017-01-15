@@ -1,12 +1,13 @@
 ﻿using System;
 using Autofac;
 using Frameworks.Light.Ddd;
+using GreenPipes;
 using GreenPipes.Policies;
 using GreenPipes.Policies.ExceptionFilters;
 using Home.Bills.Client;
+using Home.Bills.Payments.Acl;
 using Home.Bills.Payments.DataAccess;
 using Home.Bills.Payments.DataAccess.Dtos;
-using Home.Bills.Payments.Domain;
 using Home.Bills.Payments.Domain.Handlers;
 using Home.Bills.Payments.Domain.Services;
 using Marten;
@@ -31,17 +32,21 @@ namespace Home.Bills.Payments
 
             #region Factories
 
-            builder.RegisterType<Payments.Domain.AddressAggregate.AddressFactory>()
-            .As<IAggregateFactory<Payments.Domain.AddressAggregate.Address, Payments.Domain.AddressAggregate.AddressFactoryInput, Guid>>()
+            builder.RegisterType<Domain.AddressAggregate.AddressFactory>()
+            .As<IAggregateFactory<Domain.AddressAggregate.Address, Domain.AddressAggregate.AddressFactoryInput, Guid>>()
             .InstancePerLifetimeScope();
 
-            builder.RegisterType<Payments.Domain.PaymentAggregate.PaymentFactory>()
-           .As<IAggregateFactory<Payments.Domain.PaymentAggregate.Payment, Payments.Domain.PaymentAggregate.PaymentFactoryInput, Guid>>()
+            builder.RegisterType<Domain.PaymentAggregate.PaymentFactory>()
+           .As<IAggregateFactory<Domain.PaymentAggregate.Payment, Domain.PaymentAggregate.PaymentFactoryInput, Guid>>()
            .InstancePerLifetimeScope();
 
-            builder.RegisterType<Payments.Domain.TariffAggregate.TariffFactory>()
-          .As<IAggregateFactory<Payments.Domain.TariffAggregate.Tariff, Payments.Domain.TariffAggregate.TariffFactoryInput, Guid>>()
+            builder.RegisterType<Domain.TariffAggregate.TariffFactory>()
+          .As<IAggregateFactory<Domain.TariffAggregate.Tariff, Domain.TariffAggregate.TariffFactoryInput, Guid>>()
           .InstancePerLifetimeScope();
+
+            builder.RegisterType<Domain.RegistratorAgregate.RegistratorFactory>()
+             .As<IAggregateFactory<Domain.RegistratorAgregate.Registrator, Domain.RegistratorAgregate.FactoryInput, Guid>>()
+             .InstancePerLifetimeScope();
 
             #endregion
 
@@ -49,14 +54,17 @@ namespace Home.Bills.Payments
 
             builder.RegisterType<PaymentsDataProvider>().As<IPaymentsDataProvider>().InstancePerLifetimeScope();
 
+            builder.RegisterType<RegistratorDataProvider>().As<IRegistratorDataProvider>().InstancePerLifetimeScope();
+
             builder.RegisterModule<AutofacServiceClientModule>();
+
+            builder.RegisterType<TariffDataProvider>().As<ITariffDataProvider>().InstancePerLifetimeScope();
 
             #endregion
 
             #region DomainServices
 
             builder.RegisterType<PaymentDomainService>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterType<TariffDataProvider>().As<ITariffDataProvider>().InstancePerLifetimeScope();
 
             #endregion
 
@@ -65,14 +73,14 @@ namespace Home.Bills.Payments
             builder.Register(context => context.Resolve<IDocumentStore>().OpenSession())
                 .As<IDocumentSession>()
                 .InstancePerLifetimeScope();
-            builder.Register(DocumentStoreFactory.Create).As<IDocumentStore>().SingleInstance();
+            builder.Register(context => DocumentStoreFactory.Create(context.Resolve<IComponentContext>())).As<IDocumentStore>().SingleInstance();
 
             #endregion
 
             #region MassTransit
 
             builder.RegisterStateMachineSagas(typeof(CreateAddressHandler).Assembly).InstancePerLifetimeScope();
-            builder.RegisterConsumers(typeof(CreateAddressHandler).Assembly).InstancePerLifetimeScope();
+            builder.RegisterConsumers(typeof(CreateAddressHandler).Assembly, typeof(MeterReadProcessFinishedConsumer).Assembly).InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(MartenSagaRepository<>)).As(typeof(ISagaRepository<>)).InstancePerLifetimeScope();
             builder.Register(context =>
             {

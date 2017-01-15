@@ -6,24 +6,25 @@ namespace Home.Bills.Payments.Domain.RegistratorAgregate
 {
     public class Registrator : AggregateRoot<Guid>
     {
-        public Guid RegistratorId { get; }
-        public Guid AddressId { get; }
+        public Guid AddressId { get; private set; }
         public Guid TariffId { get; private set; }
+        public string Description { get; private set; }
 
         internal Registrator() { }
 
-        internal Registrator(Guid registratorId, Guid addressId, Guid tariffId, IBus messageBus) : base(messageBus)
+        internal Registrator(Guid registratorId, Guid addressId, Guid tariffId,string description, IBus messageBus) : base(messageBus)
         {
-            RegistratorId = registratorId;
+            Id = registratorId;
             AddressId = addressId;
             TariffId = tariffId;
+            Description = description;
         }
 
         public void ApplyTariff(Guid tariffId)
         {
             TariffId = tariffId;
 
-            Publish(new TariffAppliedForRegistrator { TariffId = TariffId, RegistratorId = RegistratorId, AddressId = AddressId });
+            Publish(new TariffAppliedForRegistrator { TariffId = TariffId, RegistratorId = Id, AddressId = AddressId });
         }
     }
 }

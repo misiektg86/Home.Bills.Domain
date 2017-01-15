@@ -2,13 +2,13 @@
   "dependencies": {
     "Autofac": "4.2.1",
     "Autofac.Extensions.DependencyInjection": "4.0.0",
-    "Marten": "1.1.0",
-    "MassTransit": "3.5.2",
-    "MassTransit.Autofac": "3.5.2",
-    "MassTransit.Automatonymous": "3.5.2",
-    "MassTransit.Automatonymous.Autofac": "3.5.2",
-    "MassTransit.Marten": "3.5.2",
-    "MassTransit.RabbitMQ": "3.5.2",
+    "Marten": "1.2.5",
+    "MassTransit": "3.5.4",
+    "MassTransit.Autofac": "3.5.4",
+    "MassTransit.Automatonymous": "3.5.4",
+    "MassTransit.Automatonymous.Autofac": "3.5.4",
+    "MassTransit.Marten": "3.5.4",
+    "MassTransit.RabbitMQ": "3.5.4",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.0.1",
     "Microsoft.AspNetCore.Routing": "1.0.1",
@@ -36,6 +36,9 @@
           "target": "project"
         },
         "Home.Bills.Client": {
+          "target": "project"
+        },
+        "Home.Bills.Payments.Acl": {
           "target": "project"
         },
         "Home.Bills.Payments.DataAccess": {

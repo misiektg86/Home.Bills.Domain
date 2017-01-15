@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
-using Home.Bills.Payments.Domain;
-using Home.Bills.Payments.Domain.PaymentAggregate;
 using Marten;
 using Marten.Services;
 using MassTransit;
@@ -17,9 +15,7 @@ namespace Home.Bills
             return DocumentStore
                 .For(_ =>
                 {
-                    _.MappingFor(typeof(Payments.Domain.AddressAggregate.Address)).DatabaseSchemaName = "Bills_Payments";
-                    _.MappingFor(typeof(Payment)).DatabaseSchemaName = "Bills_Payments";
-                    _.Schema.For<Payments.Domain.AddressAggregate.Address>().DocumentAlias("Bills_Payments_Address");
+                    _.AutoCreateSchemaObjects = AutoCreate.CreateOnly;
                     _.Connection("host=dev-machine;database=home_bills;password=admin;username=postgres");
 
                     var serializer = new JsonNetSerializer();

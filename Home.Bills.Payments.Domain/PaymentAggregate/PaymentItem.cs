@@ -7,7 +7,9 @@ namespace Home.Bills.Payments.Domain.PaymentAggregate
         public string Description { get; private set; }
         public decimal Amount { get; private set; }
 
-        public PaymentItem(string description, decimal amount)
+        internal PaymentItem() { }
+
+        internal PaymentItem(string description, decimal amount)
         {
             Description = description;
             Amount = amount;
