@@ -23,7 +23,7 @@ namespace Home.Bills.Tests
             _databaseFixture = databaseFixture;
             _session = _session = databaseFixture.DocumentStore.OpenSession();
 
-            _addressFactory = new AddressFactory(Substitute.For<IBus>());
+            _addressFactory = new AddressFactory();
         }
 
         [Fact]

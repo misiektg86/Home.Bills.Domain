@@ -101,6 +101,13 @@ namespace Home.Bills
                 .As<IBus>();
 
             #endregion
+
+            #region Framework
+            
+            builder.RegisterType<PublishRecorder>().As<IPublishRecorder>().InstancePerLifetimeScope();
+            builder.RegisterType<AsyncUnitOfWork>().As<IAsyncUnitOfWork>().InstancePerLifetimeScope();
+
+            #endregion
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Home.Bills.Domain.MeterAggregate
 
         internal Meter() { }
 
-        internal Meter(Guid id, Guid? addressId, double state, string serialNumber, IBus messageBus) : base(messageBus)
+        internal Meter(Guid id, Guid? addressId, double state, string serialNumber)
         {
             AddressId = addressId;
             State = state;

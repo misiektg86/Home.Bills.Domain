@@ -141,6 +141,7 @@
     <Compile Include="MeterAggregate\MeterStateUpdated.cs" />
     <Compile Include="MeterReadAggregate\CreateUsageCalculation.cs" />
     <Compile Include="MeterReadAggregate\MeterReadFactory.cs" />
+    <Compile Include="MeterReadAggregate\MeterReadFactoryInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Consumers\MeterMountedConsumer.cs" />
     <Compile Include="Consumers\MeterUnmountedConsumer.cs" />

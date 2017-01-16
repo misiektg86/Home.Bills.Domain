@@ -1,20 +1,13 @@
 ﻿using System;
 using Frameworks.Light.Ddd;
-using MassTransit;
 
 namespace Home.Bills.Payments.Domain.TariffAggregate
 {
-    public class TariffFactory : IAggregateFactory<Tariff, TariffFactoryInput, Guid>
+    public class TariffFactory : AggregateRootFactoryBase<Tariff, TariffFactoryInput, Guid>
     {
-        private readonly IBus _messageBus;
-        public TariffFactory(IBus messageBus)
+        protected override Tariff CreateInternal(TariffFactoryInput input)
         {
-            _messageBus = messageBus;
-        }
-
-        public Tariff Create(TariffFactoryInput input)
-        {
-            return new Tariff(input.TariffId, input.Created, input.ValidTo, input.TariffValue, input.Description, _messageBus);
+            return new Tariff(input.TariffId, input.Created, input.ValidTo, input.TariffValue, input.Description);
         }
     }
 }

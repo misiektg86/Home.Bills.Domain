@@ -3,9 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate;
-using Home.Bills.Domain.AddressAggregate.Events;
 using Marten;
-using MassTransit;
 using Xunit;
 
 namespace Home.Bills.Domain.Tests.Integration
@@ -21,7 +19,7 @@ namespace Home.Bills.Domain.Tests.Integration
             _fixture = fixture;
             _session = fixture.DocumentStore.OpenSession();
 
-            _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IBus>());
+            _addressFactory = new AddressFactory();
         }
 
         [Fact]

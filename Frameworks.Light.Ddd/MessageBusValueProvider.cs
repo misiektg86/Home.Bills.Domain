@@ -1,9 +1,8 @@
 using System;
-using Frameworks.Light.Ddd;
 using MassTransit;
 using Newtonsoft.Json.Serialization;
 
-namespace Home.Bills.Payments
+namespace Frameworks.Light.Ddd
 {
     public class MessageBusValueProvider : IValueProvider
     {

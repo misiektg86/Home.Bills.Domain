@@ -20,7 +20,7 @@ namespace Home.Bills.Payments.Domain.TariffAggregate
 
         internal Tariff() { }
 
-        internal Tariff(Guid tariffId, DateTime created, DateTime? validTo, decimal tariffValue, string description, IBus messageBus) : base(messageBus)
+        internal Tariff(Guid tariffId, DateTime created, DateTime? validTo, decimal tariffValue, string description)
         {
             _tariffValue = tariffValue;
             Created = created;

@@ -1,6 +1,5 @@
 ﻿using System;
 using Frameworks.Light.Ddd;
-using MassTransit;
 using Newtonsoft.Json;
 
 namespace Home.Bills.Payments.Domain.AddressAggregate
@@ -9,12 +8,7 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
     {
         internal Address() { }
 
-        internal Address(IBus messageBus)
-        {
-            MessageBus = messageBus;
-        }
-
-        internal Address(Guid id, double squareMeters, IBus messageBus) : this(messageBus)
+        internal Address(Guid id, double squareMeters)
         {
             SquareMeters = squareMeters;
 

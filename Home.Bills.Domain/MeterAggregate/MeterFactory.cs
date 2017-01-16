@@ -1,20 +1,13 @@
 ﻿using System;
 using Frameworks.Light.Ddd;
-using MassTransit;
 
 namespace Home.Bills.Domain.MeterAggregate
 {
-    public class MeterFactory : IAggregateFactory<Meter,MeterFactoryInput,Guid>
+    public class MeterFactory : AggregateRootFactoryBase<Meter,MeterFactoryInput,Guid>
     {
-        private readonly IBus _messageBus;
-        public MeterFactory(IBus messageBus)
+        protected override Meter CreateInternal(MeterFactoryInput input)
         {
-            _messageBus = messageBus;
-        }
-
-        public Meter Create(MeterFactoryInput input)
-        {
-            return new Meter(id:input.MeterId,addressId:input.AddressId,state:input.State,serialNumber:input.SerialNumber,messageBus:_messageBus);
+            return new Meter(id: input.MeterId, addressId: input.AddressId, state: input.State, serialNumber: input.SerialNumber);
         }
     }
 

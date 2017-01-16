@@ -21,7 +21,7 @@ namespace Home.Bills.Domain.Tests
         public UsageDomainServiceTests(MartenDatabaseFixture martenDatabaseFixture)
         {
             _martenDatabaseFixture = martenDatabaseFixture;
-            _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IBus>());
+            _addressFactory = new AddressFactory();
             _documentSession = martenDatabaseFixture.DocumentStore.OpenSession();
             _addressRepository = new GenericMartenRepository<Address>(_documentSession);
           //  _usageRepository = new GenericMartenRepository<Usage>(_documentSession, NSubstitute.Substitute.For<IBus>());

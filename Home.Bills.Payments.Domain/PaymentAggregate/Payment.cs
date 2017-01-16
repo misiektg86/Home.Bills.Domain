@@ -32,7 +32,7 @@ namespace Home.Bills.Payments.Domain.PaymentAggregate
         {
         }
 
-        internal Payment(Guid paymentId, Guid addressId, IBus messageBus) : base(messageBus)
+        internal Payment(Guid paymentId, Guid addressId)
         {
             _paymentItems = new List<PaymentItem>();
             AddressId = addressId;

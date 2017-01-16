@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Autofac;
+using Frameworks.Light.Ddd;
 using Home.Bills.Domain.MeterReadAggregate;
 using Marten;
 using Marten.Services;
@@ -21,7 +22,7 @@ namespace Home.Bills
 
                     var serializer = new JsonNetSerializer();
 
-                    var dcr = new ContractResolver(componentContext.Resolve<IBus>);
+                    var dcr = new ContractResolver(componentContext.Resolve<IBus>, componentContext.Resolve<IPublishRecorder>);
 
                     dcr.DefaultMembersSearchFlags |= BindingFlags.NonPublic | BindingFlags.Instance;
 

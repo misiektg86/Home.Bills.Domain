@@ -40,6 +40,8 @@ namespace Home.Bills
             builder.Populate(services);
             ApplicationContainer = builder.Build();
 
+            AggreagteRootFactoryContainer.SetFactoryContainer(ApplicationContainer);
+
             // Create the IServiceProvider based on the container.
             return new AutofacServiceProvider(ApplicationContainer);
         }

@@ -13,7 +13,7 @@ namespace Home.Bills.Domain.Tests
 
         public AddressTests()
         {
-            _addressFactory = new AddressFactory(NSubstitute.Substitute.For<IBus>());
+            _addressFactory = new AddressFactory();
         }
 
         [Fact]

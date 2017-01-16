@@ -4,17 +4,11 @@ using MassTransit;
 
 namespace Home.Bills.Payments.Domain.PaymentAggregate
 {
-    public class PaymentFactory : IAggregateFactory<Payment,PaymentFactoryInput,Guid>
+    public class PaymentFactory : AggregateRootFactoryBase<Payment, PaymentFactoryInput, Guid>
     {
-        private readonly IBus _messageBus;
-        public PaymentFactory(IBus messageBus)
+        protected override Payment CreateInternal(PaymentFactoryInput input)
         {
-            _messageBus = messageBus;
-        }
-
-        public Payment Create(PaymentFactoryInput input)
-        {
-            return new Payment(input.PaymentId,input.AddressId,_messageBus);
+            return new Payment(input.PaymentId, input.AddressId);
         }
     }
 }

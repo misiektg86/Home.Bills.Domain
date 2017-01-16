@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.2.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.2.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Baseline, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Baseline.1.1.0\lib\net451\Baseline.dll</HintPath>
       <Private>True</Private>
@@ -79,11 +83,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateRoot.cs" />
+    <Compile Include="AggregateRootFactoryBase.cs" />
+    <Compile Include="AsyncUnitOfWork.cs" />
+    <Compile Include="ContractResolver.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="GenericConverter.cs" />
     <Compile Include="GenericMartenRepository.cs" />
     <Compile Include="IAggregateFactory.cs" />
+    <Compile Include="IPublishRecorder.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="MessageBusValueProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublishRecorder.cs" />
+    <Compile Include="PublishRecorderValueProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

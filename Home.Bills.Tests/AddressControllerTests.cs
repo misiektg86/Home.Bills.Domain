@@ -24,7 +24,7 @@ namespace Home.Bills.Tests
             addressDataProvider.AddressExists(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(false);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IBus>()));
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory());
 
             await
                 addressController.Post(new Models.Address()
@@ -47,7 +47,7 @@ namespace Home.Bills.Tests
             addressDataProvider.AddressExists(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(true);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IBus>()));
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory());
 
             await
                 addressController.Post(new Models.Address()
@@ -68,7 +68,7 @@ namespace Home.Bills.Tests
 
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
 
-            var addressFactory = new AddressFactory(Substitute.For<IBus>());
+            var addressFactory = new AddressFactory();
 
             var addressEntity = addressFactory.Create(new AddressFactoryInput() {City = "test",Street = "test", HomeNumber = "test", StreetNumber = "test", Id = Guid.NewGuid()});
 
@@ -86,13 +86,13 @@ namespace Home.Bills.Tests
         {
             var addressRepository = Substitute.For<IRepository<Address, Guid>>();
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
-            var addressFactory = new AddressFactory(Substitute.For<IBus>());
+            var addressFactory = new AddressFactory();
 
             Guid entityId = Guid.NewGuid();
 
             addressRepository.Get(entityId).Returns(default(Address));
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(Substitute.For<IBus>()));
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory());
 
             await addressController.Delete(entityId);
 
@@ -105,7 +105,7 @@ namespace Home.Bills.Tests
         {
             var addressRepository = Substitute.For<IRepository<Address, Guid>>();
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
-            var addressFactory = new AddressFactory(Substitute.For<IBus>());
+            var addressFactory = new AddressFactory();
 
             var addressEntity = addressFactory.Create(new AddressFactoryInput() { City = "test", Street = "test", HomeNumber = "test", StreetNumber = "test", Id = Guid.NewGuid() });
 
@@ -131,7 +131,7 @@ namespace Home.Bills.Tests
         {
             var addressRepository = Substitute.For<IRepository<Address, Guid>>();
             var addressDataProvider = Substitute.For<IAddressDataProvider>();
-            var addressFactory = new AddressFactory(Substitute.For<IBus>());
+            var addressFactory = new AddressFactory();
 
             var addressEntity = addressFactory.Create(new AddressFactoryInput() { City = "test", Street = "test", HomeNumber = "test", StreetNumber = "test", Id = Guid.NewGuid() });
 

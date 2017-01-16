@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Autofac;
-using Home.Bills.Payments.Domain.PaymentAggregate;
+using Frameworks.Light.Ddd;
 using Marten;
 using Marten.Services;
 using MassTransit;
@@ -22,7 +22,7 @@ namespace Home.Bills.Payments
 
                     var serializer = new JsonNetSerializer();
 
-                    var dcr = new ContractResolver(componentContext.Resolve<IBus>);
+                    var dcr = new ContractResolver(componentContext.Resolve<IBus>, componentContext.Resolve<IPublishRecorder>);
 
                     dcr.DefaultMembersSearchFlags |= BindingFlags.NonPublic | BindingFlags.Instance;
 

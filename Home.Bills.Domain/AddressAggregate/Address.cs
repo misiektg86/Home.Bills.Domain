@@ -5,7 +5,6 @@ using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Domain.AddressAggregate.ValueObjects;
-using MassTransit;
 using Newtonsoft.Json;
 
 namespace Home.Bills.Domain.AddressAggregate
@@ -33,12 +32,7 @@ namespace Home.Bills.Domain.AddressAggregate
 
         internal Address() { }
 
-        internal Address(IBus messageBus)
-        {
-            MessageBus = messageBus;
-        }
-
-        internal Address(string street, string city, string stretNumber, string homeNumber, Guid id, IBus messageBus, double squareMeters) : this(messageBus)
+        internal Address(string street, string city, string stretNumber, string homeNumber, Guid id, double squareMeters)
         {
             Id = id;
             _addressInformation = new AddressInformation(street, city, stretNumber, homeNumber, id, squareMeters);

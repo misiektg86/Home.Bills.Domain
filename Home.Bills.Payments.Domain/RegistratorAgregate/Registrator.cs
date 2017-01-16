@@ -12,7 +12,7 @@ namespace Home.Bills.Payments.Domain.RegistratorAgregate
 
         internal Registrator() { }
 
-        internal Registrator(Guid registratorId, Guid addressId, Guid? tariffId,string description, IBus messageBus) : base(messageBus)
+        internal Registrator(Guid registratorId, Guid addressId, Guid? tariffId,string description)
         {
             Id = registratorId;
             AddressId = addressId;
