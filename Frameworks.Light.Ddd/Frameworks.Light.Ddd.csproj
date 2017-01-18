@@ -87,9 +87,11 @@
     <Compile Include="AsyncUnitOfWork.cs" />
     <Compile Include="ContractResolver.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="EventRecorder.cs" />
     <Compile Include="GenericConverter.cs" />
     <Compile Include="GenericMartenRepository.cs" />
     <Compile Include="IAggregateFactory.cs" />
+    <Compile Include="IEventTracking.cs" />
     <Compile Include="IPublishRecorder.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />

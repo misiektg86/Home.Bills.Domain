@@ -23,9 +23,8 @@ namespace Home.Bills.Domain.MeterReadAggregate
 
         internal Usage() { }
 
-        private Usage(Guid id, Guid addressId, Guid meterReadId, Guid meterId, double previoudRead, double currentRead, DateTime readDateTime, IBus messageBus)
+        private Usage(Guid id, Guid addressId, Guid meterReadId, Guid meterId, double previoudRead, double currentRead, DateTime readDateTime)
         {
-            MessageBus = messageBus;
             AddressId = addressId;
             MeterReadId = meterReadId;
             Id = id;
@@ -42,14 +41,14 @@ namespace Home.Bills.Domain.MeterReadAggregate
             Publish(new UsageCalculated(MeterId, MeterReadId, Value, ReadDateTime, AddressId, PrevioudRead, CurrentRead));
         }
 
-        public static Usage Create(Guid usageId, Guid meterReadId, Guid meterId, Guid addressId, double previoudRead, double currentRead, DateTime readDateTime, IBus mesageBus)
+        public static Usage Create(Guid usageId, Guid meterReadId, Guid meterId, Guid addressId, double previoudRead, double currentRead, DateTime readDateTime)
         {
             if (previoudRead > currentRead)
             {
                 throw new InvalidOperationException("Previous read cannot be bigger than current read");
             }
 
-            var usage = new Usage(usageId, addressId, meterReadId, meterId, previoudRead, currentRead, readDateTime, mesageBus);
+            var usage = new Usage(usageId, addressId, meterReadId, meterId, previoudRead, currentRead, readDateTime);
 
             return usage;
         }

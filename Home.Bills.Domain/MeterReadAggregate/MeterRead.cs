@@ -48,7 +48,7 @@ namespace Home.Bills.Domain.MeterReadAggregate
                 return _usages.First(i => i.Id == usageId);
             }
 
-            var usage = Usage.Create(usageId, Id, meterId, AddressId, previousRead, newRead, readDateTime, MessageBus);
+            var usage = Usage.Create(usageId, Id, meterId, AddressId, previousRead, newRead, readDateTime);
 
             _usages.Add(usage);
 
