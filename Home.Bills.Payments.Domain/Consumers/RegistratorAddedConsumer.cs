@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Payments.Domain.RegistratorAgregate;
 using Home.Bills.Payments.Messages;
-using Marten;
 using MassTransit;
 
 namespace Home.Bills.Payments.Domain.Consumers
@@ -12,13 +11,13 @@ namespace Home.Bills.Payments.Domain.Consumers
     {
         private readonly IRepository<Registrator, Guid> _repository;
         private readonly IAggregateFactory<Registrator, FactoryInput, Guid> _factory;
-        private readonly IDocumentSession _documentSession;
+        private readonly IAsyncUnitOfWork _asyncUnitOfWork;
 
-        public RegistratorAddedConsumer(IRepository<Registrator, Guid> repository, IAggregateFactory<Registrator, FactoryInput, Guid> factory, IDocumentSession documentSession)
+        public RegistratorAddedConsumer(IRepository<Registrator, Guid> repository, IAggregateFactory<Registrator, FactoryInput, Guid> factory, IAsyncUnitOfWork asyncUnitOfWork)
         {
             _repository = repository;
             _factory = factory;
-            _documentSession = documentSession;
+            _asyncUnitOfWork = asyncUnitOfWork;
         }
 
         public async Task Consume(ConsumeContext<IRegistratorAdded> context)
@@ -33,7 +32,7 @@ namespace Home.Bills.Payments.Domain.Consumers
 
             _repository.Add(registrator);
 
-            await _documentSession.SaveChangesAsync();
+            await _asyncUnitOfWork.CommitAsync();
         }
     }
 }

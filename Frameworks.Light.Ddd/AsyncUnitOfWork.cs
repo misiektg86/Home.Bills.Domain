@@ -1,24 +1,31 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Marten;
+using MassTransit;
 
 namespace Frameworks.Light.Ddd
 {
-    public class AsyncUnitOfWork : IAsyncUnitOfWork
+    public class AsyncUnitOfWork<T> : IAsyncUnitOfWork where T : struct 
     {
         private readonly IDocumentSession _documentSession;
-        private readonly IPublishRecorder _publishRecorder;
+        private readonly IBus _messageBus;
 
-        public AsyncUnitOfWork(IDocumentSession documentSession, IPublishRecorder publishRecorder)
+        public AsyncUnitOfWork(IDocumentSession documentSession, IBus messageBus)
         {
             _documentSession = documentSession;
-            _publishRecorder = publishRecorder;
+            _messageBus = messageBus;
         }
 
         public async Task CommitAsync()
         {
+            var eventsToPublish = _documentSession.PendingChanges.AllChangedFor<AggregateRoot<T>>().ToList();
+
             await _documentSession.SaveChangesAsync();
 
-            _publishRecorder.Play();
+            foreach (var eventToPublish in eventsToPublish.SelectMany(i => i.GetEvents()))
+            {
+                await _messageBus.Publish(eventToPublish);
+            }
         }
     }
 }

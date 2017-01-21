@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Baseline.Reflection;
+using Frameworks.Light.Ddd;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,11 +19,11 @@ namespace Home.Bills
             _serviceProvider = serviceProvider;
         }
 
-        public async Task Invoke(HttpContext context, IDocumentSession documentSession)
+        public async Task Invoke(HttpContext context, IAsyncUnitOfWork unitOfWork)
         {
             await _next.Invoke(context);
 
-            await documentSession.SaveChangesAsync();
+            await unitOfWork.CommitAsync();
         }
     }
 }

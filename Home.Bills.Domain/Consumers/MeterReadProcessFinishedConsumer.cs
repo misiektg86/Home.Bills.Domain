@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
-using Home.Bills.Domain.AddressAggregate.Events;
-using Home.Bills.Domain.Messages;
-using Home.Bills.Domain.MeterAggregate;
 using Home.Bills.Domain.MeterReadAggregate;
-using Marten;
 using MassTransit;
 
 namespace Home.Bills.Domain.Consumers
 {
     public class MeterReadProcessFinishedConsumer : IConsumer<FinishMeterReadProcess>
     {
-        private readonly IDocumentSession _documentSession;
+        private readonly IAsyncUnitOfWork _asyncUnitOfWork;
         private readonly IRepository<MeterRead, Guid> _meterReadRepository;
-        public MeterReadProcessFinishedConsumer(IDocumentSession documentSession, IRepository<MeterRead, Guid> meterReadRepository)
+        public MeterReadProcessFinishedConsumer(IAsyncUnitOfWork asyncUnitOfWork, IRepository<MeterRead, Guid> meterReadRepository)
         {
-            _documentSession = documentSession;
+            _asyncUnitOfWork = asyncUnitOfWork;
             _meterReadRepository = meterReadRepository;
         }
         public async Task Consume(ConsumeContext<FinishMeterReadProcess> context)
@@ -27,13 +23,7 @@ namespace Home.Bills.Domain.Consumers
 
             _meterReadRepository.Update(meterRead);
 
-            await _documentSession.SaveChangesAsync();
-
-            await context.Publish(new MeterReadCompleted() // TODO improve ddd framework so that messages are published after document has been persited.
-            {
-                AddressId = context.Message.AddressId,
-                MeterReadId = context.Message.MeterReadId
-            });
+            await _asyncUnitOfWork.CommitAsync();
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Home.Bills.Domain.Consumers
                     {
                         context.Instance.MetersToStateUpdate.Remove(context.Data.MeterId);
                     })
-                    .Send((instance, data) => new Uri("rabbitmq://dev-machine:5672/home_bills/Home.Bills"),
+                    .Send((instance, data) => new Uri("rabbitmq://dev-machine:5672/test/Home.Bills"),
                         context =>
                             new CreateUsageCalculation()
                             {

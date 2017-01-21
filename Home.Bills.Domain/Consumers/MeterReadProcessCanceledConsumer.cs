@@ -3,25 +3,24 @@ using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.Messages;
 using Home.Bills.Domain.MeterReadAggregate;
-using Marten;
 using MassTransit;
 
 namespace Home.Bills.Domain.Consumers
 {
     public class MeterReadProcessCanceledConsumer : IConsumer<IMeterReadProcessCanceled>
     {
-        private readonly IDocumentSession _documentSession;
+        private readonly IAsyncUnitOfWork _asyncUnitOfWork;
         private readonly IRepository<MeterRead, Guid> _meterReadRepository;
-        public MeterReadProcessCanceledConsumer(IDocumentSession documentSession, IRepository<MeterRead, Guid> meterReadRepository)
+        public MeterReadProcessCanceledConsumer(IAsyncUnitOfWork asyncUnitOfWork, IRepository<MeterRead, Guid> meterReadRepository)
         {
-            _documentSession = documentSession;
+            _asyncUnitOfWork = asyncUnitOfWork;
             _meterReadRepository = meterReadRepository;
         }
         public async Task Consume(ConsumeContext<IMeterReadProcessCanceled> context)
         {
             _meterReadRepository.Delete(context.Message.MeterReadId);
 
-            await _documentSession.SaveChangesAsync();
+            await _asyncUnitOfWork.CommitAsync();
         }
     }
 }

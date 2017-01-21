@@ -2,9 +2,7 @@
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate;
-using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.MeterAggregate;
-using Marten;
 using MassTransit;
 
 namespace Home.Bills.Domain.Consumers
@@ -12,12 +10,12 @@ namespace Home.Bills.Domain.Consumers
     internal class MeterUnmountedConsumer : IConsumer<MeterUnmountedAtAddress>
     {
         private readonly IRepository<Address, Guid> _addressRepository;
-        private readonly IDocumentSession _documentSession;
+        private readonly IAsyncUnitOfWork _asyncUnitOfWork;
 
-        public MeterUnmountedConsumer(IRepository<Address, Guid> addressRepository, IDocumentSession documentSession)
+        public MeterUnmountedConsumer(IRepository<Address, Guid> addressRepository, IAsyncUnitOfWork asyncUnitOfWork)
         {
             _addressRepository = addressRepository;
-            _documentSession = documentSession;
+            _asyncUnitOfWork = asyncUnitOfWork;
         }
 
         public async Task Consume(ConsumeContext<MeterUnmountedAtAddress> context)
@@ -28,7 +26,7 @@ namespace Home.Bills.Domain.Consumers
 
             _addressRepository.Update(address);
 
-            await _documentSession.SaveChangesAsync();
+            await _asyncUnitOfWork.CommitAsync();
         }
     }
 }

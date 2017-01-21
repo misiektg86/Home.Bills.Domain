@@ -4,19 +4,16 @@ using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate;
 using Home.Bills.Domain.MeterReadAggregate;
-using Marten;
 
 namespace Home.Bills.Domain.Services
 {
     public class UsageDomainService
     {
-        private readonly IDocumentSession _documentSession;
         private readonly IRepository<MeterRead, Guid> _meterReadRepository;
         private readonly IRepository<Address, Guid> _addressRepository;
 
-        public UsageDomainService(IDocumentSession documentSession, IRepository<MeterRead, Guid> meterReadRepository, IRepository<Address, Guid> addressRepository)
+        public UsageDomainService( IRepository<MeterRead, Guid> meterReadRepository, IRepository<Address, Guid> addressRepository)
         {
-            _documentSession = documentSession;
             _meterReadRepository = meterReadRepository;
             _addressRepository = addressRepository;
         }
@@ -28,19 +25,14 @@ namespace Home.Bills.Domain.Services
             var meterReadTask = _meterReadRepository.Get(meterReadId);
 
             MeterRead meterRead = null;
-            Usage usage = null;
 
             if (!address.LastFinishedMeterReadProcess.HasValue)
             {
                 meterRead = await meterReadTask;
 
-                usage = meterRead.CreateUsage(meterState, meterState, DateTime.Now, messageMeterId, Guid.NewGuid());
-
-                usage.CalculateUsage();
+                meterRead.CreateUsage(meterState, meterState, DateTime.Now, messageMeterId, Guid.NewGuid());
 
                 _meterReadRepository.Update(meterRead);
-
-                await _documentSession.SaveChangesAsync();
 
                 return;
             }
@@ -51,14 +43,10 @@ namespace Home.Bills.Domain.Services
 
             meterRead = await meterReadTask;
 
-            usage = meterRead.CreateUsage(lastUsageForMeter?.CurrentRead ?? meterState, meterState, DateTime.Now, messageMeterId,
+            meterRead.CreateUsage(lastUsageForMeter?.CurrentRead ?? meterState, meterState, DateTime.Now, messageMeterId,
                 usageId);
 
-            usage.CalculateUsage();
-
             _meterReadRepository.Update(meterRead);
-
-             await _documentSession.SaveChangesAsync();
         }
     }
 }

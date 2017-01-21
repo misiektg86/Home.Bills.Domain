@@ -32,13 +32,12 @@ namespace Home.Bills.Domain.MeterReadAggregate
             PrevioudRead = previoudRead;
             CurrentRead = currentRead;
             ReadDateTime = readDateTime;
+            CalculateUsage();
         }
 
-        public void CalculateUsage()
+        private void CalculateUsage()
         {
             Value = CurrentRead - PrevioudRead;
-
-            Publish(new UsageCalculated(MeterId, MeterReadId, Value, ReadDateTime, AddressId, PrevioudRead, CurrentRead));
         }
 
         public static Usage Create(Guid usageId, Guid meterReadId, Guid meterId, Guid addressId, double previoudRead, double currentRead, DateTime readDateTime)

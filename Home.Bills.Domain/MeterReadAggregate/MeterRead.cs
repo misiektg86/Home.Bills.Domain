@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Frameworks.Light.Ddd;
+using Home.Bills.Domain.AddressAggregate.Events;
 using Home.Bills.Domain.AddressAggregate.Exceptions;
 using Home.Bills.Domain.MeterAggregate;
 using Newtonsoft.Json;
@@ -41,23 +42,29 @@ namespace Home.Bills.Domain.MeterReadAggregate
             _usages = new List<Usage>();
         }
 
-        public Usage CreateUsage(double previousRead, double newRead, DateTime readDateTime, Guid meterId, Guid usageId)
+        public void CreateUsage(double previousRead, double newRead, DateTime readDateTime, Guid meterId, Guid usageId)
         {
             if (_usages.Any(i => i.Id == usageId))
             {
-                return _usages.First(i => i.Id == usageId);
+                return;
             }
 
             var usage = Usage.Create(usageId, Id, meterId, AddressId, previousRead, newRead, readDateTime);
 
             _usages.Add(usage);
 
-            return usage;
+            Publish(new UsageCalculated(usage.MeterId, Id, usage.Value, usage.ReadDateTime, AddressId, usage.PrevioudRead, usage.CurrentRead));
         }
 
         public void CompleteMeterRead()
         {
             IsCompleted = true;
+
+            Publish(new MeterReadCompleted
+                {
+                    AddressId = AddressId,
+                    MeterReadId = Id
+                });
         }
     }
 }

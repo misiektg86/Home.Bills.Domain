@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Frameworks.Light.Ddd
 {
@@ -9,8 +10,8 @@ namespace Frameworks.Light.Ddd
             _recorder = new EventRecorder();
         }
 
+        [JsonIgnore]
         private EventRecorder _recorder;
-
 
         protected void Publish<T>(T message) where T : class
         {

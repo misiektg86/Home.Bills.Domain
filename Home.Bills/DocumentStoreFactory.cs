@@ -5,6 +5,7 @@ using Home.Bills.Domain.MeterReadAggregate;
 using Marten;
 using Marten.Services;
 using MassTransit;
+using Newtonsoft.Json.Serialization;
 
 namespace Home.Bills
 {
@@ -16,13 +17,13 @@ namespace Home.Bills
                 .For(_ =>
                 {
                     _.DatabaseSchemaName = "home_bills";
-                    _.Schema.For<MeterRead>().UseOptimisticConcurrency(true);
+                    //_.Schema.For<MeterRead>().UseOptimisticConcurrency(true);
                     _.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
                     _.Connection("host=dev-machine;database=home_test;password=admin;username=postgres");
 
                     var serializer = new JsonNetSerializer();
 
-                    var dcr = new ContractResolver(componentContext.Resolve<IBus>, componentContext.Resolve<IPublishRecorder>);
+                    var dcr = new DefaultContractResolver();
 
                     dcr.DefaultMembersSearchFlags |= BindingFlags.NonPublic | BindingFlags.Instance;
 

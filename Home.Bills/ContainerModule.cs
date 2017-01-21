@@ -81,7 +81,7 @@ namespace Home.Bills
             {
                 return Bus.Factory.CreateUsingRabbitMq(configurator =>
                 {
-                    var host = configurator.Host(new Uri("rabbitmq://dev-machine:5672/home_bills"),
+                    var host = configurator.Host(new Uri("rabbitmq://dev-machine:5672/test"),
                         hostConfigurator =>
                         {
                             hostConfigurator.Username("home");
@@ -103,9 +103,8 @@ namespace Home.Bills
             #endregion
 
             #region Framework
-            
-            builder.RegisterType<PublishRecorder>().As<IPublishRecorder>().InstancePerLifetimeScope();
-            builder.RegisterType<AsyncUnitOfWork>().As<IAsyncUnitOfWork>().InstancePerLifetimeScope();
+           
+            builder.RegisterType<AsyncUnitOfWork<Guid>>().As<IAsyncUnitOfWork>().InstancePerLifetimeScope();
 
             #endregion
         }

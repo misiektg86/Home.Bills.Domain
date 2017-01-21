@@ -4,6 +4,7 @@ using Frameworks.Light.Ddd;
 using Marten;
 using Marten.Services;
 using MassTransit;
+using Newtonsoft.Json.Serialization;
 
 namespace Home.Bills.Payments
 {
@@ -14,7 +15,7 @@ namespace Home.Bills.Payments
             return DocumentStore
                 .For(_ =>
                 {
-                    _.AutoCreateSchemaObjects = AutoCreate.CreateOnly;
+                    _.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
 
                     _.DatabaseSchemaName = "home_bills_payments";
 
@@ -22,7 +23,7 @@ namespace Home.Bills.Payments
 
                     var serializer = new JsonNetSerializer();
 
-                    var dcr = new ContractResolver(componentContext.Resolve<IBus>, componentContext.Resolve<IPublishRecorder>);
+                    var dcr = new DefaultContractResolver();
 
                     dcr.DefaultMembersSearchFlags |= BindingFlags.NonPublic | BindingFlags.Instance;
 

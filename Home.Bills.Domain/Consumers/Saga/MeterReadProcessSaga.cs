@@ -11,7 +11,7 @@ namespace Home.Bills.Domain.Consumers
     {
         public Event<MeterReadProcessBagan> MeterReadBegan { get; set; }
 
-        public Event<UsageCalculated> UsageCalculated { get; set; }
+        public Event<IUsageCalculated> UsageCalculated { get; set; }
 
         public Event<IMeterReadProcessCanceled> MeterReadCanceled { get; set; }
 

@@ -16,6 +16,8 @@ namespace Home.Bills.Domain.AddressAggregate.Events
             CurrentRead = currentRead;
         }
 
+        public UsageCalculated() { }
+
         public double PreviousRead { get; }
 
         public double CurrentRead { get; }

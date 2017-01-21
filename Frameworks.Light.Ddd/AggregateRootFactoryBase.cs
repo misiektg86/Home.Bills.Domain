@@ -25,8 +25,6 @@ namespace Frameworks.Light.Ddd
 
         private void SetInfrastructure(Entity<TEntityId> entity)
         {
-            entity.MessageBus = Container.Resolve<IBus>();
-            entity.Recorder = Container.Resolve<IPublishRecorder>();
         }
 
         protected abstract TAggregateRoot CreateInternal(TCreateInput input);
