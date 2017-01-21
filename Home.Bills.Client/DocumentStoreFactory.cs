@@ -14,8 +14,6 @@ namespace Home.Bills.Client
             return DocumentStore
                 .For(_ =>
                 {
-                    _.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
-                    _.Schema.For<MeterRead>().UseOptimisticConcurrency(true);
                     _.DatabaseSchemaName = "home_bills";
 
                     _.Connection("host=dev-machine;database=home_test;password=admin;username=postgres");

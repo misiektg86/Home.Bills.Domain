@@ -75,7 +75,7 @@ namespace Home.Bills.Domain.Consumers
                         context =>
                             context.Instance.MetersToStateUpdate.Contains(context.Data.MeterId) &&
                             context.Instance.MetersToStateUpdate.Count > 1)
-                    .Then(context => context.Instance.MetersToStateUpdate.Remove(context.Data.MeterId)).Send((instance, data) => new Uri("rabbitmq://dev-machine:5672/home_bills/Home.Bills"),
+                    .Then(context => context.Instance.MetersToStateUpdate.Remove(context.Data.MeterId)).Send((instance, data) => new Uri("rabbitmq://dev-machine:5672/test/Home.Bills"),
                         context =>
                             new CreateUsageCalculation()
                             {
@@ -86,7 +86,7 @@ namespace Home.Bills.Domain.Consumers
                                 UsageId = Guid.NewGuid()
                             }),
                 When(MeterstateUpdated, context => context.Instance.MetersToStateUpdate.Contains(context.Data.MeterId) &&
-                                                   context.Instance.MetersToStateUpdate.Count == 1).Send((instance, data) => new Uri("rabbitmq://dev-machine:5672/home_bills/Home.Bills"),
+                                                   context.Instance.MetersToStateUpdate.Count == 1).Send((instance, data) => new Uri("rabbitmq://dev-machine:5672/test/Home.Bills"),
                         context =>
                             new CreateUsageCalculation()
                             {

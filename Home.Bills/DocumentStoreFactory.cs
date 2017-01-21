@@ -17,8 +17,7 @@ namespace Home.Bills
                 .For(_ =>
                 {
                     _.DatabaseSchemaName = "home_bills";
-                    //_.Schema.For<MeterRead>().UseOptimisticConcurrency(true);
-                    _.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
+
                     _.Connection("host=dev-machine;database=home_test;password=admin;username=postgres");
 
                     var serializer = new JsonNetSerializer();
