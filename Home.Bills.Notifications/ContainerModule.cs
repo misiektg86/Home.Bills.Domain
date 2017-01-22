@@ -4,11 +4,11 @@ using Frameworks.Light.Ddd;
 using GreenPipes;
 using GreenPipes.Policies;
 using GreenPipes.Policies.ExceptionFilters;
+using Home.Bills.Notifications.Acl;
+using Home.Bills.Notifications.Domain.AddressAggregate;
 using Home.Bills.Payments.Client;
 using Marten;
 using MassTransit;
-using MassTransit.MartenIntegration;
-using MassTransit.Saga;
 using Module = Autofac.Module;
 
 namespace Home.Bills.Notifications
@@ -27,17 +27,9 @@ namespace Home.Bills.Notifications
 
             #region Factories
 
-            //builder.RegisterType<AddressFactory>()
-            //    .As<Frameworks.Light.Ddd.IAggregateFactory<Address, AddressFactoryInput, Guid>>()
-            //    .InstancePerLifetimeScope();
-
-            //builder.RegisterType<MeterFactory>()
-            //   .As<Frameworks.Light.Ddd.IAggregateFactory<Meter, MeterFactoryInput, Guid>>()
-            //   .InstancePerLifetimeScope();
-
-            //builder.RegisterType<MeterReadFactory>()
-            // .As<Frameworks.Light.Ddd.IAggregateFactory<MeterRead, MeterReadFactoryInput, Guid>>()
-            // .InstancePerLifetimeScope();
+            builder.RegisterType<AddressFactory>()
+                .As<Frameworks.Light.Ddd.IAggregateFactory<Address, Guid, Guid>>()
+                .InstancePerLifetimeScope();
 
             #endregion
 
@@ -64,8 +56,8 @@ namespace Home.Bills.Notifications
             #region MassTransit
 
             //builder.RegisterStateMachineSagas(typeof(MeterMountedAtAddress).Assembly);
-            //builder.RegisterConsumers(typeof(MeterMountedAtAddress).Assembly);
-            builder.RegisterGeneric(typeof(MartenSagaRepository<>)).As(typeof(ISagaRepository<>));
+            builder.RegisterConsumers(typeof(PaymentAcceptedConsumer).Assembly, typeof(Address).Assembly);
+           // builder.RegisterGeneric(typeof(MartenSagaRepository<>)).As(typeof(ISagaRepository<>));
             builder.Register(context =>
             {
                 return Bus.Factory.CreateUsingRabbitMq(configurator =>
@@ -92,7 +84,7 @@ namespace Home.Bills.Notifications
             #endregion
 
             #region Framework
-           
+
             builder.RegisterType<AsyncUnitOfWork<Guid>>().As<IAsyncUnitOfWork>().InstancePerLifetimeScope();
 
             #endregion

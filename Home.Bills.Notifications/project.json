@@ -35,6 +35,12 @@
         "Frameworks.Light.Ddd": {
           "target": "project"
         },
+        "Home.Bills.Notifications.Acl": {
+          "target": "project"
+        },
+        "Home.Bills.Notifications.Domain": {
+          "target": "project"
+        },
         "Home.Bills.Payments.Client": {
           "target": "project"
         }

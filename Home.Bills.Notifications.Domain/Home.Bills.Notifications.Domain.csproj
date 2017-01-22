@@ -40,7 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressAggregate\Address.cs" />
+    <Compile Include="AddressAggregate\AddressFactory.cs" />
+    <Compile Include="AddressAggregate\PaymentAlreadyRegisteredException.cs" />
+    <Compile Include="AddressAggregate\RegisteredAcceptedPayment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Frameworks.Light.Ddd\Frameworks.Light.Ddd.csproj">
+      <Project>{8EB8E52D-0B05-41DB-B488-FC6D5E628E7D}</Project>
+      <Name>Frameworks.Light.Ddd</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

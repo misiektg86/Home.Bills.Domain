@@ -13,7 +13,7 @@ namespace Home.Bills.Notifications
             return DocumentStore
                 .For(_ =>
                 {
-                    _.DatabaseSchemaName = "home_bills";
+                    _.DatabaseSchemaName = "home_bills_notifications";
 
                     _.Connection("host=dev-machine;database=home_test;password=admin;username=postgres");
 

@@ -28,6 +28,45 @@
         }
       }
     },
+    "Home.Bills.Notifications.Acl/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Notifications.Acl.dll": {}
+      },
+      "runtime": {
+        "../packages/GreenPipes.1.0.9/lib/net452/GreenPipes.dll": {},
+        "../packages/MassTransit.3.5.4/lib/net452/MassTransit.dll": {},
+        "../packages/NewId.3.0.0/lib/net452/NewId.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/RabbitMQ.Client.4.1.1/lib/net451/RabbitMQ.Client.dll": {},
+        "bin/Debug/Home.Bills.Notifications.Acl.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Notifications.Acl.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Home.Bills.Notifications.Domain/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Notifications.Domain.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/Home.Bills.Notifications.Domain.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Notifications.Domain.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "Home.Bills.Payments.Client/1.0.0": {
       "type": "project",
       "framework": ".NETFramework,Version=v4.6.1",
