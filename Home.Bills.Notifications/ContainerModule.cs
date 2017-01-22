@@ -4,6 +4,7 @@ using Frameworks.Light.Ddd;
 using GreenPipes;
 using GreenPipes.Policies;
 using GreenPipes.Policies.ExceptionFilters;
+using Home.Bills.Payments.Client;
 using Marten;
 using MassTransit;
 using MassTransit.MartenIntegration;
@@ -42,10 +43,7 @@ namespace Home.Bills.Notifications
 
             #region DataProviders
 
-            //builder.RegisterType<AddressDataProvider>().As<IAddressDataProvider>().InstancePerLifetimeScope();
-            //builder.RegisterType<MeterDataProvider>().As<IMeterDataProvider>().InstancePerLifetimeScope();
-            //builder.RegisterType<UsageDataProvider>().As<IUsageDataProvider>().InstancePerLifetimeScope();
-            //builder.RegisterType<MeterReadDataProvider>().As<IMeterReadDataProvider>().InstancePerLifetimeScope();
+            builder.RegisterModule<AutofacServiceClientModule>();
 
             #endregion
 

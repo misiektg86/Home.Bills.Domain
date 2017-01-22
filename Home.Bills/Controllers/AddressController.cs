@@ -17,12 +17,14 @@ namespace Home.Bills.Controllers
 
         private readonly IAddressDataProvider _addressDataProvider;
         private readonly IAggregateFactory<Address, AddressFactoryInput, Guid> _addressFactory;
+        private readonly IMeterReadDataProvider _meterReadDataProvider;
 
-        public AddressController(IRepository<Address, Guid> addressRepository, IAddressDataProvider addressDataProvider, IAggregateFactory<Address, AddressFactoryInput, Guid> addressFactory)
+        public AddressController(IRepository<Address, Guid> addressRepository, IAddressDataProvider addressDataProvider, IAggregateFactory<Address, AddressFactoryInput, Guid> addressFactory, IMeterReadDataProvider meterReadDataProvider)
         {
             _addressRepository = addressRepository;
             _addressDataProvider = addressDataProvider;
             _addressFactory = addressFactory;
+            _meterReadDataProvider = meterReadDataProvider;
         }
 
         [HttpGet]
@@ -75,6 +77,30 @@ namespace Home.Bills.Controllers
             _addressRepository.Update(address);
 
             return StatusCode(204);
+        }
+
+        [HttpPut("SetLastMeterRead/{addressId}/{meterReadId}", Name = "SetLastMeterRead")]
+        public async Task<IActionResult> SetLastMeterRead(Guid addressId, Guid meterReadId)
+        {
+            var meterRead = await _meterReadDataProvider.GetMeterRead(meterReadId);
+
+            if (meterRead == null)
+            {
+                return NotFound(meterReadId);
+            }
+
+            var address = await _addressRepository.Get(addressId);
+
+            if (address == null)
+            {
+                return NotFound(addressId);
+            }
+
+            address.SetLastMeterRead(meterReadId);
+
+            _addressRepository.Update(address);
+
+            return new NoContentResult();
         }
 
         [HttpPut("FinishMeterReadProcess", Name = "FinishMeterReadProcess")]

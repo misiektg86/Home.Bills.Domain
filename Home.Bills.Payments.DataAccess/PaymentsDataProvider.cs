@@ -25,6 +25,18 @@ namespace Home.Bills.Payments.DataAccess
                 return payments;
         }
 
+        public async Task<Payment> GetPayment(Guid paymentId)
+        {
+            var payment = await _documentSession.LoadAsync<Domain.PaymentAggregate.Payment>(paymentId);
+
+            if (payment == null)
+            {
+                return null;
+            }
+
+            return ToDto(payment);
+        }
+
         private Payment ToDto(Domain.PaymentAggregate.Payment source)
         {
             return new Payment()

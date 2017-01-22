@@ -8,7 +8,6 @@ using NSubstitute;
 using Xunit;
 using Address = Home.Bills.Domain.AddressAggregate.Address;
 using Home.Bills.Models;
-using MassTransit;
 
 namespace Home.Bills.Tests
 {
@@ -24,7 +23,7 @@ namespace Home.Bills.Tests
             addressDataProvider.AddressExists(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(false);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory());
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(), Substitute.For<IMeterReadDataProvider>());
 
             await
                 addressController.Post(new Models.Address()
@@ -47,7 +46,7 @@ namespace Home.Bills.Tests
             addressDataProvider.AddressExists(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(true);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory());
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(), Substitute.For<IMeterReadDataProvider>());
 
             await
                 addressController.Post(new Models.Address()
@@ -74,7 +73,7 @@ namespace Home.Bills.Tests
 
             addressRepository.Get(addressEntity.Id).Returns(addressEntity);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, addressFactory);
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, addressFactory, Substitute.For<IMeterReadDataProvider>());
 
             await addressController.Delete(addressEntity.Id);
 
@@ -92,7 +91,7 @@ namespace Home.Bills.Tests
 
             addressRepository.Get(entityId).Returns(default(Address));
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory());
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, new AddressFactory(), Substitute.For<IMeterReadDataProvider>());
 
             await addressController.Delete(entityId);
 
@@ -111,7 +110,7 @@ namespace Home.Bills.Tests
 
             addressRepository.Get(addressEntity.Id).Returns(addressEntity);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, addressFactory);
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, addressFactory, Substitute.For<IMeterReadDataProvider>());
 
             await
                 addressController.CheckInPerson(new CheckIn()
@@ -139,7 +138,7 @@ namespace Home.Bills.Tests
 
             addressRepository.Get(addressEntity.Id).Returns(addressEntity);
 
-            AddressController addressController = new AddressController(addressRepository, addressDataProvider, addressFactory);
+            AddressController addressController = new AddressController(addressRepository, addressDataProvider, addressFactory, Substitute.For<IMeterReadDataProvider>());
 
             await
                 addressController.CheckOutPerson(new CheckOut()

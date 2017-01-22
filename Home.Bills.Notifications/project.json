@@ -34,6 +34,9 @@
       "dependencies": {
         "Frameworks.Light.Ddd": {
           "target": "project"
+        },
+        "Home.Bills.Payments.Client": {
+          "target": "project"
         }
       }
     }
