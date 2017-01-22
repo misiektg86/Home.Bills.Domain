@@ -48,6 +48,10 @@ namespace Home.Bills.Payments
              .As<IAggregateFactory<Domain.RegistratorAgregate.Registrator, Domain.RegistratorAgregate.FactoryInput, Guid>>()
              .InstancePerLifetimeScope();
 
+            builder.RegisterType<Domain.RentAggregate.RentFactory>()
+            .As<IAggregateFactory<Domain.RentAggregate.Rent, Domain.RentAggregate.RentFactoryInput, Guid>>()
+            .InstancePerLifetimeScope();
+
             #endregion
 
             #region DataProviders
@@ -65,6 +69,7 @@ namespace Home.Bills.Payments
             #region DomainServices
 
             builder.RegisterType<PaymentDomainService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<RentAssignDomainService>().AsSelf().InstancePerLifetimeScope();
 
             #endregion
 

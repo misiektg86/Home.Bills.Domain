@@ -7,8 +7,8 @@
     <ProjectGuid>{D2D951AC-0446-4486-B30F-C857CDC367CB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Home.Bills.Notifications</RootNamespace>
-    <AssemblyName>Home.Bills.Notifications</AssemblyName>
+    <RootNamespace>Home.Bills.Notifications.Domain</RootNamespace>
+    <AssemblyName>Home.Bills.Notifications.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
