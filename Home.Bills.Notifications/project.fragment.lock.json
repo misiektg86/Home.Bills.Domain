@@ -57,6 +57,10 @@
         "bin/Debug/Home.Bills.Notifications.Domain.dll": {}
       },
       "runtime": {
+        "../packages/GreenPipes.1.0.9/lib/net452/GreenPipes.dll": {},
+        "../packages/MassTransit.3.5.4/lib/net452/MassTransit.dll": {},
+        "../packages/NewId.3.0.0/lib/net452/NewId.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
         "bin/Debug/Home.Bills.Notifications.Domain.dll": {}
       },
       "contentFiles": {

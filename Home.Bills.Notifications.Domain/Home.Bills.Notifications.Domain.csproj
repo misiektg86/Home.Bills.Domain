@@ -30,12 +30,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Automatonymous, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Automatonymous.3.5.11\lib\net452\Automatonymous.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="GreenPipes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
       <HintPath>..\packages\GreenPipes.1.0.9\lib\net452\GreenPipes.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MassTransit, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
       <HintPath>..\packages\MassTransit.3.5.4\lib\net452\MassTransit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MassTransit.AutomatonymousIntegration, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\MassTransit.Automatonymous.3.5.4\lib\net452\MassTransit.AutomatonymousIntegration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NewId, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
@@ -60,7 +68,18 @@
     <Compile Include="AddressAggregate\AddressFactory.cs" />
     <Compile Include="AddressAggregate\PaymentAlreadyRegisteredException.cs" />
     <Compile Include="AddressAggregate\RegisteredAcceptedPayment.cs" />
+    <Compile Include="Consumers\CreatePaymentNotificationConsumer.cs" />
+    <Compile Include="Consumers\MarkPaymentNotificationAsReadConsumer.cs" />
     <Compile Include="Consumers\RegisteredAcceptedPaymentConsumer.cs" />
+    <Compile Include="Consumers\Saga\CreatePaymentNotification.cs" />
+    <Compile Include="Consumers\Saga\INotificationCreated.cs" />
+    <Compile Include="Consumers\Saga\INotificationSent.cs" />
+    <Compile Include="Consumers\Saga\IPaymentAccepted.cs" />
+    <Compile Include="Consumers\Saga\MarkPaymentNotificationAsSent.cs" />
+    <Compile Include="Consumers\Saga\PaymentNotificationStateMachine.cs" />
+    <Compile Include="Consumers\Saga\PaymentNotificationStateMachineInstance.cs" />
+    <Compile Include="Consumers\Saga\SendPaymentNotification.cs" />
+    <Compile Include="Consumers\SendPaymentNotificationConsumer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

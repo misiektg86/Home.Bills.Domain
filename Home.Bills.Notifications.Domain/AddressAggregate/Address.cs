@@ -27,5 +27,7 @@ namespace Home.Bills.Notifications.Domain.AddressAggregate
 
             Publish(new RegisteredAcceptedPayment() {PaymentId = paymentId, AddressId = Id});
         }
+
+        public void 
     }
 }
