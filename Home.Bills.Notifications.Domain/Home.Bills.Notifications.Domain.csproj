@@ -80,12 +80,21 @@
     <Compile Include="Consumers\Saga\PaymentNotificationStateMachineInstance.cs" />
     <Compile Include="Consumers\Saga\SendPaymentNotification.cs" />
     <Compile Include="Consumers\SendPaymentNotificationConsumer.cs" />
+    <Compile Include="PaymentAggregate\CannotCreateEmptyPaymentException.cs" />
+    <Compile Include="PaymentAggregate\Payment.cs" />
+    <Compile Include="PaymentAggregate\PaymentItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PaymentNotFoundException.cs" />
+    <Compile Include="Services\SendPaymentNotificationDomainService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Frameworks.Light.Ddd\Frameworks.Light.Ddd.csproj">
       <Project>{8EB8E52D-0B05-41DB-B488-FC6D5E628E7D}</Project>
       <Name>Frameworks.Light.Ddd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Notifications.Acl\Home.Bills.Notifications.Acl.csproj">
+      <Project>{45365a1d-3eac-493c-a2a4-ab08667837b8}</Project>
+      <Name>Home.Bills.Notifications.Acl</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

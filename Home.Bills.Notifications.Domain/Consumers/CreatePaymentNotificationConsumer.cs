@@ -5,6 +5,7 @@ namespace Home.Bills.Notifications.Domain.Consumers
 {
     public class CreatePaymentNotificationConsumer : IConsumer<CreatePaymentNotificationConsumer>
     {
+        public 
         public Task Consume(ConsumeContext<CreatePaymentNotificationConsumer> context)
         {
             throw new System.NotImplementedException();
