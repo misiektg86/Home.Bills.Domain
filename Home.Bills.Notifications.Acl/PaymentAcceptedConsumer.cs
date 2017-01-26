@@ -7,16 +7,10 @@ namespace Home.Bills.Notifications.Acl
 {
     public class PaymentAcceptedConsumer : IConsumer<IPaymentAccepted>
     {
-        private readonly IServiceClient _serviceClient;
-
-        public PaymentAcceptedConsumer(IServiceClient serviceClient)
-        {
-            _serviceClient = serviceClient;
-        }
-
         public Task Consume(ConsumeContext<IPaymentAccepted> context)
         {
-            throw new System.NotImplementedException();
+           return context.Publish<Domain.Consumers.Saga.IPaymentAccepted>(
+                new {context.Message.PaymentId, context.Message.AddressId});
         }
     }
 }

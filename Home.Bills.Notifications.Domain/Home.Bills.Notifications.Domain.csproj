@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressAggregate\Address.cs" />
+    <Compile Include="AddressAggregate\AddressChanged.cs" />
     <Compile Include="AddressAggregate\AddressFactory.cs" />
     <Compile Include="AddressAggregate\PaymentAlreadyRegisteredException.cs" />
     <Compile Include="AddressAggregate\RegisteredAcceptedPayment.cs" />
@@ -92,9 +93,21 @@
       <Project>{8EB8E52D-0B05-41DB-B488-FC6D5E628E7D}</Project>
       <Name>Frameworks.Light.Ddd</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Home.Bills.Notifications.Acl\Home.Bills.Notifications.Acl.csproj">
-      <Project>{45365a1d-3eac-493c-a2a4-ab08667837b8}</Project>
-      <Name>Home.Bills.Notifications.Acl</Name>
+    <ProjectReference Include="..\Home.Bills.Client\Home.Bills.Client.csproj">
+      <Project>{8f3dacc6-e1ba-4a51-a613-52d97b15a121}</Project>
+      <Name>Home.Bills.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.DataAccess\Home.Bills.DataAccess.csproj">
+      <Project>{d3fd2514-61c4-426b-94b7-f08cc97d91b2}</Project>
+      <Name>Home.Bills.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Payments.Client\Home.Bills.Payments.Client.csproj">
+      <Project>{D7E4E4A1-6BB0-49E3-8D53-5FC2E69D390A}</Project>
+      <Name>Home.Bills.Payments.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Payments.DataAccess\Home.Bills.Payments.DataAccess.csproj">
+      <Project>{c60259b7-287c-4ac3-8018-a51af693e936}</Project>
+      <Name>Home.Bills.Payments.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

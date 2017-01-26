@@ -64,6 +64,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Home.Bills.Notifications.Domain\Home.Bills.Notifications.Domain.csproj">
+      <Project>{d2d951ac-0446-4486-b30f-c857cdc367cb}</Project>
+      <Name>Home.Bills.Notifications.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Home.Bills.Payments.Client\Home.Bills.Payments.Client.csproj">
       <Project>{d7e4e4a1-6bb0-49e3-8d53-5fc2e69d390a}</Project>
       <Name>Home.Bills.Payments.Client</Name>

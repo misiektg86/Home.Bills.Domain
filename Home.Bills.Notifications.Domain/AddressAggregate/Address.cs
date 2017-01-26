@@ -10,11 +10,14 @@ namespace Home.Bills.Notifications.Domain.AddressAggregate
 
         private IList<Guid> _acceptedPayments;
 
-        internal Address(Guid addressId)
+        internal Address(Guid addressId, string fullAddress)
         {
+            FullAddress = fullAddress;
             _acceptedPayments = new List<Guid>();
             Id = addressId;
         }
+
+        public string FullAddress { get; private set; }
 
         public void RegisterAcceptedPayment(Guid paymentId)
         {
@@ -25,9 +28,14 @@ namespace Home.Bills.Notifications.Domain.AddressAggregate
 
             _acceptedPayments.Add(paymentId);
 
-            Publish(new RegisteredAcceptedPayment() {PaymentId = paymentId, AddressId = Id});
+            Publish(new RegisteredAcceptedPayment() { PaymentId = paymentId, AddressId = Id });
         }
 
-        public void 
+        public void UpdateAddrress(string fullAddress)
+        {
+            FullAddress = fullAddress;
+
+            Publish(new AddressChanged {FullAddress = fullAddress});
+        }
     }
 }

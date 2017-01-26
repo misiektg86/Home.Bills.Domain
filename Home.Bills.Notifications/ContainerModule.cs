@@ -4,7 +4,6 @@ using Frameworks.Light.Ddd;
 using GreenPipes;
 using GreenPipes.Policies;
 using GreenPipes.Policies.ExceptionFilters;
-using Home.Bills.Notifications.Acl;
 using Home.Bills.Notifications.Domain.AddressAggregate;
 using Home.Bills.Payments.Client;
 using Marten;
