@@ -13,7 +13,7 @@ namespace Home.Bills.Payments.Client
             return DocumentStore
                 .For(_ =>
                 {
-                    _.DatabaseSchemaName = "home_bills";
+                    _.DatabaseSchemaName = "home_bills_payments";
 
                     _.Connection("host=dev-machine;database=home_test;password=admin;username=postgres");
 

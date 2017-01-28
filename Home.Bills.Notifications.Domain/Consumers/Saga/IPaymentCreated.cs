@@ -2,8 +2,8 @@ using System;
 
 namespace Home.Bills.Notifications.Domain.Consumers.Saga
 {
-    public class SendPaymentNotification
+    public interface IPaymentCreated
     {
-        public Guid PaymentId { get; set; }
+        Guid PaymentId { get; }
     }
 }

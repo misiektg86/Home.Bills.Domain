@@ -1,4 +1,4 @@
-﻿{
+{
   "dependencies": {
     "Autofac": "4.2.1",
     "Autofac.Extensions.DependencyInjection": "4.0.0",
@@ -33,6 +33,12 @@
     "net461": {
       "dependencies": {
         "Frameworks.Light.Ddd": {
+          "target": "project"
+        },
+        "Home.Bills.Client": {
+          "target": "project"
+        },
+        "Home.Bills.Notification.Infrastructure": {
           "target": "project"
         },
         "Home.Bills.Notifications.Acl": {

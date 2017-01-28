@@ -45,7 +45,8 @@ namespace Home.Bills.Payments.DataAccess
                 AddressId = source.AddressId,
                 Canceled = source.Canceled,
                 PaymentItems = source.PaymentItems?.Select(ToDto).ToList(),
-                Setteled = source.Setteled
+                Setteled = source.Setteled,
+                PaymentId = source.Id
             };
         }
 

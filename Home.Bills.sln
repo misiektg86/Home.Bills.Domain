@@ -51,6 +51,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Bills.Payments.Client"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Bills.Notifications.Acl", "Home.Bills.Notifications.Acl\Home.Bills.Notifications.Acl.csproj", "{45365A1D-3EAC-493C-A2A4-AB08667837B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Bills.Notification.Infrastructure", "Home.Bills.Notification.Infrastructure\Home.Bills.Notification.Infrastructure.csproj", "{3D6F9638-F93A-41DE-92E7-BC0FA7FC6EEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Bills.Notifications.Messages", "Home.Bills.Notifications.Messages\Home.Bills.Notifications.Messages.csproj", "{0B7061E2-D975-40B2-BC87-52B3112C190D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +133,14 @@ Global
 		{45365A1D-3EAC-493C-A2A4-AB08667837B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45365A1D-3EAC-493C-A2A4-AB08667837B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45365A1D-3EAC-493C-A2A4-AB08667837B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D6F9638-F93A-41DE-92E7-BC0FA7FC6EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D6F9638-F93A-41DE-92E7-BC0FA7FC6EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D6F9638-F93A-41DE-92E7-BC0FA7FC6EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D6F9638-F93A-41DE-92E7-BC0FA7FC6EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B7061E2-D975-40B2-BC87-52B3112C190D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B7061E2-D975-40B2-BC87-52B3112C190D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B7061E2-D975-40B2-BC87-52B3112C190D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B7061E2-D975-40B2-BC87-52B3112C190D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,5 +165,7 @@ Global
 		{70523D06-BCE9-4D19-90B1-25B81C60D0B0} = {995E9767-2841-43A6-B73F-B91F15F32545}
 		{D7E4E4A1-6BB0-49E3-8D53-5FC2E69D390A} = {14F7DFA5-919D-45CA-A1E6-CBA62AFCE4AE}
 		{45365A1D-3EAC-493C-A2A4-AB08667837B8} = {C22CF132-4BB6-4F86-9A38-CC1D851B0D0A}
+		{3D6F9638-F93A-41DE-92E7-BC0FA7FC6EEE} = {C22CF132-4BB6-4F86-9A38-CC1D851B0D0A}
+		{0B7061E2-D975-40B2-BC87-52B3112C190D} = {C22CF132-4BB6-4F86-9A38-CC1D851B0D0A}
 	EndGlobalSection
 EndGlobal

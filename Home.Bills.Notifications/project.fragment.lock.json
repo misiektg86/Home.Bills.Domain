@@ -28,6 +28,56 @@
         }
       }
     },
+    "Home.Bills.Client/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Client.dll": {}
+      },
+      "runtime": {
+        "../packages/Autofac.4.2.1/lib/net45/Autofac.dll": {},
+        "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
+        "../packages/Marten.1.2.5/lib/net46/Marten.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},
+        "../packages/Remotion.Linq.2.1.1/lib/net45/Remotion.Linq.dll": {},
+        "../packages/System.Threading.Tasks.Dataflow.4.6.0/lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {},
+        "bin/Debug/Home.Bills.Client.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Client.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Home.Bills.Notification.Infrastructure/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Notification.Infrastructure.dll": {}
+      },
+      "runtime": {
+        "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
+        "../packages/GreenPipes.1.0.9/lib/net452/GreenPipes.dll": {},
+        "../packages/Marten.1.2.5/lib/net46/Marten.dll": {},
+        "../packages/MassTransit.3.5.4/lib/net452/MassTransit.dll": {},
+        "../packages/NewId.3.0.0/lib/net452/NewId.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},
+        "../packages/Remotion.Linq.2.1.1/lib/net45/Remotion.Linq.dll": {},
+        "../packages/System.Threading.Tasks.Dataflow.4.6.0/lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {},
+        "bin/Debug/Home.Bills.Notification.Infrastructure.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Notification.Infrastructure.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "Home.Bills.Notifications.Acl/1.0.0": {
       "type": "project",
       "framework": ".NETFramework,Version=v4.6.1",
@@ -58,11 +108,16 @@
       },
       "runtime": {
         "../packages/Automatonymous.3.5.11/lib/net452/Automatonymous.dll": {},
+        "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
         "../packages/GreenPipes.1.0.9/lib/net452/GreenPipes.dll": {},
+        "../packages/Marten.1.2.5/lib/net46/Marten.dll": {},
         "../packages/MassTransit.3.5.4/lib/net452/MassTransit.dll": {},
         "../packages/MassTransit.Automatonymous.3.5.4/lib/net452/MassTransit.AutomatonymousIntegration.dll": {},
         "../packages/NewId.3.0.0/lib/net452/NewId.dll": {},
         "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},
+        "../packages/Remotion.Linq.2.1.1/lib/net45/Remotion.Linq.dll": {},
+        "../packages/System.Threading.Tasks.Dataflow.4.6.0/lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {},
         "bin/Debug/Home.Bills.Notifications.Domain.dll": {}
       },
       "contentFiles": {
@@ -91,6 +146,95 @@
       },
       "contentFiles": {
         "bin/Debug/Home.Bills.Payments.Client.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Home.Bills.DataAccess/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.DataAccess.dll": {}
+      },
+      "runtime": {
+        "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
+        "../packages/Marten.1.2.5/lib/net46/Marten.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},
+        "../packages/Remotion.Linq.2.1.1/lib/net45/Remotion.Linq.dll": {},
+        "../packages/System.Threading.Tasks.Dataflow.4.6.0/lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {},
+        "bin/Debug/Home.Bills.DataAccess.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.DataAccess.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Home.Bills.Domain/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Domain.dll": {}
+      },
+      "runtime": {
+        "../packages/Automatonymous.3.5.11/lib/net452/Automatonymous.dll": {},
+        "../packages/Baseline.1.1.0/lib/net451/Baseline.dll": {},
+        "../packages/GreenPipes.1.0.9/lib/net452/GreenPipes.dll": {},
+        "../packages/Marten.1.2.5/lib/net46/Marten.dll": {},
+        "../packages/MassTransit.3.5.4/lib/net452/MassTransit.dll": {},
+        "../packages/MassTransit.Automatonymous.3.5.4/lib/net452/MassTransit.AutomatonymousIntegration.dll": {},
+        "../packages/NewId.3.0.0/lib/net452/NewId.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/Npgsql.3.1.6/lib/net451/Npgsql.dll": {},
+        "../packages/Remotion.Linq.2.1.1/lib/net45/Remotion.Linq.dll": {},
+        "../packages/System.Threading.Tasks.Dataflow.4.6.0/lib/netstandard1.1/System.Threading.Tasks.Dataflow.dll": {},
+        "../packages/xunit.abstractions.2.0.0/lib/net35/xunit.abstractions.dll": {},
+        "../packages/xunit.assert.2.1.0/lib/dotnet/xunit.assert.dll": {},
+        "../packages/xunit.extensibility.core.2.1.0/lib/dotnet/xunit.core.dll": {},
+        "../packages/xunit.extensibility.execution.2.1.0/lib/net45/xunit.execution.desktop.dll": {},
+        "bin/Debug/Home.Bills.Domain.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Domain.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Home.Bills.Domain.Messages/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Domain.Messages.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/Home.Bills.Domain.Messages.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Domain.Messages.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Home.Bills.Notifications.Messages/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/Home.Bills.Notifications.Messages.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/Home.Bills.Notifications.Messages.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Home.Bills.Notifications.Messages.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true

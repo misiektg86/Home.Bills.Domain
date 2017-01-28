@@ -11,16 +11,17 @@ using MassTransit;
 
 namespace Home.Bills.Notifications.Domain.Consumers
 {
-    public class CreatePaymentNotificationConsumer : IConsumer<CreatePaymentNotification>
+    public class CreatePaymentConsumer : IConsumer<CreatePaymentNotification>
     {
         private readonly IAsyncUnitOfWork _unitOfWork;
 
         private readonly IRepository<Payment, Guid> _paymentRepository;
 
         private readonly IServiceClient _serviceClient;
+
         private readonly Client.IServiceClient _billsServiceClient;
 
-        public CreatePaymentNotificationConsumer(IAsyncUnitOfWork unitOfWork, IRepository<Payment,Guid> paymentRepository, IServiceClient serviceClient, Client.IServiceClient billsServiceClient  )
+        public CreatePaymentConsumer(IAsyncUnitOfWork unitOfWork, IRepository<Payment,Guid> paymentRepository, IServiceClient serviceClient, Client.IServiceClient billsServiceClient  )
         {
             _unitOfWork = unitOfWork;
             _paymentRepository = paymentRepository;
@@ -31,9 +32,9 @@ namespace Home.Bills.Notifications.Domain.Consumers
         {
             var paymentDetails = await _serviceClient.GetPayment(context.Message.PaymentId);
 
-            var address = await _billsServiceClient.GetAddressDetails(context.Message.AddressId);
+            var address = await _billsServiceClient.GetAddressDetails(paymentDetails.AddressId);
 
-            var payment = Payment.Create(context.Message.PaymentId, context.Message.AddressId,
+            var payment = Payment.Create(context.Message.PaymentId, address.AddressId,
                 paymentDetails.PaymentItems.Select(Convert).ToList(),
                 $"{address.StreetNumber} {address.StreetNumber}/{address.HomeNumber}, {address.City}");
 
@@ -41,7 +42,7 @@ namespace Home.Bills.Notifications.Domain.Consumers
 
             await _unitOfWork.CommitAsync();
 
-            await context.Publish<INotificationCreated>(new {context.Message.PaymentId});
+            await context.Publish<IPaymentCreated>(new {context.Message.PaymentId});
         }
 
         private PaymentItem Convert(Payments.DataAccess.Dtos.PaymentItem paymentItem)

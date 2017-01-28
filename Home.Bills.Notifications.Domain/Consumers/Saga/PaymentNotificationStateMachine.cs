@@ -1,5 +1,6 @@
 ﻿using System;
 using Automatonymous;
+using Home.Bills.Notifications.Messages;
 
 namespace Home.Bills.Notifications.Domain.Consumers.Saga
 {
@@ -9,21 +10,25 @@ namespace Home.Bills.Notifications.Domain.Consumers.Saga
 
         public State SendingNotification { get; set; }
 
-
         public Event<IPaymentAccepted> PaymentAccepted { get; set; }
 
-        public Event<INotificationCreated> NotificationCreated { get; set; }
+        public Event<IPaymentCreated> NotificationCreated { get; set; }
 
         public Event<INotificationSent> NotificationSent { get; set; }
 
         public PaymentNotificationStateMachine()
         {
+            InstanceState(instance => instance.State);
+
             Event(() => PaymentAccepted,
                 configurator =>
                     configurator.CorrelateById(context => context.Message.PaymentId)
                         .SelectId(context => context.Message.PaymentId));
+
             Event(() => NotificationCreated,
                 configurator => configurator.CorrelateById(context => context.Message.PaymentId));
+            Event(() => NotificationSent,
+               configurator => configurator.CorrelateById(context => context.Message.NotificationId));
 
             Initially(
                 When(PaymentAccepted)

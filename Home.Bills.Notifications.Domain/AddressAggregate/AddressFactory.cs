@@ -3,11 +3,11 @@ using Frameworks.Light.Ddd;
 
 namespace Home.Bills.Notifications.Domain.AddressAggregate
 {
-    public class AddressFactory : AggregateRootFactoryBase<Address, Guid, Guid>
+    public class AddressFactory : AggregateRootFactoryBase<Address, AddressFactoryInput, Guid>
     {
-        protected override Address CreateInternal(Guid addressId)
+        protected override Address CreateInternal(AddressFactoryInput input)
         {
-            return new Address(addressId);
+            return new Address(input.AddressId, input.FullAddressName);
         }
     }
 }

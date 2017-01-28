@@ -17,10 +17,10 @@
     },
     "Home.Bills.Notifications": {
       "commandName": "Project",
-      "launchUrl": "http://localhost:6000/api/values",
+      "launchUrl": "http://localhost:8000/api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:6000"
+        "ASPNETCORE_URLS": "http://localhost:8000"
       }
     }
   }

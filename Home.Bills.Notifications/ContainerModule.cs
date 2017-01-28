@@ -4,10 +4,16 @@ using Frameworks.Light.Ddd;
 using GreenPipes;
 using GreenPipes.Policies;
 using GreenPipes.Policies.ExceptionFilters;
+using Home.Bills.Notification.Infrastructure;
+using Home.Bills.Notifications.Acl;
 using Home.Bills.Notifications.Domain.AddressAggregate;
+using Home.Bills.Notifications.Domain.Consumers.Saga;
+using Home.Bills.Notifications.Domain.Services;
 using Home.Bills.Payments.Client;
 using Marten;
 using MassTransit;
+using MassTransit.MartenIntegration;
+using MassTransit.Saga;
 using Module = Autofac.Module;
 
 namespace Home.Bills.Notifications
@@ -27,7 +33,7 @@ namespace Home.Bills.Notifications
             #region Factories
 
             builder.RegisterType<AddressFactory>()
-                .As<Frameworks.Light.Ddd.IAggregateFactory<Address, Guid, Guid>>()
+                .As<Frameworks.Light.Ddd.IAggregateFactory<Address, AddressFactoryInput, Guid>>()
                 .InstancePerLifetimeScope();
 
             #endregion
@@ -36,11 +42,13 @@ namespace Home.Bills.Notifications
 
             builder.RegisterModule<AutofacServiceClientModule>();
 
+            builder.RegisterModule<Client.AutofacServiceClientModule>();
+
             #endregion
 
             #region DomainServices
 
-            //builder.RegisterType<UsageDomainService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<PaymentNotificationDomainService>().AsSelf().InstancePerLifetimeScope();
 
             #endregion
 
@@ -54,9 +62,9 @@ namespace Home.Bills.Notifications
 
             #region MassTransit
 
-            //builder.RegisterStateMachineSagas(typeof(MeterMountedAtAddress).Assembly);
-            builder.RegisterConsumers(typeof(PaymentAcceptedConsumer).Assembly, typeof(Address).Assembly);
-           // builder.RegisterGeneric(typeof(MartenSagaRepository<>)).As(typeof(ISagaRepository<>));
+            builder.RegisterStateMachineSagas(typeof(PaymentNotificationStateMachine).Assembly);
+            builder.RegisterConsumers(typeof(PaymentAcceptedConsumer).Assembly, typeof(Address).Assembly, typeof(SmtpMailSenderConsumer).Assembly);
+            builder.RegisterGeneric(typeof(MartenSagaRepository<>)).As(typeof(ISagaRepository<>));
             builder.Register(context =>
             {
                 return Bus.Factory.CreateUsingRabbitMq(configurator =>
@@ -70,7 +78,7 @@ namespace Home.Bills.Notifications
 
                     configurator.UseRetry(new IncrementalRetryPolicy(new AllExceptionFilter(), 10, TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(200)));
 
-                    configurator.ReceiveEndpoint(host, "Home.Bills", endpointConfigurator =>
+                    configurator.ReceiveEndpoint(host, "Home.Bills.Notifications", endpointConfigurator =>
                      {
                          endpointConfigurator.LoadFrom(context);
                          endpointConfigurator.LoadStateMachineSagas(context);
@@ -85,6 +93,12 @@ namespace Home.Bills.Notifications
             #region Framework
 
             builder.RegisterType<AsyncUnitOfWork<Guid>>().As<IAsyncUnitOfWork>().InstancePerLifetimeScope();
+
+            #endregion
+
+            #region Infrastructure
+
+            builder.RegisterType<SmtpAccountDataAccess>().AsSelf().InstancePerLifetimeScope();
 
             #endregion
         }

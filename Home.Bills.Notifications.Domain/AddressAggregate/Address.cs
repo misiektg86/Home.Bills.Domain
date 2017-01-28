@@ -10,6 +10,8 @@ namespace Home.Bills.Notifications.Domain.AddressAggregate
 
         private IList<Guid> _acceptedPayments;
 
+        public string BuildingAdministratorEmail { get; private set; }
+
         internal Address(Guid addressId, string fullAddress)
         {
             FullAddress = fullAddress;
@@ -36,6 +38,13 @@ namespace Home.Bills.Notifications.Domain.AddressAggregate
             FullAddress = fullAddress;
 
             Publish(new AddressChanged {FullAddress = fullAddress});
+        }
+
+        public void SetBuildingAdministratorEmail(string email)
+        {
+            BuildingAdministratorEmail = email;
+
+            Publish(new BuildingAdmistratorEmailSet {Email = email});
         }
     }
 }
