@@ -15,6 +15,8 @@ namespace Home.Bills.Payments.DataAccess.Dtos
 
         public Guid AddressId { get; set; }
 
+        public Guid PaymentId { get; set; }
+
         public IEnumerable<PaymentItem> PaymentItems { get; set; }
 
         public decimal TotalAmount => Math.Round(PaymentItems?.Sum(i => i.Amount) ?? 0m, 2);

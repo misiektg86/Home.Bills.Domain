@@ -1,8 +1,9 @@
 ﻿using System;
+using Home.Bills.Payments.Messages;
 
 namespace Home.Bills.Payments.Domain.PaymentAggregate
 {
-    public class PaymentAccepted
+    public class PaymentAccepted : IPaymentAccepted
     {
         public Guid PaymentId { get; }
         public Guid AddressId { get; }

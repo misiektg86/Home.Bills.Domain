@@ -7,6 +7,7 @@ using Home.Bills.DataAccess.Dto;
 using Home.Bills.Domain.Messages;
 using Home.Bills.Payments.Domain.Consumers;
 using Home.Bills.Payments.Domain.Services;
+using Home.Bills.Payments.Messages;
 using Marten;
 using MassTransit;
 
@@ -43,6 +44,9 @@ namespace Home.Bills.Payments.Acl
                  meterRead.Usages?.Select(Convert).ToList());
 
             await _documentSession.SaveChangesAsync();
+
+            await context.Publish<IPaymentAccepted>(
+                new { PaymentId = context.Message.MeterReadId, AddressId = context.Message.AddressId });
         }
 
         public static RegisteredUsage Convert(Usage dto)

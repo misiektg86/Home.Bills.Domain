@@ -119,6 +119,7 @@
     <Compile Include="AddressAggregate\Exceptions\AddressNotFoundException.cs" />
     <Compile Include="AddressAggregate\Exceptions\CannotCheckOutMorePersonsThanCheckedInException.cs" />
     <Compile Include="AddressAggregate\Exceptions\MeterNotFoundException.cs" />
+    <Compile Include="AddressAggregate\LastMeterReadChanged.cs" />
     <Compile Include="AddressAggregate\ValueObjects\AddressInformation.cs" />
     <Compile Include="Consumers\CreateUsageCalculationConsumer.cs" />
     <Compile Include="Consumers\MeterReadProcessBaganConsumer.cs" />

@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D2D951AC-0446-4486-B30F-C857CDC367CB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Home.Bills.Notifications.Domain</RootNamespace>
+    <AssemblyName>Home.Bills.Notifications.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Automatonymous, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Automatonymous.3.5.11\lib\net452\Automatonymous.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Baseline, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Baseline.1.1.0\lib\net451\Baseline.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GreenPipes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\GreenPipes.1.0.9\lib\net452\GreenPipes.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Marten, Version=1.2.5.871, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Marten.1.2.5\lib\net46\Marten.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MassTransit, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\MassTransit.3.5.4\lib\net452\MassTransit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MassTransit.AutomatonymousIntegration, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\MassTransit.Automatonymous.3.5.4\lib\net452\MassTransit.AutomatonymousIntegration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NewId, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\NewId.3.0.0\lib\net452\NewId.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Npgsql, Version=3.1.6.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.3.1.6\lib\net451\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Remotion.Linq.2.1.1\lib\net45\Remotion.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.6.0\lib\netstandard1.1\System.Threading.Tasks.Dataflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddressAggregate\Address.cs" />
+    <Compile Include="AddressAggregate\AddressChanged.cs" />
+    <Compile Include="AddressAggregate\AddressFactory.cs" />
+    <Compile Include="AddressAggregate\AddressFactoryInput.cs" />
+    <Compile Include="AddressAggregate\BuildingAdmistratorEmailSet.cs" />
+    <Compile Include="AddressAggregate\PaymentAlreadyRegisteredException.cs" />
+    <Compile Include="AddressAggregate\RegisteredAcceptedPayment.cs" />
+    <Compile Include="Consumers\CreatePaymentConsumer.cs" />
+    <Compile Include="Consumers\MarkPaymentNotificationAsReadConsumer.cs" />
+    <Compile Include="Consumers\RegisteredAcceptedPaymentConsumer.cs" />
+    <Compile Include="Consumers\Saga\CreatePaymentNotification.cs" />
+    <Compile Include="Consumers\Saga\IPaymentCreated.cs" />
+    <Compile Include="Consumers\Saga\IPaymentAccepted.cs" />
+    <Compile Include="Consumers\Saga\MarkPaymentNotificationAsSent.cs" />
+    <Compile Include="Consumers\Saga\PaymentNotificationStateMachine.cs" />
+    <Compile Include="Consumers\Saga\PaymentNotificationStateMachineInstance.cs" />
+    <Compile Include="Consumers\SendPaymentNotificationConsumer.cs" />
+    <Compile Include="PaymentAggregate\CannotCreateEmptyPaymentException.cs" />
+    <Compile Include="PaymentAggregate\Payment.cs" />
+    <Compile Include="PaymentAggregate\PaymentItem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AddressCnnotBeEmptyException.cs" />
+    <Compile Include="Services\BuildingAdmistratorEmailCannotBeEmptyException.cs" />
+    <Compile Include="Services\NotificationMessage.cs" />
+    <Compile Include="Services\PaymentNotFoundException.cs" />
+    <Compile Include="Services\PaymentNotificationDomainService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Frameworks.Light.Ddd\Frameworks.Light.Ddd.csproj">
+      <Project>{8EB8E52D-0B05-41DB-B488-FC6D5E628E7D}</Project>
+      <Name>Frameworks.Light.Ddd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Client\Home.Bills.Client.csproj">
+      <Project>{8f3dacc6-e1ba-4a51-a613-52d97b15a121}</Project>
+      <Name>Home.Bills.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.DataAccess\Home.Bills.DataAccess.csproj">
+      <Project>{d3fd2514-61c4-426b-94b7-f08cc97d91b2}</Project>
+      <Name>Home.Bills.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Notifications.Messages\Home.Bills.Notifications.Messages.csproj">
+      <Project>{0b7061e2-d975-40b2-bc87-52b3112c190d}</Project>
+      <Name>Home.Bills.Notifications.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Payments.Client\Home.Bills.Payments.Client.csproj">
+      <Project>{D7E4E4A1-6BB0-49E3-8D53-5FC2E69D390A}</Project>
+      <Name>Home.Bills.Payments.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Payments.DataAccess\Home.Bills.Payments.DataAccess.csproj">
+      <Project>{c60259b7-287c-4ac3-8018-a51af693e936}</Project>
+      <Name>Home.Bills.Payments.DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

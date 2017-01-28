@@ -15,8 +15,7 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
             Id = id;
         }
 
-        [JsonIgnore]
-        public Guid RentId { get; private set; }
+        public Guid? RentId { get; private set; }
 
         [JsonIgnore]
         public int Persons { get; private set; }
@@ -28,7 +27,7 @@ namespace Home.Bills.Payments.Domain.AddressAggregate
         {
             RentId = rentId;
 
-            Publish(new RentAppliedForAddress { AddressId = Id, RentId = RentId });
+            Publish(new RentAppliedForAddress { AddressId = Id, RentId = rentId });
         }
 
         public void UpdatePersons(int persons)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using Frameworks.Light.Ddd;
 using Home.Bills.Domain.AddressAggregate.Events;
@@ -129,6 +130,18 @@ namespace Home.Bills.Domain.AddressAggregate
         public IEnumerable<Guid> GetMeters()
         {
             return _meters.ToList();
+        }
+
+        public void SetLastMeterRead(Guid? meterReadId)
+        {
+            if (_meterReadId.HasValue)
+            {
+                throw new ActiveReadInProgressException(_meterReadId.ToString());
+            }
+
+            Publish(new LastMeterReadChanged() {AddressId = Id, OldMeterRead = LastFinishedMeterReadProcess, NewMeterRead = meterReadId, ChangedDateTime = DateTime.Now});
+
+            LastFinishedMeterReadProcess = meterReadId;
         }
     }
 }
