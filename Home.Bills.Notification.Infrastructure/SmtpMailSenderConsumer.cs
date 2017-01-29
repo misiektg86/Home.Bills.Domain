@@ -28,6 +28,8 @@ namespace Home.Bills.Notification.Infrastructure
                     mail.Subject = context.Message.Subject;
                     mail.Body = context.Message.Message;
                     mail.IsBodyHtml = true;
+                    if (!string.IsNullOrEmpty(context.Message.CcAddress))
+                        mail.CC.Add(context.Message.CcAddress);
 
                     SecureString ss = new SecureString();
                     smtpAccount.Password.ToList().ForEach(c => ss.AppendChar(c));

@@ -15,7 +15,7 @@ namespace Home.Bills.Notifications
                 {
                     _.DatabaseSchemaName = "home_bills_notifications";
 
-                    _.Connection("host=dev-machine;database=home_test;password=admin;username=postgres");
+                    _.Connection("host=dev-machine;database=home_bills;password=admin;username=postgres");
 
                     var serializer = new JsonNetSerializer();
 

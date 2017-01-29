@@ -11,5 +11,7 @@ namespace Home.Bills.Notifications.Messages
         string Subject { get; set; }
 
         string ToAddress { get; set; }
+
+        string CcAddress { get; set; }
     }
 }

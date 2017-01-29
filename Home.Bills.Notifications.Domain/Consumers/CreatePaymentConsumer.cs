@@ -36,7 +36,7 @@ namespace Home.Bills.Notifications.Domain.Consumers
 
             var payment = Payment.Create(context.Message.PaymentId, address.AddressId,
                 paymentDetails.PaymentItems.Select(Convert).ToList(),
-                $"{address.StreetNumber} {address.StreetNumber}/{address.HomeNumber}, {address.City}");
+                $"{address.Street} {address.StreetNumber}/{address.HomeNumber}, {address.City}");
 
             _paymentRepository.Add(payment);
 

@@ -106,7 +106,7 @@
     <Compile Include="PaymentAggregate\Payment.cs" />
     <Compile Include="PaymentAggregate\PaymentItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AddressCnnotBeEmptyException.cs" />
+    <Compile Include="Services\AddressCannotBeEmptyException.cs" />
     <Compile Include="Services\BuildingAdmistratorEmailCannotBeEmptyException.cs" />
     <Compile Include="Services\NotificationMessage.cs" />
     <Compile Include="Services\PaymentNotFoundException.cs" />

@@ -133,6 +133,14 @@
       <Project>{8EB8E52D-0B05-41DB-B488-FC6D5E628E7D}</Project>
       <Name>Frameworks.Light.Ddd</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.Client\Home.Bills.Client.csproj">
+      <Project>{8F3DACC6-E1BA-4A51-A613-52D97B15A121}</Project>
+      <Name>Home.Bills.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Home.Bills.DataAccess\Home.Bills.DataAccess.csproj">
+      <Project>{d3fd2514-61c4-426b-94b7-f08cc97d91b2}</Project>
+      <Name>Home.Bills.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Home.Bills.Payments.Messages\Home.Bills.Payments.Messages.csproj">
       <Project>{cb09a61f-c713-469c-95eb-a648ac9aa99d}</Project>
       <Name>Home.Bills.Payments.Messages</Name>
