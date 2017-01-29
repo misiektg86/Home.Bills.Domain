@@ -16,7 +16,7 @@ namespace Home.Bills.Client
                 {
                     _.DatabaseSchemaName = "home_bills";
 
-                    _.Connection("host=dev-machine;database=home_test;password=admin;username=postgres");
+                    _.Connection("host=dev-machine;database=home_bills;password=admin;username=postgres");
 
                     var serializer = new JsonNetSerializer();
 

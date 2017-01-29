@@ -12,6 +12,8 @@ namespace Home.Bills.Notifications.Domain.AddressAggregate
 
         public string BuildingAdministratorEmail { get; private set; }
 
+        public string AddressOwnerEmail { get; private set; }
+
         internal Address(Guid addressId, string fullAddress)
         {
             FullAddress = fullAddress;
@@ -45,6 +47,11 @@ namespace Home.Bills.Notifications.Domain.AddressAggregate
             BuildingAdministratorEmail = email;
 
             Publish(new BuildingAdmistratorEmailSet {Email = email});
+        }
+
+        public void SetAddressOwnerEmail(string email)
+        {
+            AddressOwnerEmail = email;
         }
     }
 }

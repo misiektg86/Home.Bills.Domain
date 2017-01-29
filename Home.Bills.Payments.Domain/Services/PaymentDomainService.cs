@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Frameworks.Light.Ddd;
+using Home.Bills.Client;
 using Home.Bills.Payments.Domain.AddressAggregate;
 using Home.Bills.Payments.Domain.Consumers;
 using Home.Bills.Payments.Domain.PaymentAggregate;
@@ -20,10 +22,11 @@ namespace Home.Bills.Payments.Domain.Services
         private readonly IRepository<Payment, Guid> _paymentRepository;
         private readonly IRepository<Rent, Guid> _rentRepository;
         private readonly IRepository<Address, Guid> _addresRepository;
+        private readonly IServiceClient _serviceClient;
 
         public PaymentDomainService(IAggregateFactory<Payment, PaymentFactoryInput, Guid> aggregateFactory,
             IRepository<Registrator, Guid> registratorRepository, IRepository<Tariff, Guid> tariffRepository,
-            IRepository<Payment, Guid> paymentRepository, IRepository<Rent,Guid> rentRepository, IRepository<Address,Guid> addresRepository )
+            IRepository<Payment, Guid> paymentRepository, IRepository<Rent, Guid> rentRepository, IRepository<Address, Guid> addresRepository, IServiceClient serviceClient)
         {
             _aggregateFactory = aggregateFactory;
             _registratorRepository = registratorRepository;
@@ -31,12 +34,15 @@ namespace Home.Bills.Payments.Domain.Services
             _paymentRepository = paymentRepository;
             _rentRepository = rentRepository;
             _addresRepository = addresRepository;
+            _serviceClient = serviceClient;
         }
 
         public async Task CreatePayment(Guid paymentId, Guid addressId, IEnumerable<RegisteredUsage> registeredUsages)
         {
             var payment =
                 _aggregateFactory.Create(new PaymentFactoryInput() { AddressId = addressId, PaymentId = paymentId });
+
+            var lastUsage = (await _serviceClient.GetLastUsageForAddress(payment.AddressId))?.ToList();
 
             var address = await _addresRepository.Get(addressId);
 
@@ -58,11 +64,14 @@ namespace Home.Bills.Payments.Domain.Services
                 {
                     switch (rentItem.RentUnit)
                     {
-                            case RentUnit.Person: payment.AddPaymentItem(new PaymentItem(rentItem.Description,rentItem.AmountPerUnit * address.Persons));
+                        case RentUnit.Person:
+                            payment.AddPaymentItem(new PaymentItem(rentItem.Description, rentItem.AmountPerUnit * address.Persons));
                             break;
-                            case RentUnit.SquareMeter: payment.AddPaymentItem(new PaymentItem(rentItem.Description, rentItem.AmountPerUnit * new decimal(address.SquareMeters)));
+                        case RentUnit.SquareMeter:
+                            payment.AddPaymentItem(new PaymentItem(rentItem.Description, rentItem.AmountPerUnit * new decimal(address.SquareMeters)));
                             break;
-                            case RentUnit.Constant: payment.AddPaymentItem(new PaymentItem(rentItem.Description, rentItem.AmountPerUnit));
+                        case RentUnit.Constant:
+                            payment.AddPaymentItem(new PaymentItem(rentItem.Description, rentItem.AmountPerUnit));
                             break;
                     }
                 }
@@ -71,6 +80,8 @@ namespace Home.Bills.Payments.Domain.Services
             foreach (var registeredUsage in registeredUsages)
             {
                 var registrator = await _registratorRepository.Get(registeredUsage.MeterId);
+
+                var registratorDetails = lastUsage.Single(i => i.MeterId == registrator.Id); // TODO autonomy !!
 
                 if (!registrator.TariffId.HasValue)
                 {
@@ -91,7 +102,7 @@ namespace Home.Bills.Payments.Domain.Services
 
                 var amountToPay = new decimal(registeredUsage.Value) * tariff.TariffValue;
 
-                PaymentItem item = new PaymentItem($"({tariff.Description}) {registrator.Description}.", amountToPay);
+                PaymentItem item = new PaymentItem($"Stan licznika: {registratorDetails.CurrentRead} m3 ({tariff.Description}) {registrator.Description} - Zużycie : {registratorDetails.Value} m3", amountToPay); //TODO m3 :(
 
                 payment.AddPaymentItem(item);
             }

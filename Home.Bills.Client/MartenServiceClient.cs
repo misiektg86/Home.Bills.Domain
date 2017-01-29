@@ -24,6 +24,11 @@ namespace Home.Bills.Client
             _documentSession = documentSession;
         }
 
+        public Task<IEnumerable<Usage>> GetLastUsageForAddress(Guid addressId)
+        {
+            return _usageDataProvider.GetLastUsages(addressId);
+        }
+
         public Task<IEnumerable<Usage>> GetUsagesForAddress(Guid addressId)
         {
             return _usageDataProvider.GetUsages(addressId);

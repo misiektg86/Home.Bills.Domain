@@ -1,5 +1,6 @@
 ﻿using System;
 using Automatonymous;
+using Home.Bills.Notifications.Domain.AddressAggregate;
 using Home.Bills.Notifications.Messages;
 
 namespace Home.Bills.Notifications.Domain.Consumers.Saga
@@ -10,7 +11,7 @@ namespace Home.Bills.Notifications.Domain.Consumers.Saga
 
         public State SendingNotification { get; set; }
 
-        public Event<IPaymentAccepted> PaymentAccepted { get; set; }
+        public Event<RegisteredAcceptedPayment> PaymentAccepted { get; set; }
 
         public Event<IPaymentCreated> NotificationCreated { get; set; }
 

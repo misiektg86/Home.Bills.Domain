@@ -29,10 +29,11 @@ namespace Home.Bills.Notifications.Domain.Services
 
             if (string.IsNullOrEmpty(payment.FullAddress))
             {
-                throw new AddressCnnotBeEmptyException();
+                throw new AddressCannotBeEmptyException();
             }
 
             var administratorEmail = (await _addressRepository.Get(payment.AddressId))?.BuildingAdministratorEmail;
+            var addressOwnerEmail = (await _addressRepository.Get(payment.AddressId))?.AddressOwnerEmail;
 
             if (string.IsNullOrEmpty(administratorEmail))
             {
@@ -46,7 +47,7 @@ namespace Home.Bills.Notifications.Domain.Services
                 message.Append(BuildLineItem($"{paymentPaymentItem.Description} - {paymentPaymentItem.Amount} zł")); // TODO refactor...
             }
 
-            return new NotificationMessage() { Message = message.ToString(), Subject = payment.FullAddress, ToAddress = administratorEmail, NotificationId = paymentId };
+            return new NotificationMessage() { Message = message.ToString(), Subject = payment.FullAddress, ToAddress = administratorEmail, NotificationId = paymentId, CcAddress = addressOwnerEmail };
         }
 
         private string BuildLineItem(string item)

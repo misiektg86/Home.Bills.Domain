@@ -58,6 +58,18 @@ namespace Home.Bills.Payments.Controllers
             return StatusCode(200, model.PaymentId);
         }
 
+        [HttpPut("cancel/{paymentId}")]
+        public async Task<IActionResult> CancelPayment(Guid paymentId)
+        {
+            var payment = await _repository.Get(paymentId);
+
+            payment.CancelPayment();
+
+            _repository.Update(payment);
+
+            return StatusCode(204);
+        }
+
         private static RegisteredUsage Convert(Usage dto)
         {
             return new RegisteredUsage()

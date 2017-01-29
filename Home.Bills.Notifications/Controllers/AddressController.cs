@@ -51,5 +51,17 @@ namespace Home.Bills.Notifications.Controllers
 
             return StatusCode(204);
         }
+
+        [HttpPut("modify/addressowner/{addressId}")]
+        public async Task<IActionResult> SetAddressOwnerEmail(Guid addressId, [FromBody]string email)
+        {
+            var entity = await _addressRepository.Get(addressId);
+
+            entity.SetAddressOwnerEmail(email);
+
+            _addressRepository.Update(entity);
+
+            return StatusCode(204);
+        }
     }
 }

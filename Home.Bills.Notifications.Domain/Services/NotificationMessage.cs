@@ -12,5 +12,6 @@ namespace Home.Bills.Notifications.Domain.Services
         public string ToAddress { get; set; }
 
         public Guid NotificationId { get; set; }
+        public string CcAddress { get; set; }
     }
 }
