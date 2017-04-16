@@ -47,6 +47,8 @@ namespace Home.Bills.Notifications.Domain.Services
                 message.Append(BuildLineItem($"{paymentPaymentItem.Description} - {paymentPaymentItem.Amount} zł")); // TODO refactor...
             }
 
+            message.Append(BuildLineItem($"Razem: {payment.TotalAmount} zł"));
+
             return new NotificationMessage() { Message = message.ToString(), Subject = payment.FullAddress, ToAddress = administratorEmail, NotificationId = paymentId, CcAddress = addressOwnerEmail };
         }
 
