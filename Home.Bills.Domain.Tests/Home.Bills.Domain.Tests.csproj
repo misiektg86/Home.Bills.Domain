@@ -116,7 +116,7 @@
       <Project>{54329b4c-84d2-473c-8187-c900c8207948}</Project>
       <Name>Home.Bills.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Home.Bills\Home.Bills.xproj">
+    <ProjectReference Include="..\Home.Bills\Home.Bills.csproj">
       <Project>{440A34CB-2B2C-4B12-8924-58F9427D69BA}</Project>
       <Name>Home.Bills</Name>
     </ProjectReference>

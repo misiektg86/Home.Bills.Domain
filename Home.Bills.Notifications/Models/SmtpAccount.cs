@@ -1,7 +1,11 @@
-﻿namespace Home.Bills.Notifications.Models
+﻿using System;
+
+namespace Home.Bills.Notifications.Models
 {
     public class SmtpAccount
     {
+        public Guid Id { get; set; }
+
         public string FromAddress { get; set; }
 
         public string UserName { get; set; }

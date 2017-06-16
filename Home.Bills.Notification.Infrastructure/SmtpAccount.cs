@@ -1,9 +1,11 @@
 ﻿using System;
+using Marten.Schema;
 
 namespace Home.Bills.Notification.Infrastructure
 {
     public class SmtpAccount
     {
+        [Identity]
         public Guid Id { get; set; }
 
         public string FromAddress { get; set; }

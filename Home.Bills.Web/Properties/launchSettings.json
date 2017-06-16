@@ -3,26 +3,26 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:6011/",
+      "applicationUrl": "http://localhost:7281/",
       "sslPort": 0
     }
   },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
+      "launchBrowser": true,
       "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Home.Bills.Payments": {
+    "Home.Bills.Web": {
       "commandName": "Project",
-      "launchUrl": "http://localhost:7000/api/values",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5000/api/values",
       "environmentVariables": {
-        "ASPNETCORE_URLS": "http://localhost:7000",
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:7000"
+      }
     }
   }
 }

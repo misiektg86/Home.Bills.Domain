@@ -31,5 +31,16 @@ namespace Home.Bills.Notification.Infrastructure
                 await lightSession.SaveChangesAsync();
             }
         }
+
+        public async Task EditSmtpAccount(SmtpAccount account)
+        {
+            using (var lightSession = _documentStore.LightweightSession())
+            {
+                lightSession.Delete(account);
+                lightSession.Store(account);
+
+                await lightSession.SaveChangesAsync();
+            }
+        }
     }
 }
